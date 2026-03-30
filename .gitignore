@@ -1,6 +1,11 @@
 __pycache__/
 *.pyc
+*.pyo
 .env
 *.token.json
-config/local/
-.streamlit/secrets.toml
+*.db
+data/
+outputs/
+*.log
+.vscode/
+.idea/
