@@ -358,8 +358,9 @@ def download_video(url, dest_dir):
 
 # ── Claude Vision API ──
 
-def call_claude(images_b64, prompt, max_tokens=1500):
-    """Call Claude Vision API with images."""
+def call_claude(images_b64, prompt, max_tokens=1500, retries=3):
+    """Call Claude Vision API with images. Retries on 429/5xx."""
+    import time
     content = []
     for img in images_b64:
         content.append({
@@ -374,26 +375,38 @@ def call_claude(images_b64, prompt, max_tokens=1500):
         "messages": [{"role": "user", "content": content}]
     }).encode()
 
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=body,
-        headers={
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
-        }
-    )
-    with urllib.request.urlopen(req, timeout=90) as resp:
-        result = json.loads(resp.read())
+    for attempt in range(retries):
+        try:
+            req = urllib.request.Request(
+                "https://api.anthropic.com/v1/messages",
+                data=body,
+                headers={
+                    "x-api-key": ANTHROPIC_API_KEY,
+                    "anthropic-version": "2023-06-01",
+                    "content-type": "application/json",
+                }
+            )
+            with urllib.request.urlopen(req, timeout=90) as resp:
+                result = json.loads(resp.read())
 
-    text = ""
-    for block in result.get("content", []):
-        if block.get("type") == "text":
-            text += block["text"]
+            text = ""
+            for block in result.get("content", []):
+                if block.get("type") == "text":
+                    text += block["text"]
 
-    usage = result.get("usage", {})
-    cost = (usage.get("input_tokens", 0) * 3 + usage.get("output_tokens", 0) * 15) / 1_000_000
-    return text, cost
+            usage = result.get("usage", {})
+            cost = (usage.get("input_tokens", 0) * 3 + usage.get("output_tokens", 0) * 15) / 1_000_000
+            return text, cost
+
+        except urllib.error.HTTPError as e:
+            if e.code in (429, 529) and attempt < retries - 1:
+                wait = (attempt + 1) * 8
+                print(f"      Rate limited, cekam {wait}s...", file=sys.stderr)
+                time.sleep(wait)
+            elif e.code >= 500 and attempt < retries - 1:
+                time.sleep(5)
+            else:
+                raise
 
 
 def frames_to_b64(frame_paths):
