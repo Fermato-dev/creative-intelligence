@@ -1,0 +1,213 @@
+{
+  "zalivka": {
+    "product": "Fermato Salatova zalivka (fermentovana)",
+    "analyzed_at": "2026-03-31T21:55:37.714609",
+    "source_count": 16,
+    "customer_segments": [
+      {
+        "name": "Zdravě žijící kucharky",
+        "percentage_estimate": 45,
+        "description": "Ženy 30-50 let, které chtějí jíst zdravě, ale bez složitého vaření. Vyhledávají přírodní produkty bez chemie a konzervantů. Chtějí, aby i jednoduché saláty chutnaly zajímavě.",
+        "primary_motivation": "Jednoduchý způsob, jak dodat jídlům výraznější chuť bez složité přípravy a zároveň zůstat u přírodních surovin",
+        "pain_points": [
+          "nedochucené saláty",
+          "složité dochucování",
+          "nezdravé kupované zálivky s chemií",
+          "zimní zelenina bez chuti"
+        ],
+        "desires": [
+          "100% přírodní složení",
+          "jídlo s plnou chutí",
+          "jednoduché použití",
+          "zdravé stravování bez obětování chuti"
+        ]
+      },
+      {
+        "name": "Experimentující foodie",
+        "percentage_estimate": 30,
+        "description": "Lidé kolem 25-45 let, kteří milují objevování nových chutí. Zajímají se o fermentaci, umami a autentické příchutě. Chtějí být v kuchyni kreativní.",
+        "primary_motivation": "Objevit něco nového, co pozvedne jejich kuchyni na vyšší úroveň a dá jim pocit, že vaří jako profíci",
+        "pain_points": [
+          "obyčejné dresinky bez zajímavé chuti",
+          "nedostatek umami v jídle",
+          "omezená kreativita v kuchyni"
+        ],
+        "desires": [
+          "komplexnější chuťový profil",
+          "návyková chuť umami",
+          "být trendy v kuchyni",
+          "překvapit hosty"
+        ]
+      },
+      {
+        "name": "Praktické hospodyňky",
+        "percentage_estimate": 25,
+        "description": "Ženy 35-60 let, které hledají spolehlivé produkty pro každodenní vaření. Oceňují univerzálnost a dlouhodobé použití. Chtějý věci, které fungují a na které se mohou spolehnout.",
+        "primary_motivation": "Najít univerzální produkt, který vydrží dlouho a bude fungovat na různé pokrmy",
+        "pain_points": [
+          "zálivky co jen stojí v lednici",
+          "nutnost složitého dochucování",
+          "rychle se kazící produkty"
+        ],
+        "desires": [
+          "univerzální použití",
+          "dlouhá trvanlivost",
+          "stačí jen malé množství",
+          "spolehlivá kvalita"
+        ]
+      }
+    ],
+    "emotional_triggers": {
+      "fear": [
+        "nedochucené saláty",
+        "nezdravé supermarketové omáčky",
+        "složité vaření",
+        "zelenina bez chuti v zimě",
+        "produkty plné konzervantů"
+      ],
+      "aspiration": [
+        "vaření jako v Itálii",
+        "být kreativní v kuchyni",
+        "zdravý životní styl",
+        "objevovat nové chutě",
+        "jídlo na vyšší úrovni"
+      ],
+      "frustration": [
+        "obyčejné dresinky",
+        "sladké supermarketové omáčky",
+        "zálivky co jen stojí v lednici",
+        "nutnost složitého dochucování",
+        "produkty bez výrazné chuti"
+      ],
+      "delight": [
+        "naprostá bomba",
+        "zázračné zálivky",
+        "plná a výrazná chuť",
+        "stačí jen malé množství",
+        "jednoduché použití",
+        "po kterém saháte pořád"
+      ],
+      "social_proof": [
+        "začnete používat jen tak na zkoušku a najednou po něm saháte pořád",
+        "tohle je velmi příjemný objev",
+        "naprostá bomba",
+        "dokáže oživit i obyčejnou zeleninu"
+      ]
+    },
+    "voice_vocabulary": {
+      "exact_phrases": [
+        "naprostá bomba",
+        "zázračné zálivky",
+        "konec nedochuceným salátům",
+        "stačí jen malé množství",
+        "jídlo hned o několik úrovní výš",
+        "100% přírodní složení",
+        "jednoduché použití",
+        "saháte po nich automaticky",
+        "plná a výrazná chuť",
+        "bez zbytečných přísad",
+        "návyková chuť umami",
+        "komplexnější chuťový profil",
+        "jednoduchý způsob jak se zamilovat do zeleniny",
+        "skvěle zvýrazní chuť zeleniny",
+        "po kterém budete sahat při běžném vaření"
+      ],
+      "power_words": [
+        "bomba",
+        "zázračné",
+        "výrazná",
+        "plná",
+        "návyková",
+        "komplexní",
+        "skvěle",
+        "perfektně",
+        "úžasná",
+        "zajímavý",
+        "příjemný",
+        "autentický"
+      ],
+      "objections": [
+        "jen další dresink do lednice",
+        "bude to fungovat na moje jídla",
+        "vydrží mi to dlouho",
+        "není to příliš výrazné",
+        "nebude to příliš drahé"
+      ],
+      "praise_patterns": [
+        "sedla naprosto perfektně",
+        "překvapila mě",
+        "získala si mě už při prvním ochutnání",
+        "začnete používat jen tak na zkoušku a najednou po něm saháte pořád",
+        "tohle je velmi příjemný objev",
+        "naprostá bomba"
+      ],
+      "comparison_language": [
+        "žádná sladká supermarketová omáčka",
+        "není to jen obyčejný dresink",
+        "něco mnohem zajímavějšího",
+        "není to ochucovadlo co jen stojí v lednici",
+        "o několik úrovní výš než obyčejné zálivky"
+      ]
+    },
+    "purchase_drivers": {
+      "rational": [
+        "100% přírodní složení",
+        "bez konzervantů",
+        "27 kcal na porci",
+        "stačí jen malé množství",
+        "vyrobeno na Moravě",
+        "dlouhá trvanlivost"
+      ],
+      "emotional": [
+        "pocit že vařím jako profík",
+        "zdravý životní styl",
+        "objevování nových chutí",
+        "být trendy v kuchyni",
+        "zjednodušit si život"
+      ],
+      "contextual": [
+        "když chci rychle oživit salát",
+        "v zimě kdy zelenina nemá chuť",
+        "když chci překvapit hosty",
+        "pro každodenní vaření",
+        "když nemám čas na složité dochucování"
+      ]
+    },
+    "anti_patterns": {
+      "turnoffs": [
+        "sladké supermarketové omáčky",
+        "produkty plné chemie",
+        "konzervantů",
+        "složitá příprava",
+        "produkty co jen stojí v lednici"
+      ],
+      "failed_promises": [
+        "obyčejné dresinky bez zajímavé chuti",
+        "zálivky které nepozvednou jídlo",
+        "produkty které rychle dojdou",
+        "omáčky které přebíjejí chuť surovin"
+      ],
+      "price_sensitivity": "oceňují poměr cena/výkon - 'balení vám nějakou dobu vydrží, jelikož stačí jen malé množství'"
+    },
+    "ad_copy_recommendations": {
+      "headline_hooks": [
+        "Konec nedochuceným salátům - objevte zázračné zálivky",
+        "Stačí jen zakápnout a jídlo je o několik úrovní výš",
+        "100% přírodní zálivka po které budete sahat automaticky",
+        "Návyková chuť umami která oživí i obyčejnou zeleninu",
+        "Jednoduchý způsob jak se zamilovat do zeleniny"
+      ],
+      "body_angles": [
+        "Pro ty, kdo chtějí zdravě jíst bez složitého vaření",
+        "Objevte komplexnější chuťový profil bez chemie",
+        "Když chcete být v kuchyni kreativní ale jednoduše",
+        "Spolehlivý pomocník pro každodenní vaření"
+      ],
+      "cta_variations": [
+        "Vyzkoušejte zázračné zálivky",
+        "Pozvedněte svá jídla na vyšší úroveň",
+        "Objevte návykovou chuť umami"
+      ]
+    }
+  }
+}

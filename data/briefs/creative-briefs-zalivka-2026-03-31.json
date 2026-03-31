@@ -1,0 +1,152 @@
+{
+  "product": "Fermato Salatova zalivka (fermentovana)",
+  "generated_at": "2026-03-31T21:58:46.464527",
+  "briefs": [
+    {
+      "brief_number": 1,
+      "brief_name": "Zimní zelenina = nuda",
+      "visual_world": "Raw UGC / Anti-ad",
+      "emotional_angle": "Frustration / Problem-Solution",
+      "target_segment": "Zdravě žijící kucharky",
+      "concept": {
+        "one_liner": "Konec nedochuceným salátům díky fermentované zálivce, která oživí i tu nejfádnější zeleninu",
+        "story_arc": "nedochucený salát → přidání Fermato → wow reakce",
+        "key_insight": "V zimě je zelenina bez chuti a ženy se frustrují z nudných salátů"
+      },
+      "ad_copy": {
+        "primary_text": "Už tě nebaví nedochucené saláty? Tato zálivka je naprostá bomba - stačí jen malé množství! 100% přírodní ✨",
+        "headline": "Konec nudným salátům",
+        "description": "6 ingrediencí vs 20+",
+        "cta_button": "SHOP_NOW"
+      },
+      "visual_direction": {
+        "hero_shot": "Selfie pohled shora na misku salátu, ruka přidává zálivku z lahvičky Fermato",
+        "color_palette": [
+          "#2D5A27",
+          "#F4F1E8",
+          "#8B4513"
+        ],
+        "text_overlay": "TOHLE JE ZÁZRAK! 🔥",
+        "mood": "autentický, relatable",
+        "format_recommendation": "video"
+      },
+      "hooks": {
+        "scroll_stop_element": "Ruka drží nudně vypadající salát a kroutí hlavou",
+        "first_3_seconds": "Zobrazí fádní salát → zklamaný obličej → přidá Fermato",
+        "curiosity_gap": "Jak může jedna zálivka tak změnit chuť?"
+      },
+      "why_this_works": "Oslovuje hlavní pain point segmentu - nudné zimní saláty. UGC styl buduje důvěru a vypadá jako doporučení od kamarádky."
+    },
+    {
+      "brief_number": 2,
+      "brief_name": "Foodie status symbol",
+      "visual_world": "Monochromatic Bold",
+      "emotional_angle": "Identity / Aspiration",
+      "target_segment": "Experimentující foodie",
+      "concept": {
+        "one_liner": "Pro lidi, kteří rozumí fermentaci a chtějí vaření na vyšší úrovni",
+        "story_arc": "obyčejné vaření → Fermato → profík kuchyně",
+        "key_insight": "Foodie chtějí být v kuchyni kreativní a trendy"
+      },
+      "ad_copy": {
+        "primary_text": "Fermentovaná rajčata, 6 měsíců zrání, návyková chuť umami. Pro ty, kdo rozumí správné chuti 👨‍🍳",
+        "headline": "Vaření jako profík",
+        "description": "Komplexní chuťový profil",
+        "cta_button": "LEARN_MORE"
+      },
+      "visual_direction": {
+        "hero_shot": "Dramaticky osvětlená lahvička Fermato na tmavém pozadí, kolem rozházené fermentované rajčátko",
+        "color_palette": [
+          "#1A1A1A",
+          "#D4AF37",
+          "#FFFFFF"
+        ],
+        "text_overlay": "UMAMI LEVEL: EXPERT",
+        "mood": "luxusní, expertní",
+        "format_recommendation": "static"
+      },
+      "hooks": {
+        "scroll_stop_element": "Zlaté světlo dramaticky osvětluje produkt jako klenotnictví",
+        "first_3_seconds": "Zoom na fermentující rajčata → hotový produkt",
+        "curiosity_gap": "Co dělá tuto zálivku tak speciální pro experty?"
+      },
+      "why_this_works": "Oslovuje ego foodie segmentu - být expert v kuchyni. Luxusní vizuál posiluje premium positioning a umami trigger je velmi relevantní."
+    },
+    {
+      "brief_number": 3,
+      "brief_name": "FOMO fermentace",
+      "visual_world": "Visual Metaphor / Concept",
+      "emotional_angle": "Fear of Missing Out / Urgency",
+      "target_segment": "Experimentující foodie",
+      "concept": {
+        "one_liner": "Zatímco ostatní jedí obyčejné dresinky, ty objevíš zálivku s 6měsíční fermentací",
+        "story_arc": "všichni jedí nudně → ty máš tajnou zbraň → budeš první",
+        "key_insight": "Foodie se bojí, že propásnou nový trend v gastronomii"
+      },
+      "ad_copy": {
+        "primary_text": "Zatímco ostatní používají sladké supermarketové omáčky, ty objevíš zázračnou zálivku s 6měsíční fermentací ⏰",
+        "headline": "Objeveno na Moravě",
+        "description": "Jen 6 ingrediencí",
+        "cta_button": "GET_OFFER"
+      },
+      "visual_direction": {
+        "hero_shot": "Split screen: vlevo supermarketové dresinky v řadě, vpravo osamocená Fermato lahvička na zlatém podstavci",
+        "color_palette": [
+          "#FF6B35",
+          "#F7F7F7",
+          "#2F4858"
+        ],
+        "text_overlay": "PRVNÍ V ČR 🚀",
+        "mood": "kontrastní, revoluční",
+        "format_recommendation": "carousel"
+      },
+      "hooks": {
+        "scroll_stop_element": "Vizuální kontrast mezi obyčejnými produkty a Fermato",
+        "first_3_seconds": "Ukazuje všechny obyčejné zálivky → pak objeví Fermato",
+        "curiosity_gap": "Co dělá tuto zálivku tak výjimečnou oproti ostatním?"
+      },
+      "why_this_works": "Vytváří FOMO efekt a pocit exkluzivity. Vizuální metafora jasně komunikuje diferenciaci od konkurence."
+    },
+    {
+      "brief_number": 4,
+      "brief_name": "Čísla nelžou",
+      "visual_world": "Data / Social Proof",
+      "emotional_angle": "Delight / Discovery",
+      "target_segment": "Praktické hospodyňky",
+      "concept": {
+        "one_liner": "Tisíce zákaznic už objevily univerzální zálivku, která vydrží měsíce a hodí se na vše",
+        "story_arc": "skeptická → vidí důkazy → přesvědčená",
+        "key_insight": "Hospodyňky potřebují důkaz, že produkt funguje a vyplatí se"
+      },
+      "ad_copy": {
+        "primary_text": "95% zákaznic po ní sahá automaticky při každém vaření. Vydrží měsíce, stačí malé množství! ⭐⭐⭐⭐⭐",
+        "headline": "2500+ spokojených zákaznic",
+        "description": "Univerzální použití",
+        "cta_button": "SHOP_NOW"
+      },
+      "visual_direction": {
+        "hero_shot": "Infografika s čísly: '6 měsíců fermentace', '2500+ zákaznic', '95% spokojenost', v pozadí zálivka",
+        "color_palette": [
+          "#FFFFFF",
+          "#4A90E2",
+          "#50C878"
+        ],
+        "text_overlay": "⭐ 4.9/5 HODNOCENÍ",
+        "mood": "důvěryhodný, faktický",
+        "format_recommendation": "static"
+      },
+      "hooks": {
+        "scroll_stop_element": "Velké číslo '2500+' v kontrastní barvě",
+        "first_3_seconds": "Animace čísel rostoucích nahoru → spokojenost zákaznic",
+        "curiosity_gap": "Proč po této zálivce sahají automaticky tisíce žen?"
+      },
+      "why_this_works": "Buduje důvěru pomocí konkrétních čísel a social proof. Praktické hospodyňky potřebují ujištění, že investice má smysl."
+    }
+  ],
+  "testing_plan": {
+    "budget_split": "Brief 1: 30%, Brief 2: 25%, Brief 3: 25%, Brief 4: 20%",
+    "success_metrics": "ROAS > 2.5, CPA < 250 CZK, CTR > 2%, Hook rate > 35%",
+    "kill_criteria": "ROAS < 1.5 po 72 hodinách, CPA > 400 CZK",
+    "iteration_plan": "Vítězný brief škálovat, testovat podobné hooks, vytvořit varianty pro různé formáty"
+  }
+}

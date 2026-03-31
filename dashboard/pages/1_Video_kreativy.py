@@ -22,6 +22,10 @@ st.markdown(SHARED_CSS, unsafe_allow_html=True)
 days, df_all, snaps, ai_data, show_low_conf = setup_sidebar()
 min_conf = 0.0 if show_low_conf else 0.5
 
+if len(df_all) == 0:
+    st.warning("Meta API data nejsou dostupna.")
+    st.stop()
+
 df = df_all[df_all["is_video"]].copy()
 
 if len(df) == 0:

@@ -22,6 +22,10 @@ from shared_data import *
 st.markdown(SHARED_CSS, unsafe_allow_html=True)
 days, df, snaps, ai_data, show_low_conf = setup_sidebar()
 
+if len(df) == 0:
+    st.warning("Meta API data nejsou dostupna.")
+    st.stop()
+
 st.markdown("## Attribution Check — 3 zdroje, 1 pravda")
 st.caption(f"Meta Ads vs GA4 vs Shoptet — poslednich {days} dni")
 

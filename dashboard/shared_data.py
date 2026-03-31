@@ -45,7 +45,11 @@ def conf_badge(level):
 
 @st.cache_data(ttl=1800, show_spinner="Nacitam data z Meta API...")
 def load_data(days):
-    raw = ci.fetch_ad_insights(days)
+    try:
+        raw = ci.fetch_ad_insights(days)
+    except Exception as e:
+        st.warning(f"Meta API nedostupne: {e}")
+        return pd.DataFrame()
     metrics = [ci.calculate_metrics(row) for row in raw]
     for m in metrics:
         recs = ci.evaluate_creative(m)
@@ -60,11 +64,14 @@ def load_data(days):
     return pd.DataFrame(metrics)
 
 def load_snapshots():
-    import duckdb
+    try:
+        import duckdb
+    except ImportError:
+        return []
     db_path = DATA_DIR / "fermato_analytics.duckdb"
     if not db_path.exists(): return []
-    con = duckdb.connect(str(db_path), read_only=True)
     try:
+        con = duckdb.connect(str(db_path), read_only=True)
         df = con.execute("""
             SELECT data, created_at::VARCHAR[:10] as date
             FROM cache.snapshots
@@ -72,14 +79,13 @@ def load_snapshots():
             ORDER BY created_at DESC
             LIMIT 30
         """).df()
+        con.close()
         return [{"data": json.loads(row["data"]), "date": row["date"]} for _, row in df.iterrows()]
     except Exception:
         return []
-    finally:
-        con.close()
 
 def load_ai():
-    import duckdb, sqlite3
+    import sqlite3
     # creative_analysis.db zustava v SQLite (neni soucasti migrace — separatni pipeline)
     p = DATA_DIR / "creative_analysis.db"
     if not p.exists(): return {}
