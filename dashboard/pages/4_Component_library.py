@@ -213,17 +213,30 @@ with tab_combos:
             body_type = b_analysis.get("narrative_arc", "?")
             cta_type = c_analysis.get("cta_type", "?")
 
-            h_rate = f"{c.get('h_hook_rate', 0) or 0:.1f}%"
-            b_rate = f"{c.get('b_hold_rate', 0) or 0:.1f}%"
-            c_rate = f"{c.get('c_cvr', 0) or 0:.2f}%"
+            def safe_str(v, maxlen=25):
+                if v is None or (isinstance(v, float) and pd.isna(v)):
+                    return "—"
+                return str(v)[:maxlen]
+
+            def safe_num(v, fmt=".1f"):
+                if v is None or (isinstance(v, float) and pd.isna(v)):
+                    return "—"
+                return f"{v:{fmt}}%"
+
+            h_rate = safe_num(c.get('h_hook_rate'))
+            b_rate = safe_num(c.get('b_hold_rate'))
+            c_rate = safe_num(c.get('c_cvr'), ".2f")
+            h_name = safe_str(c.get('hook_ad'))
+            b_name = safe_str(c.get('body_ad'))
+            c_name = safe_str(c.get('cta_ad'))
 
             st.markdown(f"""<div style="border-radius:8px; padding:12px 14px; margin:8px 0;
                 border-left:4px solid {color}; background:#f8f9fb;">
                 <strong style="color:{color}">{badge}</strong> &nbsp; Score: {score:.3f}<br>
                 <table style="width:100%; font-size:0.88em; margin-top:6px;">
-                <tr><td style="width:33%"><strong>HOOK</strong> [{hook_type}]<br>{(c.get('hook_ad') or '')[:25]}<br>Hook rate: {h_rate}</td>
-                <td style="width:33%"><strong>BODY</strong> [{body_type}]<br>{(c.get('body_ad') or '')[:25]}<br>Hold rate: {b_rate}</td>
-                <td style="width:33%"><strong>CTA</strong> [{cta_type}]<br>{(c.get('cta_ad') or '')[:25]}<br>CVR: {c_rate}</td></tr>
+                <tr><td style="width:33%"><strong>HOOK</strong> [{hook_type}]<br>{h_name}<br>Hook rate: {h_rate}</td>
+                <td style="width:33%"><strong>BODY</strong> [{body_type}]<br>{b_name}<br>Hold rate: {b_rate}</td>
+                <td style="width:33%"><strong>CTA</strong> [{cta_type}]<br>{c_name}<br>CVR: {c_rate}</td></tr>
                 </table></div>""", unsafe_allow_html=True)
 
 # ── Footer ──
