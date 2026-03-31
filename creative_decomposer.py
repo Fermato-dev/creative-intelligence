@@ -132,6 +132,124 @@ def get_video_source_url(video_id):
         return None, 30
 
 
+def get_video_thumbnails(video_id, max_thumbs=15):
+    """Fetch thumbnails from Meta /thumbnails endpoint as fallback for video download.
+    Meta generates ~20 thumbnails from different parts of the video in full resolution."""
+    try:
+        data = meta_fetch(f"{video_id}/thumbnails", {})
+        thumbs = data.get("data", [])
+        if not thumbs:
+            return []
+        total = len(thumbs)
+        if total <= max_thumbs:
+            indices = list(range(total))
+        else:
+            step = total / max_thumbs
+            indices = [min(int(i * step), total - 1) for i in range(max_thumbs)]
+            if 0 not in indices:
+                indices[0] = 0
+            if total - 1 not in indices:
+                indices[-1] = total - 1
+        return [{"uri": thumbs[i].get("uri"), "index": i, "total": total} for i in indices]
+    except Exception as e:
+        print(f"  WARN: Cannot get thumbnails for {video_id}: {e}", file=sys.stderr)
+        return []
+
+
+def download_thumbnail(uri, dest_path):
+    """Download a single thumbnail image."""
+    try:
+        req = urllib.request.Request(uri, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            with open(dest_path, "wb") as f:
+                f.write(resp.read())
+        return dest_path if os.path.getsize(dest_path) > 500 else None
+    except Exception:
+        return None
+
+
+def decompose_from_thumbnails(ad_id, video_id, video_length, performance_data=None):
+    """Fallback: decompose using Meta thumbnails when video download unavailable.
+    Splits thumbnails into hook/body/cta segments based on position."""
+    thumbs = get_video_thumbnails(video_id, max_thumbs=15)
+    if not thumbs:
+        return None, 0, video_length
+
+    total = thumbs[0]["total"] if thumbs else len(thumbs)
+    n = len(thumbs)
+
+    # Map thumbnail indices to video timeline
+    # First ~20% = hook, last ~20% = CTA, middle = body
+    hook_end_idx = max(1, int(n * 0.2))
+    cta_start_idx = max(hook_end_idx + 1, int(n * 0.8))
+
+    segments = {
+        "hook": thumbs[:hook_end_idx],
+        "body": thumbs[hook_end_idx:cta_start_idx],
+        "cta": thumbs[cta_start_idx:],
+    }
+
+    prompts = {"hook": HOOK_PROMPT, "body": BODY_PROMPT, "cta": CTA_PROMPT}
+    results = {}
+    total_cost = 0
+
+    for seg_type, seg_thumbs in segments.items():
+        if not seg_thumbs:
+            continue
+
+        # Calculate approximate time range
+        first_pct = seg_thumbs[0]["index"] / max(total, 1)
+        last_pct = seg_thumbs[-1]["index"] / max(total, 1)
+        start_sec = first_pct * video_length
+        end_sec = last_pct * video_length
+
+        print(f"    {seg_type.upper()} ({start_sec:.1f}s - {end_sec:.1f}s, {len(seg_thumbs)} thumbs)", file=sys.stderr)
+
+        # Download thumbnails
+        frames_b64 = []
+        with tempfile.TemporaryDirectory() as tmpdir:
+            for j, t in enumerate(seg_thumbs):
+                if not t.get("uri"):
+                    continue
+                dest = os.path.join(tmpdir, f"thumb_{j}.jpg")
+                if download_thumbnail(t["uri"], dest):
+                    with open(dest, "rb") as f:
+                        frames_b64.append(base64.b64encode(f.read()).decode())
+
+        if not frames_b64:
+            continue
+
+        # Analyze with Claude
+        try:
+            raw_text, cost = call_claude(frames_b64, prompts[seg_type])
+            total_cost += cost
+            json_match = re.search(r"\{[\s\S]*\}", raw_text)
+            analysis = json.loads(json_match.group()) if json_match else {"raw": raw_text}
+        except Exception as e:
+            print(f"      WARN: Claude analysis failed: {e}", file=sys.stderr)
+            analysis = {"error": str(e)}
+
+        # Save representative thumbnail
+        thumb_path = None
+        if seg_thumbs and seg_thumbs[0].get("uri"):
+            thumb_dir = ASSETS_DIR / ad_id
+            thumb_dir.mkdir(parents=True, exist_ok=True)
+            thumb_dest = str(thumb_dir / f"{seg_type}_thumb.jpg")
+            if download_thumbnail(seg_thumbs[0]["uri"], thumb_dest):
+                thumb_path = thumb_dest
+
+        results[seg_type] = {
+            "start": round(start_sec, 1),
+            "end": round(end_sec, 1),
+            "duration": round(end_sec - start_sec, 1),
+            "analysis": analysis,
+            "scene_count": len(seg_thumbs),
+            "thumbnail": thumb_path,
+        }
+
+    return results, total_cost, video_length
+
+
 # ── FFmpeg utilities ──
 
 def get_video_duration(video_path):
@@ -644,30 +762,38 @@ def run_decomposition(ad_ids_with_data, max_ads=10):
 
         print(f"  [{i}/{len(to_process)}] {ad_name[:40]}", file=sys.stderr)
 
-        # Get video URL
+        # Try video download first, fallback to thumbnails
         source_url, api_length = get_video_source_url(video_id)
-        if not source_url:
-            print(f"    WARN: Video URL not available", file=sys.stderr)
-            continue
 
-        # Download video
-        with tempfile.TemporaryDirectory() as tmpdir:
+        if source_url:
+            # Full video path: download + ffmpeg decompose
+            with tempfile.TemporaryDirectory() as tmpdir:
+                try:
+                    print(f"    Stahuji video {video_id}...", file=sys.stderr)
+                    video_path = download_video(source_url, tmpdir)
+                    print(f"    Analyzuji segmenty...", file=sys.stderr)
+                    decomposition, cost, duration = decompose_and_analyze(ad_id, video_path, perf)
+                    total_cost += cost
+                    save_components(conn, ad_id, ad_name,
+                                  perf.get("campaign_name", ""),
+                                  decomposition, perf, duration)
+                    print(f"    OK — {len(decomposition)} segmentu, ${cost:.4f}", file=sys.stderr)
+                except Exception as e:
+                    print(f"    CHYBA: {e}", file=sys.stderr)
+        else:
+            # Fallback: use Meta thumbnails
+            print(f"    Video URL nedostupna, pouzivam thumbnails...", file=sys.stderr)
             try:
-                print(f"    Stahuji video {video_id}...", file=sys.stderr)
-                video_path = download_video(source_url, tmpdir)
-
-                # Decompose and analyze
-                print(f"    Analyzuji segmenty...", file=sys.stderr)
-                decomposition, cost, duration = decompose_and_analyze(ad_id, video_path, perf)
-                total_cost += cost
-
-                # Save to DB
-                save_components(conn, ad_id, ad_name,
-                              perf.get("campaign_name", ""),
-                              decomposition, perf, duration)
-
-                print(f"    OK — {len(decomposition)} segmentu, ${cost:.4f}", file=sys.stderr)
-
+                decomposition, cost, duration = decompose_from_thumbnails(
+                    ad_id, video_id, api_length, perf)
+                if decomposition:
+                    total_cost += cost
+                    save_components(conn, ad_id, ad_name,
+                                  perf.get("campaign_name", ""),
+                                  decomposition, perf, duration)
+                    print(f"    OK (thumbs) — {len(decomposition)} segmentu, ${cost:.4f}", file=sys.stderr)
+                else:
+                    print(f"    WARN: Zadne thumbnaily dostupne", file=sys.stderr)
             except Exception as e:
                 print(f"    CHYBA: {e}", file=sys.stderr)
 
