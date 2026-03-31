@@ -66,10 +66,12 @@ def load_combinations():
 
 
 def parse_analysis(raw):
-    if not raw:
+    if raw is None or (isinstance(raw, float) and pd.isna(raw)):
         return {}
+    if isinstance(raw, dict):
+        return raw
     try:
-        return json.loads(raw) if isinstance(raw, str) else raw
+        return json.loads(str(raw))
     except Exception:
         return {}
 
