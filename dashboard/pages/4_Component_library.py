@@ -14,9 +14,10 @@ if not check_password():
     st.stop()
 
 import json
-import sqlite3
+import os
 import plotly.graph_objects as go
 import pandas as pd
+import duckdb
 
 from shared_data import SHARED_CSS, REPO_ROOT, DATA_DIR
 
@@ -24,40 +25,55 @@ st.markdown(SHARED_CSS, unsafe_allow_html=True)
 
 # ── Data loading ──
 
-DB_PATH = DATA_DIR / "component_library.db"
+DB_PATH = DATA_DIR / "fermato_analytics.duckdb"
+MOTHERDUCK_TOKEN = os.environ.get("MOTHERDUCK_TOKEN", "")
+
+
+def _get_conn():
+    """Connect to DuckDB — MotherDuck if token set, else local file."""
+    if MOTHERDUCK_TOKEN:
+        return duckdb.connect(f"md:fermato_analytics?motherduck_token={MOTHERDUCK_TOKEN}")
+    if not DB_PATH.exists():
+        return None
+    return duckdb.connect(str(DB_PATH), read_only=True)
 
 
 @st.cache_data(ttl=300)
 def load_components():
-    if not DB_PATH.exists():
+    conn = _get_conn()
+    if conn is None:
         return pd.DataFrame()
-    conn = sqlite3.connect(str(DB_PATH))
-    df = pd.read_sql_query("SELECT * FROM components ORDER BY created_at DESC", conn)
-    conn.close()
-    return df
+    try:
+        df = conn.execute("SELECT * FROM components.library ORDER BY created_at DESC").fetchdf()
+        return df
+    except Exception:
+        return pd.DataFrame()
+    finally:
+        conn.close()
 
 
 @st.cache_data(ttl=300)
 def load_combinations():
-    if not DB_PATH.exists():
+    conn = _get_conn()
+    if conn is None:
         return pd.DataFrame()
-    conn = sqlite3.connect(str(DB_PATH))
     try:
-        df = pd.read_sql_query("""
+        df = conn.execute("""
             SELECT c.*,
                    h.ad_name as hook_ad, h.hook_rate as h_hook_rate, h.analysis as h_analysis,
                    b.ad_name as body_ad, b.hold_rate as b_hold_rate, b.analysis as b_analysis,
                    t.ad_name as cta_ad, t.cvr as c_cvr, t.analysis as c_analysis
-            FROM combinations c
-            LEFT JOIN components h ON c.hook_id = h.id
-            LEFT JOIN components b ON c.body_id = b.id
-            LEFT JOIN components t ON c.cta_id = t.id
+            FROM components.combinations c
+            LEFT JOIN components.library h ON c.hook_id = h.id
+            LEFT JOIN components.library b ON c.body_id = b.id
+            LEFT JOIN components.library t ON c.cta_id = t.id
             ORDER BY c.expected_score DESC
-        """, conn)
+        """).fetchdf()
+        return df
     except Exception:
-        df = pd.DataFrame()
-    conn.close()
-    return df
+        return pd.DataFrame()
+    finally:
+        conn.close()
 
 
 def parse_analysis(raw):

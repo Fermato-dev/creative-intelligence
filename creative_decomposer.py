@@ -22,7 +22,6 @@ import base64
 import json
 import os
 import re
-import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -31,52 +30,54 @@ import urllib.parse
 from datetime import datetime, timedelta
 from pathlib import Path
 
+import duckdb
+
 # ── Config ──
 
 ACCESS_TOKEN = os.environ.get("META_ADS_ACCESS_TOKEN", "")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
+MOTHERDUCK_TOKEN = os.environ.get("MOTHERDUCK_TOKEN", "")
 API_VERSION = "v23.0"
 META_API_BASE = f"https://graph.facebook.com/{API_VERSION}"
 CLAUDE_MODEL = "claude-sonnet-4-20250514"
 
 SCRIPT_DIR = Path(__file__).parent
 DATA_DIR = SCRIPT_DIR / "data"
-DB_PATH = DATA_DIR / "component_library.db"
+DB_PATH = DATA_DIR / "fermato_analytics.duckdb"
 ASSETS_DIR = DATA_DIR / "components"
 
 # Segment boundaries (seconds)
 HOOK_END = 3.0       # Hook = 0-3s
 CTA_DURATION = 5.0   # CTA = last 5s
 
-# ── Database ──
+# ── Database (DuckDB + MotherDuck) ──
 
 def get_db():
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(DB_PATH))
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
+    """Connect to DuckDB. Uses MotherDuck if MOTHERDUCK_TOKEN is set, else local file."""
+    if MOTHERDUCK_TOKEN:
+        conn = duckdb.connect(f"md:fermato_analytics?motherduck_token={MOTHERDUCK_TOKEN}")
+    else:
+        DATA_DIR.mkdir(parents=True, exist_ok=True)
+        conn = duckdb.connect(str(DB_PATH))
     _init_schema(conn)
     return conn
 
 
 def _init_schema(conn):
-    conn.executescript("""
-        CREATE TABLE IF NOT EXISTS components (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+    conn.execute("CREATE SCHEMA IF NOT EXISTS components")
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS components.library (
+            id INTEGER PRIMARY KEY,
             ad_id TEXT NOT NULL,
             ad_name TEXT,
             campaign_name TEXT,
-            component_type TEXT NOT NULL,  -- 'hook', 'body', 'cta'
+            component_type TEXT NOT NULL,
             start_sec REAL NOT NULL,
             end_sec REAL NOT NULL,
             duration_sec REAL NOT NULL,
-
-            -- AI analysis
-            analysis TEXT,          -- JSON: Claude Vision structured output
-            transcript TEXT,        -- Whisper ASR for this segment
-            thumbnail_path TEXT,    -- representative frame
-
-            -- Performance (from parent ad)
+            analysis TEXT,
+            transcript TEXT,
+            thumbnail_path TEXT,
             hook_rate REAL,
             hold_rate REAL,
             completion_rate REAL,
@@ -87,29 +88,26 @@ def _init_schema(conn):
             spend REAL,
             purchases INTEGER,
             confidence REAL,
-
-            -- Metadata
-            created_at TEXT NOT NULL,
+            created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
             video_duration REAL,
-            scene_count INTEGER      -- number of scenes in this segment
-        );
-        CREATE INDEX IF NOT EXISTS idx_comp_type ON components(component_type);
-        CREATE INDEX IF NOT EXISTS idx_comp_ad ON components(ad_id);
-        CREATE INDEX IF NOT EXISTS idx_comp_hook_rate ON components(hook_rate);
-        CREATE INDEX IF NOT EXISTS idx_comp_roas ON components(roas);
-
-        CREATE TABLE IF NOT EXISTS combinations (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            hook_id INTEGER REFERENCES components(id),
-            body_id INTEGER REFERENCES components(id),
-            cta_id INTEGER REFERENCES components(id),
+            scene_count INTEGER
+        )
+    """)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS components.combinations (
+            id INTEGER PRIMARY KEY,
+            hook_id INTEGER,
+            body_id INTEGER,
+            cta_id INTEGER,
             expected_score REAL,
             reason TEXT,
-            status TEXT DEFAULT 'suggested',  -- suggested, tested, rejected
-            created_at TEXT NOT NULL
-        );
+            status TEXT DEFAULT 'suggested',
+            created_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+        )
     """)
-    conn.commit()
+    # Sequence for auto-increment
+    conn.execute("CREATE SEQUENCE IF NOT EXISTS components.lib_seq START 1")
+    conn.execute("CREATE SEQUENCE IF NOT EXISTS components.combo_seq START 1")
 
 
 # ── Meta API helpers (reuse from creative_vision.py) ──
@@ -564,12 +562,12 @@ def save_components(conn, ad_id, ad_name, campaign_name, decomposition, performa
     perf = performance or {}
     for comp_type, data in decomposition.items():
         conn.execute("""
-            INSERT INTO components
-            (ad_id, ad_name, campaign_name, component_type, start_sec, end_sec, duration_sec,
+            INSERT INTO components.library
+            (id, ad_id, ad_name, campaign_name, component_type, start_sec, end_sec, duration_sec,
              analysis, thumbnail_path,
              hook_rate, hold_rate, completion_rate, ctr, cvr, roas, cpa, spend, purchases, confidence,
              created_at, video_duration, scene_count)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (nextval('components.lib_seq'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, ?)
         """, (
             ad_id, ad_name, campaign_name, comp_type,
             data["start"], data["end"], data["duration"],
@@ -578,9 +576,8 @@ def save_components(conn, ad_id, ad_name, campaign_name, decomposition, performa
             perf.get("hook_rate"), perf.get("hold_rate"), perf.get("completion_rate"),
             perf.get("ctr"), perf.get("cvr"), perf.get("roas"), perf.get("cpa"),
             perf.get("spend"), perf.get("purchases"), perf.get("confidence"),
-            datetime.now().isoformat(), video_duration, data.get("scene_count", 0),
+            video_duration, data.get("scene_count", 0),
         ))
-    conn.commit()
 
 
 # ── Component Library ──
@@ -592,44 +589,42 @@ def get_top_components(conn, component_type, metric="hook_rate", limit=10, min_c
         metric = "hook_rate"
 
     order = "ASC" if metric == "cpa" else "DESC"
-    rows = conn.execute(f"""
-        SELECT * FROM components
-        WHERE component_type = ? AND confidence >= ? AND {metric} IS NOT NULL
+    df = conn.execute(f"""
+        SELECT * FROM components.library
+        WHERE component_type = $1 AND confidence >= $2 AND {metric} IS NOT NULL
         ORDER BY {metric} {order}
-        LIMIT ?
-    """, (component_type, min_confidence, limit)).fetchall()
-    return [dict(r) for r in rows]
+        LIMIT $3
+    """, [component_type, min_confidence, limit]).fetchdf()
+    return df.to_dict("records")
 
 
 def recommend_combinations(conn, top_n=10):
     """Recommend untested hook×body×cta combinations from top performers."""
-    # Top hooks by hook_rate
     top_hooks = conn.execute("""
         SELECT id, ad_id, ad_name, hook_rate, roas, analysis
-        FROM components WHERE component_type='hook' AND hook_rate IS NOT NULL AND confidence >= 0.3
+        FROM components.library WHERE component_type='hook' AND hook_rate IS NOT NULL AND confidence >= 0.3
         ORDER BY hook_rate DESC LIMIT 5
-    """).fetchall()
+    """).fetchdf().to_dict("records")
 
-    # Top bodies by hold_rate
     top_bodies = conn.execute("""
         SELECT id, ad_id, ad_name, hold_rate, roas, analysis
-        FROM components WHERE component_type='body' AND hold_rate IS NOT NULL AND confidence >= 0.3
+        FROM components.library WHERE component_type='body' AND hold_rate IS NOT NULL AND confidence >= 0.3
         ORDER BY hold_rate DESC LIMIT 5
-    """).fetchall()
+    """).fetchdf().to_dict("records")
 
-    # Top CTAs by CVR
     top_ctas = conn.execute("""
         SELECT id, ad_id, ad_name, cvr, roas, analysis
-        FROM components WHERE component_type='cta' AND cvr IS NOT NULL AND confidence >= 0.3
+        FROM components.library WHERE component_type='cta' AND cvr IS NOT NULL AND confidence >= 0.3
         ORDER BY cvr DESC LIMIT 5
-    """).fetchall()
+    """).fetchdf().to_dict("records")
 
     if not top_hooks or not top_bodies or not top_ctas:
         return []
 
-    # Generate combinations (skip same-ad combinations — those already exist)
-    existing = conn.execute("SELECT hook_id, body_id, cta_id FROM combinations").fetchall()
-    existing_set = {(r["hook_id"], r["body_id"], r["cta_id"]) for r in existing}
+    existing_df = conn.execute("SELECT hook_id, body_id, cta_id FROM components.combinations").fetchdf()
+    existing_set = set()
+    for _, r in existing_df.iterrows():
+        existing_set.add((int(r["hook_id"]), int(r["body_id"]), int(r["cta_id"])))
 
     combos = []
     for h in top_hooks:
@@ -669,14 +664,12 @@ def recommend_combinations(conn, top_n=10):
     combos.sort(key=lambda x: x["score"], reverse=True)
 
     # Save top suggestions to DB
-    now = datetime.now().isoformat()
     for combo in combos[:top_n]:
         conn.execute("""
-            INSERT INTO combinations (hook_id, body_id, cta_id, expected_score, reason, created_at)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO components.combinations (id, hook_id, body_id, cta_id, expected_score, reason, created_at)
+            VALUES (nextval('components.combo_seq'), ?, ?, ?, ?, ?, current_timestamp)
         """, (combo["hook_id"], combo["body_id"], combo["cta_id"],
-              combo["score"], combo["reason"], now))
-    conn.commit()
+              combo["score"], combo["reason"]))
 
     return combos[:top_n]
 
@@ -688,16 +681,13 @@ def print_library(conn):
     print("=" * 70)
 
     for comp_type in ["hook", "body", "cta"]:
-        rows = conn.execute("""
-            SELECT COUNT(*) as cnt,
-                   AVG(hook_rate) as avg_hook, AVG(hold_rate) as avg_hold,
-                   AVG(roas) as avg_roas, AVG(cvr) as avg_cvr
-            FROM components WHERE component_type = ?
-        """, (comp_type,)).fetchone()
+        cnt = conn.execute("""
+            SELECT COUNT(*) FROM components.library WHERE component_type = $1
+        """, [comp_type]).fetchone()[0]
 
-        print(f"\n  {comp_type.upper()}S: {rows['cnt']} v knihovne")
+        print(f"\n  {comp_type.upper()}S: {cnt} v knihovne")
 
-        if rows['cnt'] > 0:
+        if cnt > 0:
             metric = {"hook": "hook_rate", "body": "hold_rate", "cta": "cvr"}[comp_type]
             order = "DESC"
             top = get_top_components(conn, comp_type, metric=metric, limit=5)
@@ -741,9 +731,9 @@ def run_decomposition(ad_ids_with_data, max_ads=10):
     conn = get_db()
 
     # Skip already decomposed
-    existing = {r["ad_id"] for r in conn.execute(
-        "SELECT DISTINCT ad_id FROM components"
-    ).fetchall()}
+    existing = set(conn.execute(
+        "SELECT DISTINCT ad_id FROM components.library"
+    ).fetchdf()["ad_id"].tolist())
 
     to_process = [(aid, data) for aid, data in ad_ids_with_data if aid not in existing]
     to_process = to_process[:max_ads]
