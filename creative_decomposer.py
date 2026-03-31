@@ -608,21 +608,27 @@ def get_top_components(conn, component_type, metric="hook_rate", limit=10, min_c
 
 def recommend_combinations(conn, top_n=10):
     """Recommend untested hook×body×cta combinations from top performers."""
-    top_hooks = conn.execute("""
+    # Only use components with valid AI analysis (not failed/error)
+    valid_filter = "AND analysis NOT LIKE '%error%' AND analysis NOT LIKE '%\"raw\"%'"
+
+    top_hooks = conn.execute(f"""
         SELECT id, ad_id, ad_name, hook_rate, roas, analysis
         FROM components.library WHERE component_type='hook' AND hook_rate IS NOT NULL AND confidence >= 0.3
+        {valid_filter}
         ORDER BY hook_rate DESC LIMIT 5
     """).fetchdf().to_dict("records")
 
-    top_bodies = conn.execute("""
+    top_bodies = conn.execute(f"""
         SELECT id, ad_id, ad_name, hold_rate, roas, analysis
         FROM components.library WHERE component_type='body' AND hold_rate IS NOT NULL AND confidence >= 0.3
+        {valid_filter}
         ORDER BY hold_rate DESC LIMIT 5
     """).fetchdf().to_dict("records")
 
-    top_ctas = conn.execute("""
+    top_ctas = conn.execute(f"""
         SELECT id, ad_id, ad_name, cvr, roas, analysis
         FROM components.library WHERE component_type='cta' AND cvr IS NOT NULL AND confidence >= 0.3
+        {valid_filter}
         ORDER BY cvr DESC LIMIT 5
     """).fetchdf().to_dict("records")
 
@@ -738,10 +744,24 @@ def run_decomposition(ad_ids_with_data, max_ads=10):
     """Run decomposition pipeline for multiple ads."""
     conn = get_db()
 
-    # Skip already decomposed
-    existing = set(conn.execute(
-        "SELECT DISTINCT ad_id FROM components.library"
-    ).fetchdf()["ad_id"].tolist())
+    # Skip already decomposed (but not those with failed analyses)
+    fully_done = set(conn.execute("""
+        SELECT ad_id FROM components.library
+        GROUP BY ad_id
+        HAVING COUNT(*) FILTER (WHERE analysis NOT LIKE '%error%' AND analysis NOT LIKE '%"raw"%') = COUNT(*)
+    """).fetchdf()["ad_id"].tolist())
+
+    # Remove incomplete entries so they get re-analyzed
+    incomplete = set(conn.execute("""
+        SELECT DISTINCT ad_id FROM components.library
+        WHERE analysis LIKE '%error%' OR analysis LIKE '%"raw"%'
+    """).fetchdf()["ad_id"].tolist())
+    if incomplete:
+        for aid in incomplete:
+            conn.execute("DELETE FROM components.library WHERE ad_id = $1", [aid])
+        print(f"  Smazano {len(incomplete)} neuplnych kreativ pro re-analyzu", file=sys.stderr)
+
+    existing = fully_done
 
     to_process = [(aid, data) for aid, data in ad_ids_with_data if aid not in existing]
     to_process = to_process[:max_ads]
