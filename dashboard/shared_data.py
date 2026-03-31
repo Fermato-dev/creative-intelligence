@@ -1,7 +1,6 @@
 """Shared data loading, constants and helpers for all dashboard pages."""
 
 import json
-import sqlite3
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -61,14 +60,27 @@ def load_data(days):
     return pd.DataFrame(metrics)
 
 def load_snapshots():
-    p = DATA_DIR / "snapshots.db"
-    if not p.exists(): return []
-    conn = sqlite3.connect(str(p)); conn.row_factory = sqlite3.Row
-    rows = conn.execute("SELECT * FROM snapshots WHERE name='creative_daily' ORDER BY created_at DESC LIMIT 30").fetchall()
-    conn.close()
-    return [{"data": json.loads(r["data"]), "date": r["created_at"][:10]} for r in rows]
+    import duckdb
+    db_path = DATA_DIR / "fermato_analytics.duckdb"
+    if not db_path.exists(): return []
+    con = duckdb.connect(str(db_path), read_only=True)
+    try:
+        df = con.execute("""
+            SELECT data, created_at::VARCHAR[:10] as date
+            FROM cache.snapshots
+            WHERE name = 'creative_daily'
+            ORDER BY created_at DESC
+            LIMIT 30
+        """).df()
+        return [{"data": json.loads(row["data"]), "date": row["date"]} for _, row in df.iterrows()]
+    except Exception:
+        return []
+    finally:
+        con.close()
 
 def load_ai():
+    import duckdb, sqlite3
+    # creative_analysis.db zustava v SQLite (neni soucasti migrace — separatni pipeline)
     p = DATA_DIR / "creative_analysis.db"
     if not p.exists(): return {}
     conn = sqlite3.connect(str(p)); conn.row_factory = sqlite3.Row
