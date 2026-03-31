@@ -5,6 +5,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import streamlit as st
+
+st.set_page_config(page_title="Component Library", page_icon="🧩", layout="wide")
+
 from auth import check_password
 
 if not check_password():
@@ -15,15 +18,13 @@ import sqlite3
 import plotly.graph_objects as go
 import pandas as pd
 
-st.set_page_config(page_title="Component Library", page_icon="🧩", layout="wide")
-
-from shared_data import SHARED_CSS, REPO_ROOT
+from shared_data import SHARED_CSS, REPO_ROOT, DATA_DIR
 
 st.markdown(SHARED_CSS, unsafe_allow_html=True)
 
 # ── Data loading ──
 
-DB_PATH = REPO_ROOT / "data" / "component_library.db"
+DB_PATH = DATA_DIR / "component_library.db"
 
 
 @st.cache_data(ttl=300)

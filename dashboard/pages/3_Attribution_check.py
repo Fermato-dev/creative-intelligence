@@ -6,6 +6,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 import streamlit as st
+
+st.set_page_config(page_title="Attribution Check", page_icon="🔍", layout="wide")
+
 from auth import check_password
 
 if not check_password():
@@ -13,8 +16,6 @@ if not check_password():
 
 import plotly.graph_objects as go
 import pandas as pd
-
-st.set_page_config(page_title="Attribution Check", page_icon="🔍", layout="wide")
 
 from shared_data import *
 

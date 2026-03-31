@@ -12,18 +12,14 @@ def check_password():
     Credentials are read from environment variables:
       DASHBOARD_USER     (default: fermato)
       DASHBOARD_PASSWORD (default: Fermato2026!)
+
+    NOTE: Do NOT call st.set_page_config here — let each page handle it.
     """
 
     if st.session_state.get("authenticated"):
         return True
 
     # ── Login form ──
-
-    st.set_page_config(page_title="Prihlaseni · Creative Intelligence", page_icon="🔒", layout="centered")
-
-    st.markdown("""<style>
-    .block-container { max-width: 420px; padding-top: 12vh; }
-    </style>""", unsafe_allow_html=True)
 
     st.markdown("### Fermato Creative Intelligence")
     st.caption("Prihlaste se pro pristup k dashboardu")

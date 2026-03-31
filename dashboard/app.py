@@ -1,14 +1,15 @@
 """Fermato Creative Intelligence v2 — Prehled"""
 
 import streamlit as st
+
+st.set_page_config(page_title="Fermato · Creative Intelligence", page_icon="🎯", layout="wide")
+
 from auth import check_password
 
 if not check_password():
     st.stop()
 
 import plotly.graph_objects as go
-
-st.set_page_config(page_title="Fermato · Creative Intelligence", page_icon="🎯", layout="wide")
 
 from shared_data import *
 
