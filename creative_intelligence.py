@@ -13,57 +13,24 @@ Pouziti:
     python creative_intelligence.py --csv           # CSV export
 """
 
+import csv
+import io
 import json
 import os
 import sys
-import csv
-import io
-import urllib.request
-import urllib.parse
 from datetime import datetime, timedelta
+
+from meta_client import meta_fetch, meta_fetch_all, AD_ACCOUNT_ID
 
 # ── Config ──
 
 ACCESS_TOKEN = os.environ.get("META_ADS_ACCESS_TOKEN")
-AD_ACCOUNT_ID = "act_346692147206629"
-API_VERSION = "v23.0"
-API_BASE = f"https://graph.facebook.com/{API_VERSION}"
 
 # Target metriky pro Fermato (uprav podle svych targetu)
 TARGET_CPA = 250  # CZK, target cost per purchase
 TARGET_ROAS = 2.5
 MIN_SPEND_FOR_DECISION = 200  # CZK, min spend pro kill/scale rozhodnuti
 MIN_IMPRESSIONS = 1000  # min impressions pro hook rate vypocet
-
-# ── API helpers ──
-
-def meta_fetch(endpoint, params=None):
-    """Single API call."""
-    if params is None:
-        params = {}
-    params["access_token"] = ACCESS_TOKEN
-    url = f"{API_BASE}/{endpoint}?" + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url)
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read())
-
-def meta_fetch_all(endpoint, params=None, max_pages=10):
-    """Paginated API call."""
-    if params is None:
-        params = {}
-    params["access_token"] = ACCESS_TOKEN
-    url = f"{API_BASE}/{endpoint}?" + urllib.parse.urlencode(params)
-
-    results = []
-    page = 0
-    while url and page < max_pages:
-        req = urllib.request.Request(url)
-        with urllib.request.urlopen(req) as resp:
-            data = json.loads(resp.read())
-        results.extend(data.get("data", []))
-        url = data.get("paging", {}).get("next")
-        page += 1
-    return results
 
 # ── Data fetching ──
 
@@ -122,6 +89,24 @@ def fetch_ad_creatives():
     return meta_fetch_all(f"{AD_ACCOUNT_ID}/ads", params)
 
 # ── Metrics calculation ──
+
+def calculate_confidence(purchases, spend):
+    """Vypocita confidence skore pro rozhodovani o kreative.
+
+    Kombinuje pocet nakupu (60% vaha) a spend (40% vaha).
+    Returns: float 0.0-1.0
+    """
+    return min(purchases / 10, 1.0) * 0.6 + min(spend / 5000, 1.0) * 0.4
+
+
+def confidence_level(confidence):
+    """Vraci textovou uroven confidence."""
+    if confidence >= 0.7:
+        return "vysoka"
+    if confidence >= 0.3:
+        return "stredni"
+    return "nizka"
+
 
 def extract_action(row, action_type, field="actions"):
     """Extrahuje hodnotu konkretni akce z actions pole."""
@@ -245,25 +230,16 @@ def calculate_metrics(row):
         "retention_p100": round((video_p100 / video_views * 100), 1) if video_views > 0 and video_p100 > 0 else None,
         # Confidence: jak moc muzeme verit datum pro rozhodnuti
         # 0.0-0.3 = nizka (malo dat), 0.3-0.7 = stredni, 0.7-1.0 = vysoka
-        "confidence": round(
-            min(purchases / 10, 1.0) * 0.6 + min(spend / 5000, 1.0) * 0.4,
-            2
-        ),
-        "confidence_level": (
-            "vysoka" if (min(purchases / 10, 1.0) * 0.6 + min(spend / 5000, 1.0) * 0.4) >= 0.7
-            else "stredni" if (min(purchases / 10, 1.0) * 0.6 + min(spend / 5000, 1.0) * 0.4) >= 0.3
-            else "nizka"
-        ),
+        "confidence": round(calculate_confidence(purchases, spend), 2),
+        "confidence_level": confidence_level(calculate_confidence(purchases, spend)),
         # Weighted ROAS: zohlednuje spolehlivost dat
-        "weighted_roas": round(
-            (roas or 0) * (min(purchases / 10, 1.0) * 0.6 + min(spend / 5000, 1.0) * 0.4),
-            2
-        ),
+        "weighted_roas": round((roas or 0) * calculate_confidence(purchases, spend), 2),
     }
 
 # ── Kill / Scale / Iterate engine ──
 
-def evaluate_creative(m):
+def evaluate_creative(m, target_cpa=None, target_roas=None,
+                      min_spend=None, min_impressions=None):
     """Vraci seznam doporuceni pro kreativu.
 
     Engine v2 — vylepsen na zaklade reserse:
@@ -272,24 +248,36 @@ def evaluate_creative(m):
     - Video drop-off diagnoza (hook/middle/CTA problem)
     - Aktualizovane benchmarky: hook 25%, hold 40%, freq 3.0 cold / 6.0 retarg
     - Clickbait detekce: vysoky CTR + nizka CVR
+
+    Args:
+        m: dict s metrikami kreativy (z calculate_metrics)
+        target_cpa: CPA target v CZK (default: TARGET_CPA)
+        target_roas: ROAS target (default: TARGET_ROAS)
+        min_spend: min spend pro rozhodnuti (default: MIN_SPEND_FOR_DECISION)
+        min_impressions: min impressions pro rozhodnuti (default: MIN_IMPRESSIONS)
     """
+    target_cpa = target_cpa if target_cpa is not None else TARGET_CPA
+    target_roas = target_roas if target_roas is not None else TARGET_ROAS
+    min_spend = min_spend if min_spend is not None else MIN_SPEND_FOR_DECISION
+    min_impressions = min_impressions if min_impressions is not None else MIN_IMPRESSIONS
+
     recommendations = []
     spend = m["spend"]
     impressions = m["impressions"]
 
     # Nedostatek dat
-    if spend < MIN_SPEND_FOR_DECISION and impressions < MIN_IMPRESSIONS:
+    if spend < min_spend and impressions < min_impressions:
         return [("INFO", "Nedostatek dat pro rozhodnuti", f"Spend {spend} CZK, {impressions} impr")]
 
     # ── KILL rules ──
 
     # CPA vysoko nad targetem
-    if m["cpa"] and m["cpa"] > TARGET_CPA * 2 and spend > MIN_SPEND_FOR_DECISION:
+    if m["cpa"] and m["cpa"] > target_cpa * 2 and spend > min_spend:
         recommendations.append(("KILL", "CPA 2x+ nad targetem",
-            f"CPA {m['cpa']} CZK vs target {TARGET_CPA} CZK"))
-    elif m["cpa"] and m["cpa"] > TARGET_CPA * 1.3 and spend > MIN_SPEND_FOR_DECISION * 2:
+            f"CPA {m['cpa']} CZK vs target {target_cpa} CZK"))
+    elif m["cpa"] and m["cpa"] > target_cpa * 1.3 and spend > min_spend * 2:
         recommendations.append(("KILL", "CPA 30%+ nad targetem pri vyssim spendu",
-            f"CPA {m['cpa']} CZK vs target {TARGET_CPA} CZK, spend {spend} CZK"))
+            f"CPA {m['cpa']} CZK vs target {target_cpa} CZK, spend {spend} CZK"))
 
     # Multi-signalova fatigue detekce (hierarchie: freq + CTR + CVR)
     # Tier 3 fatigue: extremni frekvence (5+ cold)
@@ -306,17 +294,17 @@ def evaluate_creative(m):
             f"Freq {m['frequency']}, CTR {m['ctr']}% ale CVR jen {m['cvr']}% — audience uz nekonvertuje"))
 
     # Hodne spendu, zadne nakupy
-    if spend > TARGET_CPA * 3 and m["purchases"] == 0:
+    if spend > target_cpa * 3 and m["purchases"] == 0:
         recommendations.append(("KILL", "Zadne nakupy pri vysokem spendu",
             f"Spend {spend} CZK, 0 purchases"))
 
     # Nizky ROAS
-    if m["roas"] is not None and m["roas"] < 1.0 and spend > MIN_SPEND_FOR_DECISION:
+    if m["roas"] is not None and m["roas"] < 1.0 and spend > min_spend:
         recommendations.append(("KILL", "ROAS pod 1.0 — ztratovy",
             f"ROAS {m['roas']}"))
 
     # Clickbait detekce: vysoky CTR ale miziva CVR = kreativa laka spatne lidi
-    if m["ctr"] > 2.0 and m.get("cvr") is not None and m["cvr"] < 0.5 and spend > MIN_SPEND_FOR_DECISION * 2:
+    if m["ctr"] > 2.0 and m.get("cvr") is not None and m["cvr"] < 0.5 and spend > min_spend * 2:
         recommendations.append(("KILL", "Clickbait kreativa — vysoky CTR, nulova konverze",
             f"CTR {m['ctr']}% ale CVR {m['cvr']}% — uprav sdělení nebo landing page"))
 
@@ -325,16 +313,16 @@ def evaluate_creative(m):
     confidence = m.get("confidence", 0)
 
     # Vysoky ROAS — ale jen pokud mame dost dat
-    if m["roas"] and m["roas"] > TARGET_ROAS * 1.2 and spend > MIN_SPEND_FOR_DECISION:
+    if m["roas"] and m["roas"] > target_roas * 1.2 and spend > min_spend:
         if confidence >= 0.5:
             recommendations.append(("SCALE", "ROAS 20%+ nad targetem",
-                f"ROAS {m['roas']} vs target {TARGET_ROAS}, {m['purchases']} nakupu"))
+                f"ROAS {m['roas']} vs target {target_roas}, {m['purchases']} nakupu"))
         else:
             recommendations.append(("WATCH", "Slibny ROAS ale malo dat",
                 f"ROAS {m['roas']}, jen {m['purchases']} nakupu — cekej na vic dat"))
 
     # Nizky CPA s dostatecnym vzorkem
-    if m["cpa"] and m["cpa"] < TARGET_CPA * 0.7 and m["purchases"] >= 5:
+    if m["cpa"] and m["cpa"] < target_cpa * 0.7 and m["purchases"] >= 5:
         recommendations.append(("SCALE", "CPA 30%+ pod targetem s dostatkem konverzi",
             f"CPA {m['cpa']} CZK, {m['purchases']} nakupu"))
 
@@ -354,7 +342,7 @@ def evaluate_creative(m):
             recommendations.append(("ITERATE", "Solidni hook, slaby hold",
                 f"Hook {m['hook_rate']}%, Hold {m['hold_rate']}% — middle sag, uprav pace videa"))
 
-        if m["hook_rate"] < 25 and m["roas"] and m["roas"] > TARGET_ROAS * 0.8:
+        if m["hook_rate"] < 25 and m["roas"] and m["roas"] > target_roas * 0.8:
             recommendations.append(("ITERATE", "Podprumerny hook ale slusny ROAS — natoc novy hook",
                 f"Hook {m['hook_rate']}% (benchmark >=25%), ROAS {m['roas']}"))
 
@@ -362,7 +350,7 @@ def evaluate_creative(m):
             recommendations.append(("SCALE", "Vynikajici hook rate",
                 f"Hook {m['hook_rate']}% (elite >35%)"))
 
-        if m["hook_rate"] < 20 and impressions > MIN_IMPRESSIONS:
+        if m["hook_rate"] < 20 and impressions > min_impressions:
             recommendations.append(("ITERATE", "Nizky hook — 1. frame a text overlay nefunguje",
                 f"Hook {m['hook_rate']}% (benchmark >=25%, minimum 20%)"))
 
@@ -382,12 +370,12 @@ def evaluate_creative(m):
 
     if not m["is_video"]:
         # Nizky CTR = banner neoslovuje (benchmark food & bev: 1.67%)
-        if m["ctr"] < 1.0 and impressions > MIN_IMPRESSIONS and spend > MIN_SPEND_FOR_DECISION:
+        if m["ctr"] < 1.0 and impressions > min_impressions and spend > min_spend:
             recommendations.append(("ITERATE", "Nizky CTR — zmen vizual nebo text",
                 f"CTR {m['ctr']}% (benchmark food&bev >1.5%)"))
 
         # Vysoky CTR ale nizky ROAS = clickbait nebo spatna LP
-        if m["ctr"] > 2.0 and m["roas"] and m["roas"] < TARGET_ROAS * 0.6 and spend > MIN_SPEND_FOR_DECISION:
+        if m["ctr"] > 2.0 and m["roas"] and m["roas"] < target_roas * 0.6 and spend > min_spend:
             detail = f"CTR {m['ctr']}%, ROAS {m['roas']}"
             if m.get("cvr") is not None:
                 detail += f", CVR {m['cvr']}%"
@@ -395,17 +383,17 @@ def evaluate_creative(m):
                 detail))
 
         # Nizka CVR pri slusnem CTR = problem na landing page, ne v kreative
-        if m.get("cvr") is not None and m["cvr"] < 1.0 and m["ctr"] > 1.5 and spend > MIN_SPEND_FOR_DECISION:
+        if m.get("cvr") is not None and m["cvr"] < 1.0 and m["ctr"] > 1.5 and spend > min_spend:
             recommendations.append(("ITERATE", "LP problem — CTR OK ale CVR nizka",
                 f"CTR {m['ctr']}%, CVR {m['cvr']}% — kreativa funguje, landing page nekonvertuje"))
 
         # Vysoky CTR a ROAS = skvely banner
-        if m["ctr"] > 2.0 and m["roas"] and m["roas"] > TARGET_ROAS and confidence >= 0.5:
+        if m["ctr"] > 2.0 and m["roas"] and m["roas"] > target_roas and confidence >= 0.5:
             recommendations.append(("SCALE", "Silny CTR + ROAS",
                 f"CTR {m['ctr']}%, ROAS {m['roas']}"))
 
         # Vysoka CVR = banner ktery prodava
-        if m.get("cvr") and m["cvr"] > 3.0 and m["roas"] and m["roas"] > TARGET_ROAS * 0.9 and confidence >= 0.4:
+        if m.get("cvr") and m["cvr"] > 3.0 and m["roas"] and m["roas"] > target_roas * 0.9 and confidence >= 0.4:
             recommendations.append(("SCALE", "Vysoka CVR — banner ktery konvertuje",
                 f"CVR {m['cvr']}%, ROAS {m['roas']}"))
 
@@ -422,7 +410,7 @@ def evaluate_creative(m):
             f"Freq {m['frequency']}, CTR {m['ctr']}% — refresh do 7 dni"))
 
     if not recommendations:
-        if m["roas"] and m["roas"] >= TARGET_ROAS * 0.8:
+        if m["roas"] and m["roas"] >= target_roas * 0.8:
             cvr_info = f", CVR {m['cvr']}%" if m.get("cvr") else ""
             recommendations.append(("OK", "V norme", f"ROAS {m['roas']}, CPA {m['cpa']}{cvr_info}"))
         else:

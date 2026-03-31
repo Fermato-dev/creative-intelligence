@@ -32,13 +32,13 @@ import urllib.parse
 from datetime import datetime, timedelta
 from pathlib import Path
 
+from meta_client import meta_fetch
+from claude_client import call_claude_vision, parse_json_from_response
+
 # ── Config ──
 
 ACCESS_TOKEN = os.environ.get("META_ADS_ACCESS_TOKEN", "")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-API_VERSION = "v23.0"
-META_API_BASE = f"https://graph.facebook.com/{API_VERSION}"
-CLAUDE_MODEL = "claude-sonnet-4-20250514"
 
 SCRIPT_DIR = Path(__file__).parent
 REPO_ROOT = SCRIPT_DIR.parent.parent.parent.parent
@@ -119,15 +119,6 @@ def save_analysis(conn, ad_id, creative_id, video_id, creative_type,
 
 
 # ── Meta API ──
-
-def meta_fetch(endpoint, params=None):
-    if params is None:
-        params = {}
-    params["access_token"] = ACCESS_TOKEN
-    url = f"{META_API_BASE}/{endpoint}?" + urllib.parse.urlencode(params)
-    with urllib.request.urlopen(url) as resp:
-        return json.loads(resp.read())
-
 
 def fetch_creative_assets(ad_ids):
     """Stahne creative metadata pro dane ad IDs."""
@@ -313,82 +304,7 @@ def transcribe_audio_ffmpeg(video_path, output_dir, model_path):
     return None
 
 
-# ── Claude Vision API ──
-
-def call_claude_vision(images_b64, prompt, max_tokens=2000):
-    """Zavola Claude Vision API s obrazky."""
-    if not ANTHROPIC_API_KEY:
-        raise ValueError("ANTHROPIC_API_KEY neni nastaven")
-
-    content = []
-    for img in images_b64:
-        content.append({
-            "type": "image",
-            "source": {"type": "base64", "media_type": "image/jpeg", "data": img}
-        })
-    content.append({"type": "text", "text": prompt})
-
-    body = json.dumps({
-        "model": CLAUDE_MODEL,
-        "max_tokens": max_tokens,
-        "messages": [{"role": "user", "content": content}]
-    }).encode()
-
-    req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
-        data=body,
-        headers={
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
-        }
-    )
-
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        result = json.loads(resp.read())
-
-    # Extract text from response
-    text = ""
-    for block in result.get("content", []):
-        if block.get("type") == "text":
-            text += block["text"]
-
-    # Calculate cost (approximate: input + output tokens)
-    usage = result.get("usage", {})
-    input_tokens = usage.get("input_tokens", 0)
-    output_tokens = usage.get("output_tokens", 0)
-    # Sonnet 4 pricing: $3/M input, $15/M output
-    cost = (input_tokens * 3 + output_tokens * 15) / 1_000_000
-
-    return text, cost
-
-
-def parse_json_from_response(text):
-    """Extrahuje JSON z Claude odpovedi (muze byt obaleny v markdown)."""
-    # Try direct parse first
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError:
-        pass
-
-    # Try extracting from code block
-    match = re.search(r"```(?:json)?\s*\n?(.*?)\n?```", text, re.DOTALL)
-    if match:
-        try:
-            return json.loads(match.group(1))
-        except json.JSONDecodeError:
-            pass
-
-    # Try finding JSON object
-    match = re.search(r"\{.*\}", text, re.DOTALL)
-    if match:
-        try:
-            return json.loads(match.group(0))
-        except json.JSONDecodeError:
-            pass
-
-    return {"raw_text": text, "_parse_error": True}
-
+# ── Helpers ──
 
 def encode_image_b64(path):
     """Nacte obrazek a zakoduje jako base64."""

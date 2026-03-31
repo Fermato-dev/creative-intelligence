@@ -32,13 +32,12 @@ from pathlib import Path
 
 import duckdb
 
+from meta_client import meta_fetch
+from claude_client import call_claude_vision, parse_json_from_response, ANTHROPIC_API_KEY
+
 # ── Config ──
 
 ACCESS_TOKEN = os.environ.get("META_ADS_ACCESS_TOKEN", "")
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-API_VERSION = "v23.0"
-META_API_BASE = f"https://graph.facebook.com/{API_VERSION}"
-CLAUDE_MODEL = "claude-sonnet-4-20250514"
 
 SCRIPT_DIR = Path(__file__).parent
 DATA_DIR = SCRIPT_DIR / "data"
@@ -118,16 +117,7 @@ def _init_schema(conn):
     conn.execute("CREATE SEQUENCE IF NOT EXISTS components.combo_seq START 1")
 
 
-# ── Meta API helpers (reuse from creative_vision.py) ──
-
-def meta_fetch(endpoint, params=None):
-    if params is None:
-        params = {}
-    params["access_token"] = ACCESS_TOKEN
-    url = f"{META_API_BASE}/{endpoint}?" + urllib.parse.urlencode(params)
-    with urllib.request.urlopen(url) as resp:
-        return json.loads(resp.read())
-
+# ── Meta API helpers ──
 
 def get_video_source_url(video_id):
     try:
@@ -227,7 +217,7 @@ def decompose_from_thumbnails(ad_id, video_id, video_length, performance_data=No
 
         # Analyze with Claude
         try:
-            raw_text, cost = call_claude(frames_b64, prompts[seg_type])
+            raw_text, cost = call_claude_vision(frames_b64, prompts[seg_type])
             total_cost += cost
             json_match = re.search(r"\{[\s\S]*\}", raw_text)
             analysis = json.loads(json_match.group()) if json_match else {"raw": raw_text}
@@ -362,59 +352,6 @@ def download_video(url, dest_dir):
     return str(dest)
 
 
-# ── Claude Vision API ──
-
-def call_claude(images_b64, prompt, max_tokens=1500, retries=3):
-    """Call Claude Vision API with images. Retries on 429/5xx."""
-    import time
-    content = []
-    for img in images_b64:
-        content.append({
-            "type": "image",
-            "source": {"type": "base64", "media_type": "image/jpeg", "data": img}
-        })
-    content.append({"type": "text", "text": prompt})
-
-    body = json.dumps({
-        "model": CLAUDE_MODEL,
-        "max_tokens": max_tokens,
-        "messages": [{"role": "user", "content": content}]
-    }).encode()
-
-    for attempt in range(retries):
-        try:
-            req = urllib.request.Request(
-                "https://api.anthropic.com/v1/messages",
-                data=body,
-                headers={
-                    "x-api-key": ANTHROPIC_API_KEY,
-                    "anthropic-version": "2023-06-01",
-                    "content-type": "application/json",
-                }
-            )
-            with urllib.request.urlopen(req, timeout=90) as resp:
-                result = json.loads(resp.read())
-
-            text = ""
-            for block in result.get("content", []):
-                if block.get("type") == "text":
-                    text += block["text"]
-
-            usage = result.get("usage", {})
-            cost = (usage.get("input_tokens", 0) * 3 + usage.get("output_tokens", 0) * 15) / 1_000_000
-            return text, cost
-
-        except urllib.error.HTTPError as e:
-            if e.code in (429, 529) and attempt < retries - 1:
-                wait = (attempt + 1) * 8
-                print(f"      Rate limited, cekam {wait}s...", file=sys.stderr)
-                time.sleep(wait)
-            elif e.code >= 500 and attempt < retries - 1:
-                time.sleep(5)
-            else:
-                raise
-
-
 def frames_to_b64(frame_paths):
     """Convert frame file paths to base64 strings."""
     b64_list = []
@@ -523,7 +460,7 @@ def decompose_and_analyze(ad_id, video_path, performance_data=None):
         # Analyze with Claude Vision
         b64 = frames_to_b64(frames)
         try:
-            raw_text, cost = call_claude(b64, prompts[seg_type])
+            raw_text, cost = call_claude_vision(b64, prompts[seg_type])
             total_cost += cost
 
             # Parse JSON from response

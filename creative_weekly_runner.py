@@ -8,6 +8,7 @@ Orchestrator pro tydenni automaticky beh:
 3. Zkontroluje ThresholdMonitor pravidla
 4. Posle Pumble tydenni report do #meta-ads (pro performance specialisty)
 5. Spusti AI analyzu kreativ (creative_vision) pokud je dostupna
+6. Customer Voice Mining + Creative Briefs (1x mesicne nebo --briefs)
 
 Pumble report obsahuje:
 - Klicove metriky: ROAS, CPA, CVR, Hook/Hold Rate + WoW trendy
@@ -25,6 +26,7 @@ Pouziti:
     python creative_weekly_runner.py --days 14    # poslednich 14 dni
     python creative_weekly_runner.py --no-pumble  # bez Pumble notifikace
     python creative_weekly_runner.py --no-vision  # bez AI analyzy
+    python creative_weekly_runner.py --briefs     # force Customer Voice + Briefs
 """
 
 import json
@@ -538,7 +540,7 @@ def main():
         error_msg = f"Creative Intelligence FAILED: {e}"
         print(f"ERROR: {error_msg}", file=sys.stderr)
         if do_pumble:
-            save_pumble_message(f"🔴 {error_msg}")
+            send_pumble(f"🔴 {error_msg}")
         sys.exit(1)
 
     ads_metrics = [ci.calculate_metrics(row) for row in raw_data]
@@ -620,29 +622,50 @@ def main():
             print(f"[{datetime.now().strftime('%H:%M:%S')}] AI analyza selhala: {e}", file=sys.stderr)
             traceback.print_exc(file=sys.stderr)
 
-    # ── Step 6: Component decomposition (v3) ──
-    try:
-        import creative_decomposer as cd
-        api_key = os.environ.get("ANTHROPIC_API_KEY")
-        if api_key:
-            video_metrics = [m for m in ads_metrics if m["is_video"] and m["spend"] > 200 and m["impressions"] > 1000]
-            if video_metrics:
-                print(f"[{datetime.now().strftime('%H:%M:%S')}] Component decompose: {len(video_metrics)} videi...", file=sys.stderr)
-                ads_with_data = [(m["ad_id"], m) for m in video_metrics]
-                cd.run_decomposition(ads_with_data, max_ads=5)
+    # ── Step 6: Customer Voice Mining + Creative Briefs (monthly) ──
+    # Spousti se 1x mesicne (1. pondeli v mesici) nebo s --briefs flagem
+    do_briefs = "--briefs" in sys.argv
+    if not do_briefs:
+        # Auto: 1. pondeli v mesici
+        today = datetime.now()
+        do_briefs = today.day <= 7 and today.weekday() == 0
 
-                # Generate recommendations
-                conn = cd.get_db()
-                combos = cd.recommend_combinations(conn, top_n=5)
-                conn.close()
-                if combos:
-                    print(f"[{datetime.now().strftime('%H:%M:%S')}]   {len(combos)} novych kombinaci doporuceno", file=sys.stderr)
-        else:
-            print(f"[{datetime.now().strftime('%H:%M:%S')}] ANTHROPIC_API_KEY neni nastaven — preskakuji decompose", file=sys.stderr)
-    except ImportError:
-        print(f"[{datetime.now().strftime('%H:%M:%S')}] creative_decomposer.py nenalezen — preskakuji", file=sys.stderr)
-    except Exception as e:
-        print(f"[{datetime.now().strftime('%H:%M:%S')}] Component decompose selhalo: {e}", file=sys.stderr)
+    if do_briefs:
+        try:
+            api_key = os.environ.get("ANTHROPIC_API_KEY")
+            if api_key:
+                print(f"[{datetime.now().strftime('%H:%M:%S')}] Customer Voice Mining + Creative Briefs...", file=sys.stderr)
+                import customer_voice_mining as cvm
+                import creative_brief_generator as cbg
+
+                for product_key in ["zalivka", "chilli", "fermato_brand"]:
+                    try:
+                        # Mine customer voices
+                        voices = cvm.collect_voices(product_key, max_sources=10)
+                        if voices:
+                            cvm.build_customer_profile(product_key, voices)
+                            print(f"[{datetime.now().strftime('%H:%M:%S')}]   Voice profil: {product_key} ({len(voices)} zdroju)", file=sys.stderr)
+
+                        # Generate briefs
+                        customer_profile = cbg.load_customer_profile(product_key)
+                        performance = cbg.load_performance_data(days)
+                        creative_analyses = cbg.load_creative_analysis()
+                        briefs, cost = cbg.generate_briefs(product_key, customer_profile, performance, creative_analyses)
+
+                        # Save
+                        date_str = datetime.now().strftime("%Y-%m-%d")
+                        brief_report = cbg.format_briefs_report(briefs)
+                        brief_path = OUTPUT_DIR / f"creative-briefs-{product_key}-{date_str}.md"
+                        brief_path.write_text(brief_report, encoding="utf-8")
+                        print(f"[{datetime.now().strftime('%H:%M:%S')}]   Briefy: {product_key} (cost: ${cost:.4f})", file=sys.stderr)
+                    except Exception as e:
+                        print(f"[{datetime.now().strftime('%H:%M:%S')}]   Brief gen selhalo pro {product_key}: {e}", file=sys.stderr)
+            else:
+                print(f"[{datetime.now().strftime('%H:%M:%S')}] ANTHROPIC_API_KEY neni nastaven — preskakuji briefs", file=sys.stderr)
+        except ImportError as e:
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] Brief skripty nenalezeny: {e}", file=sys.stderr)
+        except Exception as e:
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] Brief generace selhala: {e}", file=sys.stderr)
 
     # ── Summary ──
     s = snapshot_data["meta_ads"]
