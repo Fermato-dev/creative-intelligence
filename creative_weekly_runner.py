@@ -620,6 +620,30 @@ def main():
             print(f"[{datetime.now().strftime('%H:%M:%S')}] AI analyza selhala: {e}", file=sys.stderr)
             traceback.print_exc(file=sys.stderr)
 
+    # ── Step 6: Component decomposition (v3) ──
+    try:
+        import creative_decomposer as cd
+        api_key = os.environ.get("ANTHROPIC_API_KEY")
+        if api_key:
+            video_metrics = [m for m in ads_metrics if m["is_video"] and m["spend"] > 200 and m["impressions"] > 1000]
+            if video_metrics:
+                print(f"[{datetime.now().strftime('%H:%M:%S')}] Component decompose: {len(video_metrics)} videi...", file=sys.stderr)
+                ads_with_data = [(m["ad_id"], m) for m in video_metrics]
+                cd.run_decomposition(ads_with_data, max_ads=5)
+
+                # Generate recommendations
+                conn = cd.get_db()
+                combos = cd.recommend_combinations(conn, top_n=5)
+                conn.close()
+                if combos:
+                    print(f"[{datetime.now().strftime('%H:%M:%S')}]   {len(combos)} novych kombinaci doporuceno", file=sys.stderr)
+        else:
+            print(f"[{datetime.now().strftime('%H:%M:%S')}] ANTHROPIC_API_KEY neni nastaven — preskakuji decompose", file=sys.stderr)
+    except ImportError:
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] creative_decomposer.py nenalezen — preskakuji", file=sys.stderr)
+    except Exception as e:
+        print(f"[{datetime.now().strftime('%H:%M:%S')}] Component decompose selhalo: {e}", file=sys.stderr)
+
     # ── Summary ──
     s = snapshot_data["meta_ads"]
     a = snapshot_data["actions"]
