@@ -46,19 +46,27 @@ def load_combinations():
     try:
         combos = pd.read_parquet(str(COMBO_PARQUET))
         comps = pd.read_parquet(str(COMP_PARQUET))
-        # Join combinations with component details
-        combos = combos.merge(
-            comps[["id", "ad_name", "hook_rate", "analysis"]].rename(
-                columns={"ad_name": "hook_ad", "hook_rate": "h_hook_rate", "analysis": "h_analysis"}),
-            left_on="hook_id", right_on="id", how="left", suffixes=("", "_h")
-        ).merge(
-            comps[["id", "ad_name", "hold_rate", "analysis"]].rename(
-                columns={"ad_name": "body_ad", "hold_rate": "b_hold_rate", "analysis": "b_analysis"}),
-            left_on="body_id", right_on="id", how="left", suffixes=("", "_b")
-        ).merge(
-            comps[["id", "ad_name", "cvr", "analysis"]].rename(
-                columns={"ad_name": "cta_ad", "cvr": "c_cvr", "analysis": "c_analysis"}),
-            left_on="cta_id", right_on="id", how="left", suffixes=("", "_c")
+        valid_ids = set(comps["id"].tolist())
+        # Filter out stale combos referencing deleted components
+        combos = combos[
+            combos["hook_id"].isin(valid_ids)
+            & combos["body_id"].isin(valid_ids)
+            & combos["cta_id"].isin(valid_ids)
+        ].copy()
+        if combos.empty:
+            return combos
+        # Join with component details (drop duplicate 'id' cols from merge)
+        hook_cols = comps[["id", "ad_name", "hook_rate", "analysis"]].rename(
+            columns={"id": "h_id", "ad_name": "hook_ad", "hook_rate": "h_hook_rate", "analysis": "h_analysis"})
+        body_cols = comps[["id", "ad_name", "hold_rate", "analysis"]].rename(
+            columns={"id": "b_id", "ad_name": "body_ad", "hold_rate": "b_hold_rate", "analysis": "b_analysis"})
+        cta_cols = comps[["id", "ad_name", "cvr", "analysis"]].rename(
+            columns={"id": "c_id", "ad_name": "cta_ad", "cvr": "c_cvr", "analysis": "c_analysis"})
+        combos = (combos
+            .merge(hook_cols, left_on="hook_id", right_on="h_id", how="left")
+            .merge(body_cols, left_on="body_id", right_on="b_id", how="left")
+            .merge(cta_cols, left_on="cta_id", right_on="c_id", how="left")
+            .drop(columns=["h_id", "b_id", "c_id"], errors="ignore")
         )
         return combos.sort_values("expected_score", ascending=False)
     except Exception:
@@ -184,26 +192,40 @@ with tab_ctas:
     st.caption("Serazeno dle CVR. Ukazuje jak efektivne CTA konvertuje divaky na zakazniky.")
     render_component_table(ctas, "cvr", "CVR %")
 
+def _safe_str(v, maxlen=25):
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return "—"
+    return str(v)[:maxlen]
+
+
+def _safe_pct(v, fmt=".1f"):
+    if v is None or (isinstance(v, float) and pd.isna(v)):
+        return "—"
+    return f"{v:{fmt}}%"
+
+
 with tab_combos:
     st.markdown("### Doporucene kombinace")
     st.caption("Hook x Body x CTA kombinace serazene dle expected score. "
-               "Score = 35% hook_rate + 35% hold_rate + 30% CVR (normalizovane).")
+               "Score = 35% hook_rate/40 + 35% hold_rate/50 + 30% CVR/3 (normalizovane na ~1.0).")
 
     if combo_df.empty:
-        st.info("Zadne kombinace. Spust `python creative_decomposer.py --recommend`.")
+        st.info("Zadne kombinace (bud nebyly vygenerovany, nebo odkazuji na smazane komponenty). "
+                "Spust `python creative_decomposer.py --recommend` pro regeneraci.")
     else:
-        for _, c in combo_df.head(10).iterrows():
+        # Score-based ranking with percentile thresholds
+        scores = combo_df["expected_score"].dropna()
+        p66 = scores.quantile(0.66) if len(scores) > 2 else 0.9
+        p33 = scores.quantile(0.33) if len(scores) > 2 else 0.6
+
+        for rank, (_, c) in enumerate(combo_df.head(10).iterrows(), 1):
             score = c.get("expected_score", 0) or 0
-            # Color based on score
-            if score >= 0.9:
-                color = "#38a169"
-                badge = "PRIORITA"
-            elif score >= 0.6:
-                color = "#d69e2e"
-                badge = "ZKUSIT"
+            if score >= p66:
+                color, badge = "#38a169", "PRIORITA"
+            elif score >= p33:
+                color, badge = "#d69e2e", "ZKUSIT"
             else:
-                color = "#3182ce"
-                badge = "MOZNOST"
+                color, badge = "#3182ce", "MOZNOST"
 
             h_analysis = parse_analysis(c.get("h_analysis"))
             b_analysis = parse_analysis(c.get("b_analysis"))
@@ -213,31 +235,39 @@ with tab_combos:
             body_type = b_analysis.get("narrative_arc", "?")
             cta_type = c_analysis.get("cta_type", "?")
 
-            def safe_str(v, maxlen=25):
-                if v is None or (isinstance(v, float) and pd.isna(v)):
-                    return "—"
-                return str(v)[:maxlen]
+            h_rate = _safe_pct(c.get('h_hook_rate'))
+            b_rate = _safe_pct(c.get('b_hold_rate'))
+            c_rate = _safe_pct(c.get('c_cvr'), ".2f")
+            h_name = _safe_str(c.get('hook_ad'))
+            b_name = _safe_str(c.get('body_ad'))
+            c_name = _safe_str(c.get('cta_ad'))
 
-            def safe_num(v, fmt=".1f"):
-                if v is None or (isinstance(v, float) and pd.isna(v)):
-                    return "—"
-                return f"{v:{fmt}}%"
-
-            h_rate = safe_num(c.get('h_hook_rate'))
-            b_rate = safe_num(c.get('b_hold_rate'))
-            c_rate = safe_num(c.get('c_cvr'), ".2f")
-            h_name = safe_str(c.get('hook_ad'))
-            b_name = safe_str(c.get('body_ad'))
-            c_name = safe_str(c.get('cta_ad'))
+            # Highlight when components come from different ads
+            ads_used = {h_name, b_name, c_name} - {"—"}
+            mix_note = f"Mix z {len(ads_used)} kreativ" if len(ads_used) > 1 else "Vsechny z jedne kreativy"
 
             st.markdown(f"""<div style="border-radius:8px; padding:12px 14px; margin:8px 0;
                 border-left:4px solid {color}; background:#f8f9fb;">
-                <strong style="color:{color}">{badge}</strong> &nbsp; Score: {score:.3f}<br>
-                <table style="width:100%; font-size:0.88em; margin-top:6px;">
-                <tr><td style="width:33%"><strong>HOOK</strong> [{hook_type}]<br>{h_name}<br>Hook rate: {h_rate}</td>
-                <td style="width:33%"><strong>BODY</strong> [{body_type}]<br>{b_name}<br>Hold rate: {b_rate}</td>
-                <td style="width:33%"><strong>CTA</strong> [{cta_type}]<br>{c_name}<br>CVR: {c_rate}</td></tr>
-                </table></div>""", unsafe_allow_html=True)
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span><strong style="color:{color}">#{rank} {badge}</strong>
+                    &nbsp;<span style="color:#6b7280; font-size:0.82em">{mix_note}</span></span>
+                    <span style="font-size:0.82em; color:#6b7280">Score: <strong>{score:.2f}</strong></span>
+                </div>
+                <table style="width:100%; font-size:0.88em; margin-top:8px; border-collapse:collapse;">
+                <tr>
+                    <td style="width:33%; padding:6px 8px; background:#f0fff4; border-radius:6px 0 0 6px;">
+                        <strong>HOOK</strong> <span style="color:#6b7280">[{hook_type}]</span><br>
+                        <span style="font-size:0.92em">{h_name}</span><br>
+                        <strong style="color:#38a169">{h_rate}</strong> hook rate</td>
+                    <td style="width:33%; padding:6px 8px; background:#fffff0;">
+                        <strong>BODY</strong> <span style="color:#6b7280">[{body_type}]</span><br>
+                        <span style="font-size:0.92em">{b_name}</span><br>
+                        <strong style="color:#d69e2e">{b_rate}</strong> hold rate</td>
+                    <td style="width:33%; padding:6px 8px; background:#ebf8ff; border-radius:0 6px 6px 0;">
+                        <strong>CTA</strong> <span style="color:#6b7280">[{cta_type}]</span><br>
+                        <span style="font-size:0.92em">{c_name}</span><br>
+                        <strong style="color:#3182ce">{c_rate}</strong> CVR</td>
+                </tr></table></div>""", unsafe_allow_html=True)
 
 # ── Footer ──
 
