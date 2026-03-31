@@ -4,8 +4,14 @@ __pycache__/
 .env
 *.token.json
 *.db
-data/
+*.duckdb
+*.duckdb.wal
+data/components/
+data/creative_analysis.db
 outputs/
 *.log
 .vscode/
 .idea/
+
+# Parquet exports ARE tracked (small, needed for Railway dashboard)
+!data/exports/

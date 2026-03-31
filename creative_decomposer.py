@@ -36,7 +36,6 @@ import duckdb
 
 ACCESS_TOKEN = os.environ.get("META_ADS_ACCESS_TOKEN", "")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-MOTHERDUCK_TOKEN = os.environ.get("MOTHERDUCK_TOKEN", "")
 API_VERSION = "v23.0"
 META_API_BASE = f"https://graph.facebook.com/{API_VERSION}"
 CLAUDE_MODEL = "claude-sonnet-4-20250514"
@@ -45,6 +44,7 @@ SCRIPT_DIR = Path(__file__).parent
 DATA_DIR = SCRIPT_DIR / "data"
 DB_PATH = DATA_DIR / "fermato_analytics.duckdb"
 ASSETS_DIR = DATA_DIR / "components"
+EXPORTS_DIR = DATA_DIR / "exports"
 
 # Segment boundaries (seconds)
 HOOK_END = 3.0       # Hook = 0-3s
@@ -53,14 +53,22 @@ CTA_DURATION = 5.0   # CTA = last 5s
 # ── Database (DuckDB + MotherDuck) ──
 
 def get_db():
-    """Connect to DuckDB. Uses MotherDuck if MOTHERDUCK_TOKEN is set, else local file."""
-    if MOTHERDUCK_TOKEN:
-        conn = duckdb.connect(f"md:fermato_analytics?motherduck_token={MOTHERDUCK_TOKEN}")
-    else:
-        DATA_DIR.mkdir(parents=True, exist_ok=True)
-        conn = duckdb.connect(str(DB_PATH))
+    """Connect to local DuckDB."""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    conn = duckdb.connect(str(DB_PATH))
     _init_schema(conn)
     return conn
+
+
+def export_parquet(conn):
+    """Export component library to Parquet files for dashboard sync."""
+    EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    try:
+        conn.execute(f"COPY components.library TO '{EXPORTS_DIR}/components.parquet' (FORMAT PARQUET)")
+        conn.execute(f"COPY components.combinations TO '{EXPORTS_DIR}/combinations.parquet' (FORMAT PARQUET)")
+        print(f"Parquet export: {EXPORTS_DIR}/", file=sys.stderr)
+    except Exception as e:
+        print(f"WARN: Parquet export failed: {e}", file=sys.stderr)
 
 
 def _init_schema(conn):
@@ -875,6 +883,7 @@ def main():
     print_library(conn)
     combos = recommend_combinations(conn, top_n=5)
     print_recommendations(combos)
+    export_parquet(conn)
     conn.close()
 
 

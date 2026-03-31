@@ -17,7 +17,6 @@ import json
 import os
 import plotly.graph_objects as go
 import pandas as pd
-import duckdb
 
 from shared_data import SHARED_CSS, REPO_ROOT, DATA_DIR
 
@@ -25,55 +24,45 @@ st.markdown(SHARED_CSS, unsafe_allow_html=True)
 
 # ── Data loading ──
 
-DB_PATH = DATA_DIR / "fermato_analytics.duckdb"
-MOTHERDUCK_TOKEN = os.environ.get("MOTHERDUCK_TOKEN", "")
-
-
-def _get_conn():
-    """Connect to DuckDB — MotherDuck if token set, else local file."""
-    if MOTHERDUCK_TOKEN:
-        return duckdb.connect(f"md:fermato_analytics?motherduck_token={MOTHERDUCK_TOKEN}")
-    if not DB_PATH.exists():
-        return None
-    return duckdb.connect(str(DB_PATH), read_only=True)
+EXPORTS_DIR = REPO_ROOT / "data" / "exports"
+COMP_PARQUET = EXPORTS_DIR / "components.parquet"
+COMBO_PARQUET = EXPORTS_DIR / "combinations.parquet"
 
 
 @st.cache_data(ttl=300)
 def load_components():
-    conn = _get_conn()
-    if conn is None:
+    if not COMP_PARQUET.exists():
         return pd.DataFrame()
     try:
-        df = conn.execute("SELECT * FROM components.library ORDER BY created_at DESC").fetchdf()
-        return df
+        return pd.read_parquet(str(COMP_PARQUET))
     except Exception:
         return pd.DataFrame()
-    finally:
-        conn.close()
 
 
 @st.cache_data(ttl=300)
 def load_combinations():
-    conn = _get_conn()
-    if conn is None:
+    if not COMBO_PARQUET.exists() or not COMP_PARQUET.exists():
         return pd.DataFrame()
     try:
-        df = conn.execute("""
-            SELECT c.*,
-                   h.ad_name as hook_ad, h.hook_rate as h_hook_rate, h.analysis as h_analysis,
-                   b.ad_name as body_ad, b.hold_rate as b_hold_rate, b.analysis as b_analysis,
-                   t.ad_name as cta_ad, t.cvr as c_cvr, t.analysis as c_analysis
-            FROM components.combinations c
-            LEFT JOIN components.library h ON c.hook_id = h.id
-            LEFT JOIN components.library b ON c.body_id = b.id
-            LEFT JOIN components.library t ON c.cta_id = t.id
-            ORDER BY c.expected_score DESC
-        """).fetchdf()
-        return df
+        combos = pd.read_parquet(str(COMBO_PARQUET))
+        comps = pd.read_parquet(str(COMP_PARQUET))
+        # Join combinations with component details
+        combos = combos.merge(
+            comps[["id", "ad_name", "hook_rate", "analysis"]].rename(
+                columns={"ad_name": "hook_ad", "hook_rate": "h_hook_rate", "analysis": "h_analysis"}),
+            left_on="hook_id", right_on="id", how="left", suffixes=("", "_h")
+        ).merge(
+            comps[["id", "ad_name", "hold_rate", "analysis"]].rename(
+                columns={"ad_name": "body_ad", "hold_rate": "b_hold_rate", "analysis": "b_analysis"}),
+            left_on="body_id", right_on="id", how="left", suffixes=("", "_b")
+        ).merge(
+            comps[["id", "ad_name", "cvr", "analysis"]].rename(
+                columns={"ad_name": "cta_ad", "cvr": "c_cvr", "analysis": "c_analysis"}),
+            left_on="cta_id", right_on="id", how="left", suffixes=("", "_c")
+        )
+        return combos.sort_values("expected_score", ascending=False)
     except Exception:
         return pd.DataFrame()
-    finally:
-        conn.close()
 
 
 def parse_analysis(raw):
