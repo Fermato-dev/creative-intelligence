@@ -9,8 +9,8 @@ import pandas as pd
 import streamlit as st
 
 DASHBOARD_DIR = Path(__file__).parent
-SCRIPTS_DIR = DASHBOARD_DIR.parent / "scripts"
-REPO_ROOT = DASHBOARD_DIR.parent.parent.parent.parent
+REPO_ROOT = DASHBOARD_DIR.parent
+SCRIPTS_DIR = REPO_ROOT / "scripts"
 DATA_DIR = REPO_ROOT / "data"
 
 sys.path.insert(0, str(SCRIPTS_DIR))

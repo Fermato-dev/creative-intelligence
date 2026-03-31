@@ -1,14 +1,20 @@
 """Fermato Creative Intelligence v2 — Bannery & staticke reklamy"""
 
-import plotly.express as px
-import plotly.graph_objects as go
-import streamlit as st
-
-st.set_page_config(page_title="Bannery & staticke", page_icon="📸", layout="wide")
-
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import streamlit as st
+from auth import check_password
+
+if not check_password():
+    st.stop()
+
+import plotly.express as px
+import plotly.graph_objects as go
+
+st.set_page_config(page_title="Bannery & staticke", page_icon="📸", layout="wide")
+
 from shared_data import *
 
 st.markdown(SHARED_CSS, unsafe_allow_html=True)

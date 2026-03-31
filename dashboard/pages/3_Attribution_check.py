@@ -1,15 +1,21 @@
 """Fermato Creative Intelligence v2 — Attribution Check (Meta vs GA4 vs Shoptet)"""
 
-import plotly.graph_objects as go
-import streamlit as st
-import pandas as pd
 import os
 import sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+import streamlit as st
+from auth import check_password
+
+if not check_password():
+    st.stop()
+
+import plotly.graph_objects as go
+import pandas as pd
 
 st.set_page_config(page_title="Attribution Check", page_icon="🔍", layout="wide")
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
 from shared_data import *
 
 st.markdown(SHARED_CSS, unsafe_allow_html=True)

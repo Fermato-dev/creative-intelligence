@@ -1,7 +1,12 @@
 """Fermato Creative Intelligence v2 — Prehled"""
 
-import plotly.graph_objects as go
 import streamlit as st
+from auth import check_password
+
+if not check_password():
+    st.stop()
+
+import plotly.graph_objects as go
 
 st.set_page_config(page_title="Fermato · Creative Intelligence", page_icon="🎯", layout="wide")
 
