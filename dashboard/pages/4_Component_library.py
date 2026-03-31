@@ -227,4 +227,4 @@ with tab_combos:
 # ── Footer ──
 
 st.divider()
-st.caption(f"Component Library v1 — {len(comp_df)} komponent — data z {comp_df['created_at'].max()[:10] if not comp_df.empty else '?'}")
+st.caption(f"Component Library v1 — {len(comp_df)} komponent — data z {str(comp_df['created_at'].max())[:10] if not comp_df.empty else '?'}")
