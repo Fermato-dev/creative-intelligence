@@ -33,11 +33,15 @@ try:
         get_db, get_top_components, count_components, get_all_components,
         get_pending_recommendations,
     )
+    from creative_intelligence.config import DB_PATH
+    st.caption(f"DB: {DB_PATH} | exists: {DB_PATH.exists()}")
     conn = get_db()
     has_db = True
 except Exception as e:
     has_db = False
     st.warning(f"Component DB neni dostupna: {e}")
+    import traceback
+    st.code(traceback.format_exc())
 
 if not has_db:
     st.info("Spust `python -m creative_intelligence decompose` pro naplneni komponentni knihovny.")
