@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.git/
+data/creative_assets/
+data/models/
+data/*.duckdb
+tests/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
