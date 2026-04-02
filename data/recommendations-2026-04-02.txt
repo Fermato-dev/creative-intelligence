@@ -1,0 +1,97 @@
+============================================================
+  CREATIVE INTELLIGENCE v3 — COMBINATORIAL RECOMMENDATIONS
+  2026-04-02T12:28:19.229775
+============================================================
+
+## SWAP HOOK — nahrad spatny hook lepsim
+
+  1. UGC 51 - Copy 3
+     Soucasny hook: 21.0% | ROAS: 2.68
+     Nahrad hookem z: milan leden (43.5%)
+     Ocekavany dopad: +22.5pp hook rate
+     Duvod: Ad ma ROAS 2.68 ale hook jen 21.0% — dobry obsah, spatny zacatek
+
+  2. UGC 51 - Copy 3
+     Soucasny hook: 21.0% | ROAS: 2.68
+     Nahrad hookem z: UGC 43 too long - Copy 2 (41.9%)
+     Ocekavany dopad: +20.9pp hook rate
+     Duvod: Ad ma ROAS 2.68 ale hook jen 21.0% — dobry obsah, spatny zacatek
+
+  3. UGC 51 - Copy 3
+     Soucasny hook: 21.0% | ROAS: 2.68
+     Nahrad hookem z: UGC 17 10% - Copy (36.2%)
+     Ocekavany dopad: +15.2pp hook rate
+     Duvod: Ad ma ROAS 2.68 ale hook jen 21.0% — dobry obsah, spatny zacatek
+
+  4. UGC 51 - Copy 3
+     Soucasny hook: 21.0% | ROAS: 2.68
+     Nahrad hookem z: SIJ park 2 Eater 1 (24.3%)
+     Ocekavany dopad: +3.3pp hook rate
+     Duvod: Ad ma ROAS 2.68 ale hook jen 21.0% — dobry obsah, spatny zacatek
+
+  5. UGC 51 - Copy 3
+     Soucasny hook: 21.0% | ROAS: 2.68
+     Nahrad hookem z: Easter Radim 2 (21.3%)
+     Ocekavany dopad: +0.3pp hook rate
+     Duvod: Ad ma ROAS 2.68 ale hook jen 21.0% — dobry obsah, spatny zacatek
+
+## SWAP BODY — nahrad slaby stred videa
+
+  1. UGC 17 10% - Copy
+     Hook: 36.2% (OK) | Hold: 21.3% (slaby)
+     Nahrad body z: SIJ park 2 Eater 1 (hold 31.3%)
+     Duvod: Hook funguje (36.2%) ale body ztraci lidi (hold 21.3%)
+
+  2. UGC 17 10% - Copy
+     Hook: 36.2% (OK) | Hold: 21.3% (slaby)
+     Nahrad body z: UGC 43 too long - Copy 2 (hold 29.7%)
+     Duvod: Hook funguje (36.2%) ale body ztraci lidi (hold 21.3%)
+
+  3. UGC 17 10% - Copy
+     Hook: 36.2% (OK) | Hold: 21.3% (slaby)
+     Nahrad body z: milan leden (hold 24.1%)
+     Duvod: Hook funguje (36.2%) ale body ztraci lidi (hold 21.3%)
+
+  4. UGC 17 10% - Copy
+     Hook: 36.2% (OK) | Hold: 21.3% (slaby)
+     Nahrad body z: UGC 51 - Copy 3 (hold 23.3%)
+     Duvod: Hook funguje (36.2%) ale body ztraci lidi (hold 21.3%)
+
+  5. UGC 43 too long - Copy 2
+     Hook: 41.9% (OK) | Hold: 29.7% (slaby)
+     Nahrad body z: SIJ park 2 Eater 1 (hold 31.3%)
+     Duvod: Hook funguje (41.9%) ale body ztraci lidi (hold 29.7%)
+
+## NOVE KOMBINACE — nikdy netestovane
+
+  1. Score: 0.795
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: SIJ park 2 Eater 1 — recipe (hold 31.3%)
+     CTA:  Easter Radim 2 — ? (CVR 6.31%)
+     Duvod: Top hook (41.9%) + top body (hold 31.3%) + top CTA (CVR 6.31%) — nikdy netestovano spolu
+
+  2. Score: 0.788
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: UGC 43 too long - Copy 2 — recipe (hold 29.7%)
+     CTA:  Easter Radim 2 — ? (CVR 6.31%)
+     Duvod: Top hook (41.9%) + top body (hold 29.7%) + top CTA (CVR 6.31%) — nikdy netestovano spolu
+
+  3. Score: 0.782
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: SIJ park 2 Eater 1 — recipe (hold 31.3%)
+     CTA:  SIJ park 2 Eater 1 — ? (CVR 7.91%)
+     Duvod: Top hook (41.9%) + top body (hold 31.3%) + top CTA (CVR 7.91%) — nikdy netestovano spolu
+
+  4. Score: 0.775
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: UGC 43 too long - Copy 2 — recipe (hold 29.7%)
+     CTA:  SIJ park 2 Eater 1 — ? (CVR 7.91%)
+     Duvod: Top hook (41.9%) + top body (hold 29.7%) + top CTA (CVR 7.91%) — nikdy netestovano spolu
+
+  5. Score: 0.774
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: SIJ park 2 Eater 1 — recipe (hold 31.3%)
+     CTA:  Easter Radim 6 — ? (CVR 6.66%)
+     Duvod: Top hook (41.9%) + top body (hold 31.3%) + top CTA (CVR 6.66%) — nikdy netestovano spolu
+
+============================================================

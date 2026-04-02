@@ -1,0 +1,2791 @@
+======================================================================
+  FERMATO CREATIVE INTELLIGENCE REPORT v3
+  2026-04-02 12:17
+======================================================================
+
+## Souhrn
+  Aktivnich ads:     202 (video: 173, static: 29)
+  Celkovy spend:     1,159,617 CZK
+  Celkove nakupy:    3490
+  Celkova trzba:     2,870,187 CZK
+  Overall ROAS:      2.48  (7-day click atribuce)
+  Overall CVR:       2.77%  (purchases/clicks)
+  Video hook rate:   20.2%  (benchmark: >=25%)
+  Ad concentration:  22.6% spendu v top 5 ads
+
+  !! DATA RELIABILITY: ROAS je Meta 7-day click atribuce.
+    Skutecny inkrementalni dopad muze byt +/-30-70%.
+
+## Akce
+  KILL:    111
+  SCALE:   97
+  ITERATE: 303
+  WATCH:   15
+
+======================================================================
+  KILL — ZASTAVIT
+======================================================================
+
+  [120237229987920662] UGC 17 10% - Copy
+    Kampan: Scaling 2
+    Spend: 71447.8 CZK | ROAS: 1.61 | CPA: 476.3 CZK | CVR: 1.61%
+    Hook: 36.2% | Hold: 21.3%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 476.3 CZK vs target 250 CZK, spend 71447.8 CZK
+
+  [120237229987890662] UGC 51 - Copy 3
+    Kampan: Scaling 2
+    Spend: 44997.5 CZK | ROAS: 2.68 | CPA: 354.3 CZK | CVR: 3.28%
+    Hook: 21.0% | Hold: 23.3%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 354.3 CZK vs target 250 CZK, spend 44997.5 CZK
+
+  [120237954446540662] UGC 43 too long - Copy 2
+    Kampan: Scaling 2
+    Spend: 42871.9 CZK | ROAS: 1.68 | CPA: 428.7 CZK | CVR: 1.51%
+    Hook: 41.9% | Hold: 29.7%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 428.7 CZK vs target 250 CZK, spend 42871.9 CZK
+
+  [120233742514290662] varianty 16
+    Kampan: Traffic obecné
+    Spend: 41530.2 CZK | ROAS: 2.05 | CPA: 374.1 CZK | CVR: 1.27%
+    Hook: 0.0% | Hold: 15.4%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 374.1 CZK vs target 250 CZK, spend 41530.2 CZK
+
+  [120237229651120662] jednodušší SINGLE - Copy 2
+    Kampan: Scaling 2
+    Spend: 34382.3 CZK | ROAS: 2.56 | CPA: 354.5 CZK | CVR: 5.22%
+    Hook: 0.0% | Hold: 12.5%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 354.5 CZK vs target 250 CZK, spend 34382.3 CZK
+
+  [120237236399300662] UGC 61 - Copy 2
+    Kampan: Testing 2
+    Spend: 33365.4 CZK | ROAS: 1.58 | CPA: 402.0 CZK | CVR: 2.88%
+    Hook: 12.1% | Hold: 18.0%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 402.0 CZK vs target 250 CZK, spend 33365.4 CZK
+
+  [120239196011600662] Komplet 1
+    Kampan: Testing
+    Spend: 20554.9 CZK | ROAS: 2.02 | CPA: 428.2 CZK | CVR: 3.39%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 428.2 CZK vs target 250 CZK, spend 20554.9 CZK
+
+  [120239116527100662] milan leden
+    Kampan: Testing
+    Spend: 18906.2 CZK | ROAS: 1.9 | CPA: 497.5 CZK | CVR: 1.61%
+    Hook: 43.5% | Hold: 24.1%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 497.5 CZK vs target 250 CZK, spend 18906.2 CZK
+
+  [120239057129060662] Albert 1.1
+    Kampan: Testing
+    Spend: 16706.2 CZK | ROAS: 1.2 | CPA: 596.7 CZK | CVR: 0.65%
+    Hook: 47.2% | Hold: 22.7%
+    >> CPA 2x+ nad targetem: CPA 596.7 CZK vs target 250 CZK
+
+  [120235497622930662] Car 1 - Copy 2
+    Kampan: Scaling 2
+    Spend: 14532.1 CZK | ROAS: 2.37 | CPA: 382.4 CZK | CVR: 1.53%
+    Hook: 33.3% | Hold: 23.6%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 382.4 CZK vs target 250 CZK, spend 14532.1 CZK
+
+  [120239228542200662] Tona ad 1
+    Kampan: Traffic obecné
+    Spend: 14040.5 CZK | ROAS: 1.15 | CPA: 936.0 CZK | CVR: 0.19%
+    Hook: 45.4% | Hold: 36.4%
+    >> CPA 2x+ nad targetem: CPA 936.0 CZK vs target 250 CZK
+
+  [120239228542200662] Tona ad 1
+    Kampan: Traffic obecné
+    Spend: 14040.5 CZK | ROAS: 1.15 | CPA: 936.0 CZK | CVR: 0.19%
+    Hook: 45.4% | Hold: 36.4%
+    >> Clickbait kreativa — vysoky CTR, nulova konverze: CTR 5.69% ale CVR 0.19%
+
+  [120237319102540662] UGC Comp 2 - Copy
+    Kampan: Testing 2
+    Spend: 13433.2 CZK | ROAS: 1.68 | CPA: 433.3 CZK | CVR: 2.79%
+    Hook: 14.6% | Hold: 14.5%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 433.3 CZK vs target 250 CZK, spend 13433.2 CZK
+
+  [120238918570880662] UGC 60 zamiluje - Copy
+    Kampan: Testing 2
+    Spend: 12578.9 CZK | ROAS: 1.15 | CPA: 546.9 CZK | CVR: 1.79%
+    Hook: 31.8% | Hold: 23.3%
+    >> CPA 2x+ nad targetem: CPA 546.9 CZK vs target 250 CZK
+
+  [120237953976860662] Video fitko prosinec - Copy 2
+    Kampan: Scaling 2
+    Spend: 11980.9 CZK | ROAS: 1.18 | CPA: 599.0 CZK | CVR: 2.75%
+    Hook: 8.2% | Hold: 9.8%
+    >> CPA 2x+ nad targetem: CPA 599.0 CZK vs target 250 CZK
+
+  [120237229313250662] predplatne
+    Kampan: Testing 2
+    Spend: 11668.0 CZK | ROAS: 3.35 | CPA: 376.4 CZK | CVR: 4.84%
+    Hook: 0.0% | Hold: 12.5%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 376.4 CZK vs target 250 CZK, spend 11668.0 CZK
+
+  [120237229607110662] jednodušší SINGLE - Copy
+    Kampan: Testing
+    Spend: 10162.2 CZK | ROAS: 1.98 | CPA: 406.5 CZK | CVR: 3.88%
+    Hook: 0.0% | Hold: 25.0%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 406.5 CZK vs target 250 CZK, spend 10162.2 CZK
+
+  [120239064055370662] Oliváč 1
+    Kampan: Testing
+    Spend: 9913.9 CZK | ROAS: 1.08 | CPA: 619.6 CZK | CVR: 1.22%
+    Hook: 20.4% | Hold: 26.2%
+    >> CPA 2x+ nad targetem: CPA 619.6 CZK vs target 250 CZK
+
+  [120221078974430662] Vlada ja jsem
+    Kampan: UGC Campaign
+    Spend: 8809.8 CZK | ROAS: 2.2 | CPA: 463.7 CZK | CVR: 1.25%
+    Hook: 41.1% | Hold: 22.5%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 463.7 CZK vs target 250 CZK, spend 8809.8 CZK
+
+  [120239068900260662] Oliváč 3
+    Kampan: Testing
+    Spend: 8673.1 CZK | ROAS: 1.9 | CPA: 377.1 CZK | CVR: 1.23%
+    Hook: 19.5% | Hold: 24.9%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 377.1 CZK vs target 250 CZK, spend 8673.1 CZK
+
+  [120239124873980662] UGC 64
+    Kampan: Testing
+    Spend: 7226.2 CZK | ROAS: 2.06 | CPA: 481.7 CZK | CVR: 2.92%
+    Hook: 20.0% | Hold: 16.9%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 481.7 CZK vs target 250 CZK, spend 7226.2 CZK
+
+  [120237229607070662] Jídlo 13 - Copy
+    Kampan: Testing
+    Spend: 7057.6 CZK | ROAS: 1.88 | CPA: 470.5 CZK | CVR: 3.27%
+    Hook: 10.6% | Hold: 43.9%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 470.5 CZK vs target 250 CZK, spend 7057.6 CZK
+
+  [120239116527090662] Albert 1
+    Kampan: Testing
+    Spend: 6930.0 CZK | ROAS: 1.97 | CPA: 407.6 CZK | CVR: 0.78%
+    Hook: 37.0% | Hold: 27.3%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 407.6 CZK vs target 250 CZK, spend 6930.0 CZK
+
+  [120239062142810662] Test - UGC 63.1 short
+    Kampan: Testing
+    Spend: 6897.7 CZK | ROAS: 1.64 | CPA: 344.9 CZK | CVR: 1.77%
+    Hook: 47.5% | Hold: 22.8%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 344.9 CZK vs target 250 CZK, spend 6897.7 CZK
+
+  [120239343656150662] Papir
+    Kampan: Testing
+    Spend: 6629.3 CZK | ROAS: 2.14 | CPA: 414.3 CZK | CVR: 3.79%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 414.3 CZK vs target 250 CZK, spend 6629.3 CZK
+
+  [120239331651970662] Text based 1
+    Kampan: Testing
+    Spend: 6228.5 CZK | ROAS: 1.31 | CPA: 622.8 CZK | CVR: 4.24%
+    Hook: 8.3% | Hold: 25.1%
+    >> CPA 2x+ nad targetem: CPA 622.8 CZK vs target 250 CZK
+
+  [120239192440310662] Chut mogr
+    Kampan: Testing
+    Spend: 5467.9 CZK | ROAS: 1.75 | CPA: 420.6 CZK | CVR: 5.44%
+    Hook: 15.3% | Hold: 12.9%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 420.6 CZK vs target 250 CZK, spend 5467.9 CZK
+
+  [120239727087520662] SIJ park 3 Easter
+    Kampan: Easter Flash 26
+    Spend: 5324.4 CZK | ROAS: 0.62 | CPA: 760.6 CZK | CVR: 2.46%
+    Hook: 30.5% | Hold: 19.8%
+    >> CPA 2x+ nad targetem: CPA 760.6 CZK vs target 250 CZK
+
+  [120239727087520662] SIJ park 3 Easter
+    Kampan: Easter Flash 26
+    Spend: 5324.4 CZK | ROAS: 0.62 | CPA: 760.6 CZK | CVR: 2.46%
+    Hook: 30.5% | Hold: 19.8%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.62
+
+  [120239068939780662] Saláty nudné
+    Kampan: Testing
+    Spend: 4751.5 CZK | ROAS: 1.83 | CPA: 396.0 CZK | CVR: 1.98%
+    Hook: 49.1% | Hold: 21.8%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 396.0 CZK vs target 250 CZK, spend 4751.5 CZK
+
+  [120239414125400662] Slabikář 1
+    Kampan: Testing
+    Spend: 4439.5 CZK | ROAS: 1.24 | CPA: 739.9 CZK | CVR: 0.8%
+    Hook: 1.9% | Hold: 29.2%
+    >> CPA 2x+ nad targetem: CPA 739.9 CZK vs target 250 CZK
+
+  [120239328339390662] Boj 1
+    Kampan: Testing
+    Spend: 4336.7 CZK | ROAS: 1.73 | CPA: 433.7 CZK | CVR: 6.71%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 433.7 CZK vs target 250 CZK, spend 4336.7 CZK
+
+  [120239304880860662] Image IOS
+    Kampan: Testing
+    Spend: 4186.3 CZK | ROAS: 0.95 | CPA: 837.3 CZK | CVR: 4.0%
+    Hook: 0.0% | Hold: 25.0%
+    >> CPA 2x+ nad targetem: CPA 837.3 CZK vs target 250 CZK
+
+  [120239304880860662] Image IOS
+    Kampan: Testing
+    Spend: 4186.3 CZK | ROAS: 0.95 | CPA: 837.3 CZK | CVR: 4.0%
+    Hook: 0.0% | Hold: 25.0%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.95
+
+  [120239652697310662] Easter Radim 1
+    Kampan: Easter Flash 26
+    Spend: 3958.8 CZK | ROAS: 1.22 | CPA: 494.8 CZK | CVR: 4.49%
+    Hook: 22.0% | Hold: 27.6%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 494.8 CZK vs target 250 CZK, spend 3958.8 CZK
+
+  [120237484045840662] shon
+    Kampan: Testing 2
+    Spend: 3929.8 CZK | ROAS: 1.78 | CPA: 357.2 CZK | CVR: 2.89%
+    Hook: 0.6% | Hold: 33.9%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 357.2 CZK vs target 250 CZK, spend 3929.8 CZK
+
+  [120239331857550662] Us vs. them oliv 1
+    Kampan: Testing
+    Spend: 3880.9 CZK | ROAS: 0.72 | CPA: 646.8 CZK | CVR: 1.09%
+    Hook: 1.1% | Hold: 45.9%
+    >> CPA 2x+ nad targetem: CPA 646.8 CZK vs target 250 CZK
+
+  [120239331857550662] Us vs. them oliv 1
+    Kampan: Testing
+    Spend: 3880.9 CZK | ROAS: 0.72 | CPA: 646.8 CZK | CVR: 1.09%
+    Hook: 1.1% | Hold: 45.9%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.72
+
+  [120237954446480662] UGC 57 - Copy
+    Kampan: Scaling 2
+    Spend: 3756.6 CZK | ROAS: 2.52 | CPA: 341.5 CZK | CVR: 2.24%
+    Hook: 13.2% | Hold: 18.2%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 341.5 CZK vs target 250 CZK, spend 3756.6 CZK
+
+  [120235503273990662] UGC 55
+    Kampan: UGC Campaign
+    Spend: 3716.1 CZK | ROAS: 2.72 | CPA: 371.6 CZK | CVR: 2.2%
+    Hook: 28.3% | Hold: 25.8%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 371.6 CZK vs target 250 CZK, spend 3716.1 CZK
+
+  [120239331537400662] Single Oliv
+    Kampan: Testing
+    Spend: 3686.5 CZK | ROAS: 0.92 | CPA: 921.6 CZK | CVR: 1.4%
+    Hook: 0.0% | Hold: None%
+    >> CPA 2x+ nad targetem: CPA 921.6 CZK vs target 250 CZK
+
+  [120239331537400662] Single Oliv
+    Kampan: Testing
+    Spend: 3686.5 CZK | ROAS: 0.92 | CPA: 921.6 CZK | CVR: 1.4%
+    Hook: 0.0% | Hold: None%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.92
+
+  [120239231012180662] Have you seen this video
+    Kampan: Testing
+    Spend: 3399.6 CZK | ROAS: 3.03 | CPA: 485.7 CZK | CVR: 2.24%
+    Hook: 45.0% | Hold: 10.2%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 485.7 CZK vs target 250 CZK, spend 3399.6 CZK
+
+  [120235497622920662] Jídlo 13 - Copy 2
+    Kampan: Scaling 2
+    Spend: 3323.9 CZK | ROAS: 1.11 | CPA: 554.0 CZK | CVR: 3.37%
+    Hook: 9.2% | Hold: 41.8%
+    >> CPA 2x+ nad targetem: CPA 554.0 CZK vs target 250 CZK
+
+  [120239312075170662] Vyhrála 1
+    Kampan: Testing
+    Spend: 3282.6 CZK | ROAS: 3.42 | CPA: 468.9 CZK | CVR: 2.47%
+    Hook: 0.7% | Hold: 34.7%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 468.9 CZK vs target 250 CZK, spend 3282.6 CZK
+
+  [120239279060710662] UGC 60 malá
+    Kampan: UGC Campaign
+    Spend: 3199.8 CZK | ROAS: 0.55 | CPA: 1599.9 CZK | CVR: 0.95%
+    Hook: 16.2% | Hold: 24.4%
+    >> CPA 2x+ nad targetem: CPA 1599.9 CZK vs target 250 CZK
+
+  [120239279060710662] UGC 60 malá
+    Kampan: UGC Campaign
+    Spend: 3199.8 CZK | ROAS: 0.55 | CPA: 1599.9 CZK | CVR: 0.95%
+    Hook: 16.2% | Hold: 24.4%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.55
+
+  [120238918570930662] UGC 54 - Copy
+    Kampan: Testing 2
+    Spend: 3164.2 CZK | ROAS: 0.95 | CPA: 1054.7 CZK | CVR: 1.46%
+    Hook: 11.7% | Hold: 9.7%
+    >> CPA 2x+ nad targetem: CPA 1054.7 CZK vs target 250 CZK
+
+  [120238918570930662] UGC 54 - Copy
+    Kampan: Testing 2
+    Spend: 3164.2 CZK | ROAS: 0.95 | CPA: 1054.7 CZK | CVR: 1.46%
+    Hook: 11.7% | Hold: 9.7%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.95
+
+  [120239279091730662] UGC 18 S
+    Kampan: UGC Campaign
+    Spend: 3109.1 CZK | ROAS: 0.63 | CPA: 1036.4 CZK | CVR: 1.23%
+    Hook: 29.9% | Hold: 25.4%
+    >> CPA 2x+ nad targetem: CPA 1036.4 CZK vs target 250 CZK
+
+  [120239279091730662] UGC 18 S
+    Kampan: UGC Campaign
+    Spend: 3109.1 CZK | ROAS: 0.63 | CPA: 1036.4 CZK | CVR: 1.23%
+    Hook: 29.9% | Hold: 25.4%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.63
+
+  [120239312075210662] Idnes single
+    Kampan: Testing
+    Spend: 3037.3 CZK | ROAS: 0.97 | CPA: 1518.6 CZK | CVR: 0.51%
+    Hook: 0.0% | Hold: None%
+    >> CPA 2x+ nad targetem: CPA 1518.6 CZK vs target 250 CZK
+
+  [120239312075210662] Idnes single
+    Kampan: Testing
+    Spend: 3037.3 CZK | ROAS: 0.97 | CPA: 1518.6 CZK | CVR: 0.51%
+    Hook: 0.0% | Hold: None%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.97
+
+  [120239649833830662] kolaz 1
+    Kampan: Easter Flash 26
+    Spend: 2940.3 CZK | ROAS: 1.87 | CPA: 490.1 CZK | CVR: 3.95%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 490.1 CZK vs target 250 CZK, spend 2940.3 CZK
+
+  [120239810656700662] Partnership 2
+    Kampan: Testing
+    Spend: 2906.5 CZK | ROAS: 2.36 | CPA: 415.2 CZK | CVR: 0.41%
+    Hook: 34.3% | Hold: 42.3%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 415.2 CZK vs target 250 CZK, spend 2906.5 CZK
+
+  [120239810656700662] Partnership 2
+    Kampan: Testing
+    Spend: 2906.5 CZK | ROAS: 2.36 | CPA: 415.2 CZK | CVR: 0.41%
+    Hook: 34.3% | Hold: 42.3%
+    >> Clickbait kreativa — vysoky CTR, nulova konverze: CTR 7.3% ale CVR 0.41%
+
+  [120239279091500662] UGC 17 10%
+    Kampan: UGC Campaign
+    Spend: 2794.2 CZK | ROAS: 1.58 | CPA: 558.8 CZK | CVR: 1.26%
+    Hook: 40.0% | Hold: 24.5%
+    >> CPA 2x+ nad targetem: CPA 558.8 CZK vs target 250 CZK
+
+  [120239788486260662] UGC 64
+    Kampan: Testing
+    Spend: 2730.7 CZK | ROAS: 2.39 | CPA: 390.1 CZK | CVR: 3.93%
+    Hook: 14.3% | Hold: 15.0%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 390.1 CZK vs target 250 CZK, spend 2730.7 CZK
+
+  [120239068878980662] Or_ugc_1.1.
+    Kampan: Testing
+    Spend: 2619.3 CZK | ROAS: 2.68 | CPA: 654.8 CZK | CVR: 2.04%
+    Hook: 25.5% | Hold: 11.8%
+    >> CPA 2x+ nad targetem: CPA 654.8 CZK vs target 250 CZK
+
+  [120221074806910662] dana bab 1 - Copy
+    Kampan: UGC Campaign
+    Spend: 2590.1 CZK | ROAS: 0.86 | CPA: 863.4 CZK | CVR: 0.84%
+    Hook: 44.2% | Hold: 28.7%
+    >> CPA 2x+ nad targetem: CPA 863.4 CZK vs target 250 CZK
+
+  [120221074806910662] dana bab 1 - Copy
+    Kampan: UGC Campaign
+    Spend: 2590.1 CZK | ROAS: 0.86 | CPA: 863.4 CZK | CVR: 0.84%
+    Hook: 44.2% | Hold: 28.7%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.86
+
+  [120239762783370662] Slabikář 1
+    Kampan: Testing
+    Spend: 2514.5 CZK | ROAS: 2.92 | CPA: 359.2 CZK | CVR: 4.35%
+    Hook: 29.1% | Hold: 23.8%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 359.2 CZK vs target 250 CZK, spend 2514.5 CZK
+
+  [120239714660530662] Easter Radim 2 LC
+    Kampan: Easter Flash 26
+    Spend: 2513.4 CZK | ROAS: 2.35 | CPA: 359.1 CZK | CVR: 6.25%
+    Hook: 16.6% | Hold: 15.3%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 359.1 CZK vs target 250 CZK, spend 2513.4 CZK
+
+  [120239157982190662] Oliváč 3long
+    Kampan: Testing
+    Spend: 2357.1 CZK | ROAS: 2.82 | CPA: 1178.5 CZK | CVR: 0.74%
+    Hook: 17.4% | Hold: 31.9%
+    >> CPA 2x+ nad targetem: CPA 1178.5 CZK vs target 250 CZK
+
+  [120239331857570662] Rovnice 1
+    Kampan: Testing
+    Spend: 2225.2 CZK | ROAS: None | CPA: None CZK
+    Hook: 0.4% | Hold: 40.0%
+    >> Zadne nakupy pri vysokem spendu: Spend 2225.2 CZK, 0 purchases
+
+  [120239651457970662] Ivča 3
+    Kampan: Easter Flash 26
+    Spend: 2192.1 CZK | ROAS: 1.24 | CPA: 548.0 CZK | CVR: 3.2%
+    Hook: 1.6% | Hold: 33.1%
+    >> CPA 2x+ nad targetem: CPA 548.0 CZK vs target 250 CZK
+
+  [120237953976930662] Jáma 3 - Copy 2
+    Kampan: Scaling 2
+    Spend: 2133.7 CZK | ROAS: 1.64 | CPA: 533.4 CZK | CVR: 2.74%
+    Hook: 13.8% | Hold: 15.8%
+    >> CPA 2x+ nad targetem: CPA 533.4 CZK vs target 250 CZK
+
+  [120239762545070662] Papir
+    Kampan: Testing
+    Spend: 1989.2 CZK | ROAS: 1.48 | CPA: 663.1 CZK | CVR: 1.14%
+    >> CPA 2x+ nad targetem: CPA 663.1 CZK vs target 250 CZK
+
+  [120239279091490662] UGC 51 - Copy 2
+    Kampan: UGC Campaign
+    Spend: 1930.0 CZK | ROAS: 1.72 | CPA: 482.5 CZK | CVR: 2.2%
+    Hook: 26.8% | Hold: 26.7%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 482.5 CZK vs target 250 CZK, spend 1930.0 CZK
+
+  [120237954446520662] UGC 45 - Copy 2
+    Kampan: Scaling 2
+    Spend: 1852.2 CZK | ROAS: 1.01 | CPA: 926.1 CZK | CVR: 0.49%
+    Hook: 33.6% | Hold: 36.4%
+    >> CPA 2x+ nad targetem: CPA 926.1 CZK vs target 250 CZK
+
+  [120237954446520662] UGC 45 - Copy 2
+    Kampan: Scaling 2
+    Spend: 1852.2 CZK | ROAS: 1.01 | CPA: 926.1 CZK | CVR: 0.49%
+    Hook: 33.6% | Hold: 36.4%
+    >> Clickbait kreativa — vysoky CTR, nulova konverze: CTR 2.63% ale CVR 0.49%
+
+  [120237928207030662] Car 4
+    Kampan: Testing
+    Spend: 1653.8 CZK | ROAS: 1.61 | CPA: 413.4 CZK | CVR: 1.26%
+    Hook: 23.9% | Hold: 23.4%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 413.4 CZK vs target 250 CZK, spend 1653.8 CZK
+
+  [120239780064250662] Have you seen this video
+    Kampan: Testing
+    Spend: 1653.5 CZK | ROAS: 1.59 | CPA: 413.4 CZK | CVR: 3.77%
+    Hook: 17.4% | Hold: 6.2%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 413.4 CZK vs target 250 CZK, spend 1653.5 CZK
+
+  [120239810807470662] Partnership 3
+    Kampan: Testing
+    Spend: 1633.0 CZK | ROAS: 1.85 | CPA: 408.2 CZK | CVR: 0.34%
+    Hook: 40.9% | Hold: 35.8%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 408.2 CZK vs target 250 CZK, spend 1633.0 CZK
+
+  [120239810807470662] Partnership 3
+    Kampan: Testing
+    Spend: 1633.0 CZK | ROAS: 1.85 | CPA: 408.2 CZK | CVR: 0.34%
+    Hook: 40.9% | Hold: 35.8%
+    >> Clickbait kreativa — vysoky CTR, nulova konverze: CTR 8.42% ale CVR 0.34%
+
+  [120239777987090662] P_UGC_Marcela_0326-2
+    Kampan: Testing
+    Spend: 1601.0 CZK | ROAS: 0.84 | CPA: 800.5 CZK | CVR: 2.13%
+    Hook: 14.2% | Hold: 20.6%
+    >> CPA 2x+ nad targetem: CPA 800.5 CZK vs target 250 CZK
+
+  [120239777987090662] P_UGC_Marcela_0326-2
+    Kampan: Testing
+    Spend: 1601.0 CZK | ROAS: 0.84 | CPA: 800.5 CZK | CVR: 2.13%
+    Hook: 14.2% | Hold: 20.6%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.84
+
+  [120216525993060662] 10% stats
+    Kampan: Testing
+    Spend: 1585.0 CZK | ROAS: 1.38 | CPA: 792.5 CZK | CVR: 1.83%
+    >> CPA 2x+ nad targetem: CPA 792.5 CZK vs target 250 CZK
+
+  [120239231690920662] Oliváč 1
+    Kampan: Testing
+    Spend: 1531.1 CZK | ROAS: 1.44 | CPA: 510.4 CZK | CVR: 1.02%
+    Hook: 17.6% | Hold: 24.9%
+    >> CPA 2x+ nad targetem: CPA 510.4 CZK vs target 250 CZK
+
+  [120235503281280662] UGC 57
+    Kampan: UGC Campaign
+    Spend: 1490.7 CZK | ROAS: 1.55 | CPA: 496.9 CZK | CVR: 1.55%
+    Hook: 15.9% | Hold: 27.2%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 496.9 CZK vs target 250 CZK, spend 1490.7 CZK
+
+  [120239228113820662] Bold text 1 traffic
+    Kampan: Traffic obecné
+    Spend: 1426.3 CZK | ROAS: None | CPA: None CZK
+    Hook: 24.0% | Hold: 15.1%
+    >> Zadne nakupy pri vysokem spendu: Spend 1426.3 CZK, 0 purchases
+
+  [120234558065780662] UGC 60 zamiluje
+    Kampan: UGC Campaign
+    Spend: 1323.1 CZK | ROAS: 0.57 | CPA: 1323.1 CZK | CVR: 1.3%
+    Hook: 31.1% | Hold: 25.4%
+    >> CPA 2x+ nad targetem: CPA 1323.1 CZK vs target 250 CZK
+
+  [120234558065780662] UGC 60 zamiluje
+    Kampan: UGC Campaign
+    Spend: 1323.1 CZK | ROAS: 0.57 | CPA: 1323.1 CZK | CVR: 1.3%
+    Hook: 31.1% | Hold: 25.4%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.57
+
+  [120237954446500662] UGC 55 - Copy
+    Kampan: Scaling 2
+    Spend: 1314.5 CZK | ROAS: 1.26 | CPA: 1314.5 CZK | CVR: 0.68%
+    Hook: 35.4% | Hold: 26.9%
+    >> CPA 2x+ nad targetem: CPA 1314.5 CZK vs target 250 CZK
+
+  [120239722686620662] Ivča 2 - Copy
+    Kampan: Easter Flash 26
+    Spend: 1297.2 CZK | ROAS: 1.55 | CPA: 432.4 CZK | CVR: 4.35%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 432.4 CZK vs target 250 CZK, spend 1297.2 CZK
+
+  [120239651458050662] rest
+    Kampan: Easter Flash 26
+    Spend: 1290.0 CZK | ROAS: 0.27 | CPA: 1290.0 CZK | CVR: 1.33%
+    Hook: 1.0% | Hold: 40.8%
+    >> CPA 2x+ nad targetem: CPA 1290.0 CZK vs target 250 CZK
+
+  [120239651458050662] rest
+    Kampan: Easter Flash 26
+    Spend: 1290.0 CZK | ROAS: 0.27 | CPA: 1290.0 CZK | CVR: 1.33%
+    Hook: 1.0% | Hold: 40.8%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.27
+
+  [120239430279060662] Oliváč 2
+    Kampan: Testing
+    Spend: 1233.0 CZK | ROAS: None | CPA: None CZK
+    Hook: 17.3% | Hold: 20.0%
+    >> Zadne nakupy pri vysokem spendu: Spend 1233.0 CZK, 0 purchases
+
+  [120239192440270662] Google search
+    Kampan: Testing
+    Spend: 1209.3 CZK | ROAS: 1.7 | CPA: 403.1 CZK | CVR: 4.23%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 403.1 CZK vs target 250 CZK, spend 1209.3 CZK
+
+  [120239430279010662] Google search oliv
+    Kampan: Testing
+    Spend: 1203.1 CZK | ROAS: 0.23 | CPA: 1203.1 CZK | CVR: 0.75%
+    Hook: 15.6% | Hold: 20.7%
+    >> CPA 2x+ nad targetem: CPA 1203.1 CZK vs target 250 CZK
+
+  [120239430279010662] Google search oliv
+    Kampan: Testing
+    Spend: 1203.1 CZK | ROAS: 0.23 | CPA: 1203.1 CZK | CVR: 0.75%
+    Hook: 15.6% | Hold: 20.7%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.23
+
+  [120239279091470662] UGC 43 too long - Copy
+    Kampan: UGC Campaign
+    Spend: 1198.4 CZK | ROAS: 1.79 | CPA: 399.5 CZK | CVR: 1.32%
+    Hook: 41.7% | Hold: 31.0%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 399.5 CZK vs target 250 CZK, spend 1198.4 CZK
+
+  [120239734490680662] Katalog Easter LC
+    Kampan: Easter Flash 26
+    Spend: 1190.8 CZK | ROAS: 0.7 | CPA: 1190.8 CZK | CVR: 2.0%
+    Hook: 3.4% | Hold: 33.6%
+    >> CPA 2x+ nad targetem: CPA 1190.8 CZK vs target 250 CZK
+
+  [120239734490680662] Katalog Easter LC
+    Kampan: Easter Flash 26
+    Spend: 1190.8 CZK | ROAS: 0.7 | CPA: 1190.8 CZK | CVR: 2.0%
+    Hook: 3.4% | Hold: 33.6%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.7
+
+  [120238918570870662] UGC 9 - Copy
+    Kampan: Testing 2
+    Spend: 1081.0 CZK | ROAS: 0.39 | CPA: 1081.0 CZK | CVR: 0.77%
+    Hook: 32.8% | Hold: 20.7%
+    >> CPA 2x+ nad targetem: CPA 1081.0 CZK vs target 250 CZK
+
+  [120238918570870662] UGC 9 - Copy
+    Kampan: Testing 2
+    Spend: 1081.0 CZK | ROAS: 0.39 | CPA: 1081.0 CZK | CVR: 0.77%
+    Hook: 32.8% | Hold: 20.7%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.39
+
+  [120239192440320662] Duo 1
+    Kampan: Testing
+    Spend: 1069.0 CZK | ROAS: None | CPA: None CZK
+    Hook: 3.3% | Hold: 19.0%
+    >> Zadne nakupy pri vysokem spendu: Spend 1069.0 CZK, 0 purchases
+
+  [120239434509550662] Us vs. them oliv 1
+    Kampan: Testing
+    Spend: 1043.4 CZK | ROAS: 1.98 | CPA: 347.8 CZK | CVR: 1.25%
+    Hook: 0.1% | Hold: 54.5%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 347.8 CZK vs target 250 CZK, spend 1043.4 CZK
+
+  [120239279219290662] Vlada jídelníček - Copy
+    Kampan: UGC Campaign
+    Spend: 1041.3 CZK | ROAS: None | CPA: None CZK
+    Hook: 40.3% | Hold: 22.4%
+    >> Zadne nakupy pri vysokem spendu: Spend 1041.3 CZK, 0 purchases
+
+  [120239651457940662] ceny
+    Kampan: Easter Flash 26
+    Spend: 1020.0 CZK | ROAS: 0.86 | CPA: 1020.0 CZK | CVR: 1.27%
+    >> CPA 2x+ nad targetem: CPA 1020.0 CZK vs target 250 CZK
+
+  [120239651457940662] ceny
+    Kampan: Easter Flash 26
+    Spend: 1020.0 CZK | ROAS: 0.86 | CPA: 1020.0 CZK | CVR: 1.27%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.86
+
+  [120239713720820662] Easter Radim 5 LC
+    Kampan: Easter Flash 26
+    Spend: 838.6 CZK | ROAS: 0.99 | CPA: 838.6 CZK | CVR: 2.94%
+    Hook: 39.1% | Hold: 8.8%
+    >> CPA 2x+ nad targetem: CPA 838.6 CZK vs target 250 CZK
+
+  [120239713720820662] Easter Radim 5 LC
+    Kampan: Easter Flash 26
+    Spend: 838.6 CZK | ROAS: 0.99 | CPA: 838.6 CZK | CVR: 2.94%
+    Hook: 39.1% | Hold: 8.8%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.99
+
+  [120239649833810662] stul 1
+    Kampan: Easter Flash 26
+    Spend: 739.5 CZK | ROAS: 1.12 | CPA: 739.5 CZK | CVR: 2.78%
+    >> CPA 2x+ nad targetem: CPA 739.5 CZK vs target 250 CZK
+
+  [120233742445200662] víc 15
+    Kampan: Traffic obecné
+    Spend: 727.6 CZK | ROAS: 0.27 | CPA: 727.6 CZK | CVR: 0.58%
+    >> CPA 2x+ nad targetem: CPA 727.6 CZK vs target 250 CZK
+
+  [120233742445200662] víc 15
+    Kampan: Traffic obecné
+    Spend: 727.6 CZK | ROAS: 0.27 | CPA: 727.6 CZK | CVR: 0.58%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.27
+
+  [120239312075150662] Podnikatel 1
+    Kampan: Testing
+    Spend: 724.7 CZK | ROAS: 1.04 | CPA: 724.7 CZK | CVR: 2.27%
+    Hook: 12.4% | Hold: 36.3%
+    >> CPA 2x+ nad targetem: CPA 724.7 CZK vs target 250 CZK
+
+  [120239762335770662] Text based 1
+    Kampan: Testing
+    Spend: 627.5 CZK | ROAS: 1.07 | CPA: 627.5 CZK | CVR: 3.03%
+    Hook: 22.4% | Hold: 28.7%
+    >> CPA 2x+ nad targetem: CPA 627.5 CZK vs target 250 CZK
+
+  [120239873619610662] P_UGC_Marcela_0326-2Richie
+    Kampan: Testing
+    Spend: 564.2 CZK | ROAS: 1.34 | CPA: 564.2 CZK | CVR: 2.44%
+    Hook: 16.4% | Hold: 25.5%
+    >> CPA 2x+ nad targetem: CPA 564.2 CZK vs target 250 CZK
+
+  [120237953976900662] Jim chyba - Copy 2
+    Kampan: Scaling 2
+    Spend: 449.9 CZK | ROAS: 3.02 | CPA: 449.9 CZK | CVR: 2.5%
+    Hook: 6.9% | Hold: 19.7%
+    >> CPA 30%+ nad targetem pri vyssim spendu: CPA 449.9 CZK vs target 250 CZK, spend 449.9 CZK
+
+  [120237484045930662] old 2
+    Kampan: Testing 2
+    Spend: 211.3 CZK | ROAS: 0.6 | CPA: 211.3 CZK | CVR: 4.76%
+    Hook: 0.3% | Hold: 16.7%
+    >> ROAS pod 1.0 — ztratovy: ROAS 0.6
+
+======================================================================
+  SCALE — SKALOVAT
+======================================================================
+
+  [120239734480260662] P_UGC_Marcela_0326-4
+    Kampan: Testing
+    Spend: 522.3 CZK | ROAS: 6.67 | CPA: 104.5 CZK | CVR: 22.73%
+    Hook: 11.6% | Hold: 20.3%
+    >> CPA 30%+ pod targetem s dostatkem konverzi: CPA 104.5 CZK, 5 nakupu
+
+  [120239779318890662] LC 4
+    Kampan: Easter Flash 26
+    Spend: 7688.2 CZK | ROAS: 5.9 | CPA: 128.1 CZK | CVR: 11.7%
+    Hook: 0.1% | Hold: 20.7%
+    >> ROAS 20%+ nad targetem: ROAS 5.9 vs target 2.5, 60 nakupu
+
+  [120239779318890662] LC 4
+    Kampan: Easter Flash 26
+    Spend: 7688.2 CZK | ROAS: 5.9 | CPA: 128.1 CZK | CVR: 11.7%
+    Hook: 0.1% | Hold: 20.7%
+    >> CPA 30%+ pod targetem s dostatkem konverzi: CPA 128.1 CZK, 60 nakupu
+
+  [120239779318890662] LC 4
+    Kampan: Easter Flash 26
+    Spend: 7688.2 CZK | ROAS: 5.9 | CPA: 128.1 CZK | CVR: 11.7%
+    Hook: 0.1% | Hold: 20.7%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 11.7% (benchmark >2%), 60 nakupu
+
+  [120239779318860662] LC 2
+    Kampan: Easter Flash 26
+    Spend: 6052.1 CZK | ROAS: 4.91 | CPA: 163.6 CZK | CVR: 10.0%
+    Hook: 0.1% | Hold: 5.6%
+    >> ROAS 20%+ nad targetem: ROAS 4.91 vs target 2.5, 37 nakupu
+
+  [120239779318860662] LC 2
+    Kampan: Easter Flash 26
+    Spend: 6052.1 CZK | ROAS: 4.91 | CPA: 163.6 CZK | CVR: 10.0%
+    Hook: 0.1% | Hold: 5.6%
+    >> CPA 30%+ pod targetem s dostatkem konverzi: CPA 163.6 CZK, 37 nakupu
+
+  [120239779318860662] LC 2
+    Kampan: Easter Flash 26
+    Spend: 6052.1 CZK | ROAS: 4.91 | CPA: 163.6 CZK | CVR: 10.0%
+    Hook: 0.1% | Hold: 5.6%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 10.0% (benchmark >2%), 37 nakupu
+
+  [120239068939800662] Oliváč 2
+    Kampan: Testing
+    Spend: 4093.0 CZK | ROAS: 4.51 | CPA: 240.8 CZK | CVR: 2.47%
+    Hook: 17.6% | Hold: 23.1%
+    >> ROAS 20%+ nad targetem: ROAS 4.51 vs target 2.5, 17 nakupu
+
+  [120239646418410662] simple
+    Kampan: Easter Flash 26
+    Spend: 46911.9 CZK | ROAS: 4.37 | CPA: 189.9 CZK | CVR: 9.37%
+    Hook: 0.0% | Hold: 16.7%
+    >> ROAS 20%+ nad targetem: ROAS 4.37 vs target 2.5, 247 nakupu
+
+  [120239646418410662] simple
+    Kampan: Easter Flash 26
+    Spend: 46911.9 CZK | ROAS: 4.37 | CPA: 189.9 CZK | CVR: 9.37%
+    Hook: 0.0% | Hold: 16.7%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 9.37% (benchmark >2%), 247 nakupu
+
+  [120239652697270662] Easter Radim 3
+    Kampan: Easter Flash 26
+    Spend: 8685.9 CZK | ROAS: 4.36 | CPA: 197.4 CZK | CVR: 9.13%
+    Hook: 12.9% | Hold: 19.5%
+    >> ROAS 20%+ nad targetem: ROAS 4.36 vs target 2.5, 44 nakupu
+
+  [120239652697270662] Easter Radim 3
+    Kampan: Easter Flash 26
+    Spend: 8685.9 CZK | ROAS: 4.36 | CPA: 197.4 CZK | CVR: 9.13%
+    Hook: 12.9% | Hold: 19.5%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 9.13% (benchmark >2%), 44 nakupu
+
+  [120239722474160662] Ivča 1 - Copy
+    Kampan: Easter Flash 26
+    Spend: 1629.3 CZK | ROAS: 3.92 | CPA: 232.8 CZK | CVR: 10.14%
+    >> ROAS 20%+ nad targetem: ROAS 3.92 vs target 2.5, 7 nakupu
+
+  [120239722474160662] Ivča 1 - Copy
+    Kampan: Easter Flash 26
+    Spend: 1629.3 CZK | ROAS: 3.92 | CPA: 232.8 CZK | CVR: 10.14%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 10.14% (benchmark >2%), 7 nakupu
+
+  [120239722474160662] Ivča 1 - Copy
+    Kampan: Easter Flash 26
+    Spend: 1629.3 CZK | ROAS: 3.92 | CPA: 232.8 CZK | CVR: 10.14%
+    >> Vysoka CVR — banner ktery konvertuje: CVR 10.14%, ROAS 3.92
+
+  [120238042373150662] podnikatel roku single ver.1
+    Kampan: Testing
+    Spend: 8465.0 CZK | ROAS: 3.91 | CPA: 273.1 CZK | CVR: 1.83%
+    Hook: 0.0% | Hold: None%
+    >> ROAS 20%+ nad targetem: ROAS 3.91 vs target 2.5, 31 nakupu
+
+  [120239779318870662] LC 3
+    Kampan: Easter Flash 26
+    Spend: 1732.4 CZK | ROAS: 3.79 | CPA: 192.5 CZK | CVR: 7.32%
+    Hook: 0.0% | Hold: None%
+    >> ROAS 20%+ nad targetem: ROAS 3.79 vs target 2.5, 9 nakupu
+
+  [120239779318870662] LC 3
+    Kampan: Easter Flash 26
+    Spend: 1732.4 CZK | ROAS: 3.79 | CPA: 192.5 CZK | CVR: 7.32%
+    Hook: 0.0% | Hold: None%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 7.32% (benchmark >2%), 9 nakupu
+
+  [120239713339040662] Partnership 1
+    Kampan: Testing
+    Spend: 15632.8 CZK | ROAS: 3.68 | CPA: 265.0 CZK | CVR: 0.93%
+    Hook: 40.6% | Hold: 38.7%
+    >> ROAS 20%+ nad targetem: ROAS 3.68 vs target 2.5, 59 nakupu
+
+  [120239713339040662] Partnership 1
+    Kampan: Testing
+    Spend: 15632.8 CZK | ROAS: 3.68 | CPA: 265.0 CZK | CVR: 0.93%
+    Hook: 40.6% | Hold: 38.7%
+    >> Vynikajici hook rate: Hook 40.6% (elite >35%)
+
+  [120239779318850662] LC 1
+    Kampan: Easter Flash 26
+    Spend: 6729.1 CZK | ROAS: 3.63 | CPA: 203.9 CZK | CVR: 9.19%
+    Hook: 0.1% | Hold: None%
+    >> ROAS 20%+ nad targetem: ROAS 3.63 vs target 2.5, 33 nakupu
+
+  [120239779318850662] LC 1
+    Kampan: Easter Flash 26
+    Spend: 6729.1 CZK | ROAS: 3.63 | CPA: 203.9 CZK | CVR: 9.19%
+    Hook: 0.1% | Hold: None%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 9.19% (benchmark >2%), 33 nakupu
+
+  [120237229313300662] kolaz posunute - Copy
+    Kampan: Testing 2
+    Spend: 12606.4 CZK | ROAS: 3.6 | CPA: 307.5 CZK | CVR: 4.69%
+    Hook: 4.8% | Hold: 44.7%
+    >> ROAS 20%+ nad targetem: ROAS 3.6 vs target 2.5, 41 nakupu
+
+  [120237229313300662] kolaz posunute - Copy
+    Kampan: Testing 2
+    Spend: 12606.4 CZK | ROAS: 3.6 | CPA: 307.5 CZK | CVR: 4.69%
+    Hook: 4.8% | Hold: 44.7%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.69% (benchmark >2%), 41 nakupu
+
+  [120239115925140662] Chut 1
+    Kampan: Testing
+    Spend: 6773.5 CZK | ROAS: 3.45 | CPA: 294.5 CZK | CVR: 4.04%
+    Hook: 0.5% | Hold: 28.4%
+    >> ROAS 20%+ nad targetem: ROAS 3.45 vs target 2.5, 23 nakupu
+
+  [120239115925140662] Chut 1
+    Kampan: Testing
+    Spend: 6773.5 CZK | ROAS: 3.45 | CPA: 294.5 CZK | CVR: 4.04%
+    Hook: 0.5% | Hold: 28.4%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.04% (benchmark >2%), 23 nakupu
+
+  [120239654363900662] SIJ park 2 Eater 1
+    Kampan: Easter Flash 26
+    Spend: 26310.2 CZK | ROAS: 3.43 | CPA: 215.7 CZK | CVR: 7.91%
+    Hook: 24.3% | Hold: 31.3%
+    >> ROAS 20%+ nad targetem: ROAS 3.43 vs target 2.5, 122 nakupu
+
+  [120239654363900662] SIJ park 2 Eater 1
+    Kampan: Easter Flash 26
+    Spend: 26310.2 CZK | ROAS: 3.43 | CPA: 215.7 CZK | CVR: 7.91%
+    Hook: 24.3% | Hold: 31.3%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 7.91% (benchmark >2%), 122 nakupu
+
+  [120239312075170662] Vyhrála 1
+    Kampan: Testing
+    Spend: 3282.6 CZK | ROAS: 3.42 | CPA: 468.9 CZK | CVR: 2.47%
+    Hook: 0.7% | Hold: 34.7%
+    >> ROAS 20%+ nad targetem: ROAS 3.42 vs target 2.5, 7 nakupu
+
+  [120239652697200662] Easter Radim 6
+    Kampan: Easter Flash 26
+    Spend: 23965.3 CZK | ROAS: 3.4 | CPA: 242.1 CZK | CVR: 6.66%
+    Hook: 18.5% | Hold: 19.9%
+    >> ROAS 20%+ nad targetem: ROAS 3.4 vs target 2.5, 99 nakupu
+
+  [120239652697200662] Easter Radim 6
+    Kampan: Easter Flash 26
+    Spend: 23965.3 CZK | ROAS: 3.4 | CPA: 242.1 CZK | CVR: 6.66%
+    Hook: 18.5% | Hold: 19.9%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 6.66% (benchmark >2%), 99 nakupu
+
+  [120239651458070662] v parku 1
+    Kampan: Easter Flash 26
+    Spend: 36483.6 CZK | ROAS: 3.37 | CPA: 215.9 CZK | CVR: 7.52%
+    Hook: 0.0% | Hold: 50.0%
+    >> ROAS 20%+ nad targetem: ROAS 3.37 vs target 2.5, 169 nakupu
+
+  [120239651458070662] v parku 1
+    Kampan: Easter Flash 26
+    Spend: 36483.6 CZK | ROAS: 3.37 | CPA: 215.9 CZK | CVR: 7.52%
+    Hook: 0.0% | Hold: 50.0%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 7.52% (benchmark >2%), 169 nakupu
+
+  [120237229607040662] Hodinky koláž In Use - Copy
+    Kampan: Testing
+    Spend: 2949.9 CZK | ROAS: 3.37 | CPA: 226.9 CZK | CVR: 6.34%
+    Hook: 5.5% | Hold: 47.9%
+    >> ROAS 20%+ nad targetem: ROAS 3.37 vs target 2.5, 13 nakupu
+
+  [120237229607040662] Hodinky koláž In Use - Copy
+    Kampan: Testing
+    Spend: 2949.9 CZK | ROAS: 3.37 | CPA: 226.9 CZK | CVR: 6.34%
+    Hook: 5.5% | Hold: 47.9%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 6.34% (benchmark >2%), 13 nakupu
+
+  [120237229313250662] predplatne
+    Kampan: Testing 2
+    Spend: 11668.0 CZK | ROAS: 3.35 | CPA: 376.4 CZK | CVR: 4.84%
+    Hook: 0.0% | Hold: 12.5%
+    >> ROAS 20%+ nad targetem: ROAS 3.35 vs target 2.5, 31 nakupu
+
+  [120237229313250662] predplatne
+    Kampan: Testing 2
+    Spend: 11668.0 CZK | ROAS: 3.35 | CPA: 376.4 CZK | CVR: 4.84%
+    Hook: 0.0% | Hold: 12.5%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.84% (benchmark >2%), 31 nakupu
+
+  [120235497622940662] UGC 29.1 10% CTA short - Copy 3
+    Kampan: Scaling 2
+    Spend: 4547.6 CZK | ROAS: 3.31 | CPA: 227.4 CZK | CVR: 2.59%
+    Hook: 28.8% | Hold: 23.8%
+    >> ROAS 20%+ nad targetem: ROAS 3.31 vs target 2.5, 20 nakupu
+
+  [120239714697820662] v parku 2 LC
+    Kampan: Easter Flash 26
+    Spend: 6901.2 CZK | ROAS: 3.24 | CPA: 230.0 CZK | CVR: 8.62%
+    Hook: 0.1% | Hold: 5.3%
+    >> ROAS 20%+ nad targetem: ROAS 3.24 vs target 2.5, 30 nakupu
+
+  [120239714697820662] v parku 2 LC
+    Kampan: Easter Flash 26
+    Spend: 6901.2 CZK | ROAS: 3.24 | CPA: 230.0 CZK | CVR: 8.62%
+    Hook: 0.1% | Hold: 5.3%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 8.62% (benchmark >2%), 30 nakupu
+
+  [120237229651100662] SIJ do parku 1 S - Copy 2
+    Kampan: Scaling 2
+    Spend: 3397.4 CZK | ROAS: 3.21 | CPA: 261.3 CZK | CVR: 4.96%
+    Hook: 28.2% | Hold: 20.7%
+    >> ROAS 20%+ nad targetem: ROAS 3.21 vs target 2.5, 13 nakupu
+
+  [120237229651100662] SIJ do parku 1 S - Copy 2
+    Kampan: Scaling 2
+    Spend: 3397.4 CZK | ROAS: 3.21 | CPA: 261.3 CZK | CVR: 4.96%
+    Hook: 28.2% | Hold: 20.7%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.96% (benchmark >2%), 13 nakupu
+
+  [120239068939820662] Google search oliv
+    Kampan: Testing
+    Spend: 16620.6 CZK | ROAS: 3.19 | CPA: 272.5 CZK | CVR: 2.38%
+    Hook: 20.0% | Hold: 23.2%
+    >> ROAS 20%+ nad targetem: ROAS 3.19 vs target 2.5, 61 nakupu
+
+  [120239788174910662] Easter Radim 6 LC
+    Kampan: Easter Flash 26
+    Spend: 2114.6 CZK | ROAS: 3.15 | CPA: 264.3 CZK | CVR: 8.89%
+    Hook: 18.6% | Hold: 16.7%
+    >> ROAS 20%+ nad targetem: ROAS 3.15 vs target 2.5, 8 nakupu
+
+  [120239788174910662] Easter Radim 6 LC
+    Kampan: Easter Flash 26
+    Spend: 2114.6 CZK | ROAS: 3.15 | CPA: 264.3 CZK | CVR: 8.89%
+    Hook: 18.6% | Hold: 16.7%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 8.89% (benchmark >2%), 8 nakupu
+
+  [120239651458040662] Easter Radim 2
+    Kampan: Easter Flash 26
+    Spend: 41557.2 CZK | ROAS: 3.13 | CPA: 243.0 CZK | CVR: 6.31%
+    Hook: 21.3% | Hold: 16.2%
+    >> ROAS 20%+ nad targetem: ROAS 3.13 vs target 2.5, 171 nakupu
+
+  [120239651458040662] Easter Radim 2
+    Kampan: Easter Flash 26
+    Spend: 41557.2 CZK | ROAS: 3.13 | CPA: 243.0 CZK | CVR: 6.31%
+    Hook: 21.3% | Hold: 16.2%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 6.31% (benchmark >2%), 171 nakupu
+
+  [120239157982210662] USP olivac
+    Kampan: Testing
+    Spend: 9003.3 CZK | ROAS: 3.07 | CPA: 321.5 CZK | CVR: 2.93%
+    Hook: 0.0% | Hold: None%
+    >> ROAS 20%+ nad targetem: ROAS 3.07 vs target 2.5, 28 nakupu
+
+  [120239231012180662] Have you seen this video
+    Kampan: Testing
+    Spend: 3399.6 CZK | ROAS: 3.03 | CPA: 485.7 CZK | CVR: 2.24%
+    Hook: 45.0% | Hold: 10.2%
+    >> ROAS 20%+ nad targetem: ROAS 3.03 vs target 2.5, 7 nakupu
+
+  [120239231012180662] Have you seen this video
+    Kampan: Testing
+    Spend: 3399.6 CZK | ROAS: 3.03 | CPA: 485.7 CZK | CVR: 2.24%
+    Hook: 45.0% | Hold: 10.2%
+    >> Vynikajici hook rate: Hook 45.0% (elite >35%)
+
+  [120221504737670662] Jim chyba
+    Kampan: Testing
+    Spend: 47046.7 CZK | ROAS: 3.01 | CPA: 299.7 CZK | CVR: 4.89%
+    Hook: 7.6% | Hold: 23.7%
+    >> ROAS 20%+ nad targetem: ROAS 3.01 vs target 2.5, 157 nakupu
+
+  [120221504737670662] Jim chyba
+    Kampan: Testing
+    Spend: 47046.7 CZK | ROAS: 3.01 | CPA: 299.7 CZK | CVR: 4.89%
+    Hook: 7.6% | Hold: 23.7%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.89% (benchmark >2%), 157 nakupu
+
+  [120239762783370662] Slabikář 1
+    Kampan: Testing
+    Spend: 2514.5 CZK | ROAS: 2.92 | CPA: 359.2 CZK | CVR: 4.35%
+    Hook: 29.1% | Hold: 23.8%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.35% (benchmark >2%), 7 nakupu
+
+  [120234253774140662] test set
+    Kampan: Testing
+    Spend: 51153.1 CZK | ROAS: 2.87 | CPA: 292.3 CZK | CVR: 4.86%
+    Hook: 0.0% | Hold: 28.9%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.86% (benchmark >2%), 175 nakupu
+
+  [120237229313270662] tak dobře
+    Kampan: Testing 2
+    Spend: 34140.7 CZK | ROAS: 2.86 | CPA: 322.1 CZK | CVR: 3.8%
+    Hook: 0.0% | Hold: 20.0%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.8% (benchmark >2%), 106 nakupu
+
+  [120239713720750662] SIJ park 2 Eater 1 LC
+    Kampan: Easter Flash 26
+    Spend: 10589.3 CZK | ROAS: 2.84 | CPA: 264.7 CZK | CVR: 6.41%
+    Hook: 15.4% | Hold: 25.9%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 6.41% (benchmark >2%), 40 nakupu
+
+  [120237229607100662] Video fitko prosinec - Copy
+    Kampan: Testing
+    Spend: 3371.9 CZK | ROAS: 2.84 | CPA: 240.9 CZK | CVR: 6.39%
+    Hook: 0.9% | Hold: 27.2%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 6.39% (benchmark >2%), 14 nakupu
+
+  [120222279397730662] End víkend 1
+    Kampan: Testing
+    Spend: 1825.8 CZK | ROAS: 2.84 | CPA: 260.8 CZK | CVR: 4.02%
+    Hook: 27.0% | Hold: 39.4%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.02% (benchmark >2%), 7 nakupu
+
+  [120239764613570662] SIJ park 3 Easter LC
+    Kampan: Easter Flash 26
+    Spend: 2362.1 CZK | ROAS: 2.77 | CPA: 214.7 CZK | CVR: 8.8%
+    Hook: 27.0% | Hold: 21.3%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 8.8% (benchmark >2%), 11 nakupu
+
+  [120237229607080662] test set - Copy
+    Kampan: Testing
+    Spend: 6790.8 CZK | ROAS: 2.72 | CPA: 295.3 CZK | CVR: 4.81%
+    Hook: 0.0% | Hold: None%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.81% (benchmark >2%), 23 nakupu
+
+  [120237229987890662] UGC 51 - Copy 3
+    Kampan: Scaling 2
+    Spend: 44997.5 CZK | ROAS: 2.68 | CPA: 354.3 CZK | CVR: 3.28%
+    Hook: 21.0% | Hold: 23.3%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.28% (benchmark >2%), 127 nakupu
+
+  [120239115925150662] Krádež
+    Kampan: Testing
+    Spend: 8555.1 CZK | ROAS: 2.67 | CPA: 316.9 CZK | CVR: 4.53%
+    Hook: 10.7% | Hold: 20.4%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.53% (benchmark >2%), 27 nakupu
+
+  [120239780149000662] P_UGC_Marcela_0326-4
+    Kampan: Testing
+    Spend: 1831.1 CZK | ROAS: 2.58 | CPA: 305.2 CZK | CVR: 4.62%
+    Hook: 10.2% | Hold: 21.2%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.62% (benchmark >2%), 6 nakupu
+
+  [120237229651120662] jednodušší SINGLE - Copy 2
+    Kampan: Scaling 2
+    Spend: 34382.3 CZK | ROAS: 2.56 | CPA: 354.5 CZK | CVR: 5.22%
+    Hook: 0.0% | Hold: 12.5%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 5.22% (benchmark >2%), 97 nakupu
+
+  [120216525999900662] 10% Radim testovací set
+    Kampan: Testing
+    Spend: 14225.7 CZK | ROAS: 2.52 | CPA: 316.1 CZK | CVR: 5.66%
+    Hook: 9.8% | Hold: 50.1%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 5.66% (benchmark >2%), 45 nakupu
+
+  [120239714660550662] Ivča 3 LC
+    Kampan: Easter Flash 26
+    Spend: 4410.4 CZK | ROAS: 2.48 | CPA: 232.1 CZK | CVR: 8.88%
+    Hook: 0.7% | Hold: 25.9%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 8.88% (benchmark >2%), 19 nakupu
+
+  [120239649833820662] v parku 2
+    Kampan: Easter Flash 26
+    Spend: 5836.6 CZK | ROAS: 2.46 | CPA: 307.2 CZK | CVR: 5.81%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 5.81% (benchmark >2%), 19 nakupu
+
+  [120239649833820662] v parku 2
+    Kampan: Easter Flash 26
+    Spend: 5836.6 CZK | ROAS: 2.46 | CPA: 307.2 CZK | CVR: 5.81%
+    >> Vysoka CVR — banner ktery konvertuje: CVR 5.81%, ROAS 2.46
+
+  [120237229607090662] Jáma 3 - Copy
+    Kampan: Testing
+    Spend: 5894.2 CZK | ROAS: 2.45 | CPA: 310.2 CZK | CVR: 3.75%
+    Hook: 4.2% | Hold: 19.8%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.75% (benchmark >2%), 19 nakupu
+
+  [120239651458110662] Easter Radim 4
+    Kampan: Easter Flash 26
+    Spend: 1835.2 CZK | ROAS: 2.43 | CPA: 262.2 CZK | CVR: 4.4%
+    Hook: 20.4% | Hold: 15.4%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.4% (benchmark >2%), 7 nakupu
+
+  [120239714660500662] v parku 1 LC
+    Kampan: Easter Flash 26
+    Spend: 1751.0 CZK | ROAS: 2.42 | CPA: 250.1 CZK | CVR: 7.53%
+    Hook: 0.0% | Hold: 25.0%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 7.53% (benchmark >2%), 7 nakupu
+
+  [120239788486260662] UGC 64
+    Kampan: Testing
+    Spend: 2730.7 CZK | ROAS: 2.39 | CPA: 390.1 CZK | CVR: 3.93%
+    Hook: 14.3% | Hold: 15.0%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.93% (benchmark >2%), 7 nakupu
+
+  [120239735431730662] simple LC
+    Kampan: Easter Flash 26
+    Spend: 9732.2 CZK | ROAS: 2.37 | CPA: 286.2 CZK | CVR: 8.65%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 8.65% (benchmark >2%), 34 nakupu
+
+  [120239735431730662] simple LC
+    Kampan: Easter Flash 26
+    Spend: 9732.2 CZK | ROAS: 2.37 | CPA: 286.2 CZK | CVR: 8.65%
+    >> Vysoka CVR — banner ktery konvertuje: CVR 8.65%, ROAS 2.37
+
+  [120239714660530662] Easter Radim 2 LC
+    Kampan: Easter Flash 26
+    Spend: 2513.4 CZK | ROAS: 2.35 | CPA: 359.1 CZK | CVR: 6.25%
+    Hook: 16.6% | Hold: 15.3%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 6.25% (benchmark >2%), 7 nakupu
+
+  [120221078974430662] Vlada ja jsem
+    Kampan: UGC Campaign
+    Spend: 8809.8 CZK | ROAS: 2.2 | CPA: 463.7 CZK | CVR: 1.25%
+    Hook: 41.1% | Hold: 22.5%
+    >> Vynikajici hook rate: Hook 41.1% (elite >35%)
+
+  [120239343656150662] Papir
+    Kampan: Testing
+    Spend: 6629.3 CZK | ROAS: 2.14 | CPA: 414.3 CZK | CVR: 3.79%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.79% (benchmark >2%), 16 nakupu
+
+  [120239196011600662] Komplet 1
+    Kampan: Testing
+    Spend: 20554.9 CZK | ROAS: 2.02 | CPA: 428.2 CZK | CVR: 3.39%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.39% (benchmark >2%), 48 nakupu
+
+  [120237229607110662] jednodušší SINGLE - Copy
+    Kampan: Testing
+    Spend: 10162.2 CZK | ROAS: 1.98 | CPA: 406.5 CZK | CVR: 3.88%
+    Hook: 0.0% | Hold: 25.0%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.88% (benchmark >2%), 25 nakupu
+
+  [120239116527090662] Albert 1
+    Kampan: Testing
+    Spend: 6930.0 CZK | ROAS: 1.97 | CPA: 407.6 CZK | CVR: 0.78%
+    Hook: 37.0% | Hold: 27.3%
+    >> Vynikajici hook rate: Hook 37.0% (elite >35%)
+
+  [120239116527100662] milan leden
+    Kampan: Testing
+    Spend: 18906.2 CZK | ROAS: 1.9 | CPA: 497.5 CZK | CVR: 1.61%
+    Hook: 43.5% | Hold: 24.1%
+    >> Vynikajici hook rate: Hook 43.5% (elite >35%)
+
+  [120237229607070662] Jídlo 13 - Copy
+    Kampan: Testing
+    Spend: 7057.6 CZK | ROAS: 1.88 | CPA: 470.5 CZK | CVR: 3.27%
+    Hook: 10.6% | Hold: 43.9%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.27% (benchmark >2%), 15 nakupu
+
+  [120239649833830662] kolaz 1
+    Kampan: Easter Flash 26
+    Spend: 2940.3 CZK | ROAS: 1.87 | CPA: 490.1 CZK | CVR: 3.95%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.95% (benchmark >2%), 6 nakupu
+
+  [120239068939780662] Saláty nudné
+    Kampan: Testing
+    Spend: 4751.5 CZK | ROAS: 1.83 | CPA: 396.0 CZK | CVR: 1.98%
+    Hook: 49.1% | Hold: 21.8%
+    >> Vynikajici hook rate: Hook 49.1% (elite >35%)
+
+  [120239192440310662] Chut mogr
+    Kampan: Testing
+    Spend: 5467.9 CZK | ROAS: 1.75 | CPA: 420.6 CZK | CVR: 5.44%
+    Hook: 15.3% | Hold: 12.9%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 5.44% (benchmark >2%), 13 nakupu
+
+  [120239328339390662] Boj 1
+    Kampan: Testing
+    Spend: 4336.7 CZK | ROAS: 1.73 | CPA: 433.7 CZK | CVR: 6.71%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 6.71% (benchmark >2%), 10 nakupu
+
+  [120237954446540662] UGC 43 too long - Copy 2
+    Kampan: Scaling 2
+    Spend: 42871.9 CZK | ROAS: 1.68 | CPA: 428.7 CZK | CVR: 1.51%
+    Hook: 41.9% | Hold: 29.7%
+    >> Vynikajici hook rate: Hook 41.9% (elite >35%)
+
+  [120239062142810662] Test - UGC 63.1 short
+    Kampan: Testing
+    Spend: 6897.7 CZK | ROAS: 1.64 | CPA: 344.9 CZK | CVR: 1.77%
+    Hook: 47.5% | Hold: 22.8%
+    >> Vynikajici hook rate: Hook 47.5% (elite >35%)
+
+  [120237229987920662] UGC 17 10% - Copy
+    Kampan: Scaling 2
+    Spend: 71447.8 CZK | ROAS: 1.61 | CPA: 476.3 CZK | CVR: 1.61%
+    Hook: 36.2% | Hold: 21.3%
+    >> Vynikajici hook rate: Hook 36.2% (elite >35%)
+
+  [120239279091500662] UGC 17 10%
+    Kampan: UGC Campaign
+    Spend: 2794.2 CZK | ROAS: 1.58 | CPA: 558.8 CZK | CVR: 1.26%
+    Hook: 40.0% | Hold: 24.5%
+    >> Vynikajici hook rate: Hook 40.0% (elite >35%)
+
+  [120239331651970662] Text based 1
+    Kampan: Testing
+    Spend: 6228.5 CZK | ROAS: 1.31 | CPA: 622.8 CZK | CVR: 4.24%
+    Hook: 8.3% | Hold: 25.1%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.24% (benchmark >2%), 10 nakupu
+
+  [120239652697310662] Easter Radim 1
+    Kampan: Easter Flash 26
+    Spend: 3958.8 CZK | ROAS: 1.22 | CPA: 494.8 CZK | CVR: 4.49%
+    Hook: 22.0% | Hold: 27.6%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.49% (benchmark >2%), 8 nakupu
+
+  [120239057129060662] Albert 1.1
+    Kampan: Testing
+    Spend: 16706.2 CZK | ROAS: 1.2 | CPA: 596.7 CZK | CVR: 0.65%
+    Hook: 47.2% | Hold: 22.7%
+    >> Vynikajici hook rate: Hook 47.2% (elite >35%)
+
+  [120239228542200662] Tona ad 1
+    Kampan: Traffic obecné
+    Spend: 14040.5 CZK | ROAS: 1.15 | CPA: 936.0 CZK | CVR: 0.19%
+    Hook: 45.4% | Hold: 36.4%
+    >> Vynikajici hook rate: Hook 45.4% (elite >35%)
+
+  [120235497622920662] Jídlo 13 - Copy 2
+    Kampan: Scaling 2
+    Spend: 3323.9 CZK | ROAS: 1.11 | CPA: 554.0 CZK | CVR: 3.37%
+    Hook: 9.2% | Hold: 41.8%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 3.37% (benchmark >2%), 6 nakupu
+
+  [120221074806920662] dana 2 - Copy
+    Kampan: UGC Campaign
+    Spend: 1820.5 CZK | ROAS: 1.08 | CPA: 303.4 CZK | CVR: 1.43%
+    Hook: 44.8% | Hold: 34.5%
+    >> Vynikajici hook rate: Hook 44.8% (elite >35%)
+
+  [120239304880860662] Image IOS
+    Kampan: Testing
+    Spend: 4186.3 CZK | ROAS: 0.95 | CPA: 837.3 CZK | CVR: 4.0%
+    Hook: 0.0% | Hold: 25.0%
+    >> Vysoka konverzni mira — kreativa prodava: CVR 4.0% (benchmark >2%), 5 nakupu
+
+======================================================================
+  ITERATE — UPRAVIT KREATIVU
+======================================================================
+
+  [120237229987920662] UGC 17 10% - Copy
+    Spend: 71447.8 CZK | ROAS: 1.61 | CTR: 2.16%
+    Hook: 36.2% | Hold: 21.3%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 36.2% (OK), Hold 21.3% (benchmark >40%)
+
+  [120234253774140662] test set
+    Spend: 51153.1 CZK | ROAS: 2.87 | CTR: 1.26%
+    Hook: 0.0% | Hold: 28.9%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 2.87
+
+  [120234253774140662] test set
+    Spend: 51153.1 CZK | ROAS: 2.87 | CTR: 1.26%
+    Hook: 0.0% | Hold: 28.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120234253774140662] test set
+    Spend: 51153.1 CZK | ROAS: 2.87 | CTR: 1.26%
+    Hook: 0.0% | Hold: 28.9%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120221504737670662] Jim chyba
+    Spend: 47046.7 CZK | ROAS: 3.01 | CTR: 0.8%
+    Hook: 7.6% | Hold: 23.7%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 7.6% (benchmark >=25%), ROAS 3.01
+
+  [120221504737670662] Jim chyba
+    Spend: 47046.7 CZK | ROAS: 3.01 | CTR: 0.8%
+    Hook: 7.6% | Hold: 23.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 7.6% (benchmark >=25%, minimum 20%)
+
+  [120221504737670662] Jim chyba
+    Spend: 47046.7 CZK | ROAS: 3.01 | CTR: 0.8%
+    Hook: 7.6% | Hold: 23.7%
+    >> Video drop-off: spatny opening: Hook 7.6% — zmen 1. frame
+
+  [120239646418410662] simple
+    Spend: 46911.9 CZK | ROAS: 4.37 | CTR: 1.1%
+    Hook: 0.0% | Hold: 16.7%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 4.37
+
+  [120239646418410662] simple
+    Spend: 46911.9 CZK | ROAS: 4.37 | CTR: 1.1%
+    Hook: 0.0% | Hold: 16.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120239646418410662] simple
+    Spend: 46911.9 CZK | ROAS: 4.37 | CTR: 1.1%
+    Hook: 0.0% | Hold: 16.7%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120237229987890662] UGC 51 - Copy 3
+    Spend: 44997.5 CZK | ROAS: 2.68 | CTR: 1.22%
+    Hook: 21.0% | Hold: 23.3%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 21.0% (benchmark >=25%), ROAS 2.68
+
+  [120237954446540662] UGC 43 too long - Copy 2
+    Spend: 42871.9 CZK | ROAS: 1.68 | CTR: 2.93%
+    Hook: 41.9% | Hold: 29.7%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 41.9% (OK), Hold 29.7% (benchmark >40%)
+
+  [120239651458040662] Easter Radim 2
+    Spend: 41557.2 CZK | ROAS: 3.13 | CTR: 1.66%
+    Hook: 21.3% | Hold: 16.2%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 21.3% (benchmark >=25%), ROAS 3.13
+
+  [120239651458040662] Easter Radim 2
+    Spend: 41557.2 CZK | ROAS: 3.13 | CTR: 1.66%
+    Hook: 21.3% | Hold: 16.2%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120233742514290662] varianty 16
+    Spend: 41530.2 CZK | ROAS: 2.05 | CTR: 1.75%
+    Hook: 0.0% | Hold: 15.4%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 2.05
+
+  [120233742514290662] varianty 16
+    Spend: 41530.2 CZK | ROAS: 2.05 | CTR: 1.75%
+    Hook: 0.0% | Hold: 15.4%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120233742514290662] varianty 16
+    Spend: 41530.2 CZK | ROAS: 2.05 | CTR: 1.75%
+    Hook: 0.0% | Hold: 15.4%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239651458070662] v parku 1
+    Spend: 36483.6 CZK | ROAS: 3.37 | CTR: 1.13%
+    Hook: 0.0% | Hold: 50.0%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 3.37
+
+  [120239651458070662] v parku 1
+    Spend: 36483.6 CZK | ROAS: 3.37 | CTR: 1.13%
+    Hook: 0.0% | Hold: 50.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120239651458070662] v parku 1
+    Spend: 36483.6 CZK | ROAS: 3.37 | CTR: 1.13%
+    Hook: 0.0% | Hold: 50.0%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120237229651120662] jednodušší SINGLE - Copy 2
+    Spend: 34382.3 CZK | ROAS: 2.56 | CTR: 0.87%
+    Hook: 0.0% | Hold: 12.5%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 2.56
+
+  [120237229651120662] jednodušší SINGLE - Copy 2
+    Spend: 34382.3 CZK | ROAS: 2.56 | CTR: 0.87%
+    Hook: 0.0% | Hold: 12.5%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120237229651120662] jednodušší SINGLE - Copy 2
+    Spend: 34382.3 CZK | ROAS: 2.56 | CTR: 0.87%
+    Hook: 0.0% | Hold: 12.5%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120237229313270662] tak dobře
+    Spend: 34140.7 CZK | ROAS: 2.86 | CTR: 0.69%
+    Hook: 0.0% | Hold: 20.0%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 2.86
+
+  [120237229313270662] tak dobře
+    Spend: 34140.7 CZK | ROAS: 2.86 | CTR: 0.69%
+    Hook: 0.0% | Hold: 20.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120237229313270662] tak dobře
+    Spend: 34140.7 CZK | ROAS: 2.86 | CTR: 0.69%
+    Hook: 0.0% | Hold: 20.0%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120237236399300662] UGC 61 - Copy 2
+    Spend: 33365.4 CZK | ROAS: 1.58 | CTR: 0.71%
+    Hook: 12.1% | Hold: 18.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 12.1% (benchmark >=25%, minimum 20%)
+
+  [120237236399300662] UGC 61 - Copy 2
+    Spend: 33365.4 CZK | ROAS: 1.58 | CTR: 0.71%
+    Hook: 12.1% | Hold: 18.0%
+    >> Video drop-off: spatny opening: Hook 12.1% — zmen 1. frame
+
+  [120239654363900662] SIJ park 2 Eater 1
+    Spend: 26310.2 CZK | ROAS: 3.43 | CTR: 1.5%
+    Hook: 24.3% | Hold: 31.3%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 24.3% (benchmark >=25%), ROAS 3.43
+
+  [120239654363900662] SIJ park 2 Eater 1
+    Spend: 26310.2 CZK | ROAS: 3.43 | CTR: 1.5%
+    Hook: 24.3% | Hold: 31.3%
+    >> Video drop-off: CTA prilis pozde: 75% retention OK ale 100% propad — presun CTA drive
+
+  [120239652697200662] Easter Radim 6
+    Spend: 23965.3 CZK | ROAS: 3.4 | CTR: 1.32%
+    Hook: 18.5% | Hold: 19.9%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 18.5% (benchmark >=25%), ROAS 3.4
+
+  [120239652697200662] Easter Radim 6
+    Spend: 23965.3 CZK | ROAS: 3.4 | CTR: 1.32%
+    Hook: 18.5% | Hold: 19.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 18.5% (benchmark >=25%, minimum 20%)
+
+  [120239652697200662] Easter Radim 6
+    Spend: 23965.3 CZK | ROAS: 3.4 | CTR: 1.32%
+    Hook: 18.5% | Hold: 19.9%
+    >> Video drop-off: spatny opening: Hook 18.5% — zmen 1. frame
+
+  [120239196011600662] Komplet 1
+    Spend: 20554.9 CZK | ROAS: 2.02 | CTR: 0.99%
+    >> Nizky CTR — zmen vizual nebo text: CTR 0.99% (benchmark food&bev >1.5%)
+
+  [120239116527100662] milan leden
+    Spend: 18906.2 CZK | ROAS: 1.9 | CTR: 2.22%
+    Hook: 43.5% | Hold: 24.1%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 43.5% (OK), Hold 24.1% (benchmark >40%)
+
+  [120239116527100662] milan leden
+    Spend: 18906.2 CZK | ROAS: 1.9 | CTR: 2.22%
+    Hook: 43.5% | Hold: 24.1%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239057129060662] Albert 1.1
+    Spend: 16706.2 CZK | ROAS: 1.2 | CTR: 2.96%
+    Hook: 47.2% | Hold: 22.7%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 47.2% (OK), Hold 22.7% (benchmark >40%)
+
+  [120239057129060662] Albert 1.1
+    Spend: 16706.2 CZK | ROAS: 1.2 | CTR: 2.96%
+    Hook: 47.2% | Hold: 22.7%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239068939820662] Google search oliv
+    Spend: 16620.6 CZK | ROAS: 3.19 | CTR: 2.45%
+    Hook: 20.0% | Hold: 23.2%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 20.0% (benchmark >=25%), ROAS 3.19
+
+  [120239068939820662] Google search oliv
+    Spend: 16620.6 CZK | ROAS: 3.19 | CTR: 2.45%
+    Hook: 20.0% | Hold: 23.2%
+    >> Video drop-off: spatny opening: Hook 20.0% — zmen 1. frame
+
+  [120239713339040662] Partnership 1
+    Spend: 15632.8 CZK | ROAS: 3.68 | CTR: 4.85%
+    Hook: 40.6% | Hold: 38.7%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 40.6% (OK), Hold 38.7% (benchmark >40%)
+
+  [120235497622930662] Car 1 - Copy 2
+    Spend: 14532.1 CZK | ROAS: 2.37 | CTR: 2.17%
+    Hook: 33.3% | Hold: 23.6%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 33.3% (OK), Hold 23.6% (benchmark >40%)
+
+  [120216525999900662] 10% Radim testovací set
+    Spend: 14225.7 CZK | ROAS: 2.52 | CTR: 0.62%
+    Hook: 9.8% | Hold: 50.1%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 9.8% (benchmark >=25%), ROAS 2.52
+
+  [120216525999900662] 10% Radim testovací set
+    Spend: 14225.7 CZK | ROAS: 2.52 | CTR: 0.62%
+    Hook: 9.8% | Hold: 50.1%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 9.8% (benchmark >=25%, minimum 20%)
+
+  [120216525999900662] 10% Radim testovací set
+    Spend: 14225.7 CZK | ROAS: 2.52 | CTR: 0.62%
+    Hook: 9.8% | Hold: 50.1%
+    >> Video drop-off: spatny opening: Hook 9.8% — zmen 1. frame
+
+  [120239228542200662] Tona ad 1
+    Spend: 14040.5 CZK | ROAS: 1.15 | CTR: 5.69%
+    Hook: 45.4% | Hold: 36.4%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 45.4% (OK), Hold 36.4% (benchmark >40%)
+
+  [120237319102540662] UGC Comp 2 - Copy
+    Spend: 13433.2 CZK | ROAS: 1.68 | CTR: 1.02%
+    Hook: 14.6% | Hold: 14.5%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 14.6% (benchmark >=25%, minimum 20%)
+
+  [120237319102540662] UGC Comp 2 - Copy
+    Spend: 13433.2 CZK | ROAS: 1.68 | CTR: 1.02%
+    Hook: 14.6% | Hold: 14.5%
+    >> Video drop-off: spatny opening: Hook 14.6% — zmen 1. frame
+
+  [120237229313300662] kolaz posunute - Copy
+    Spend: 12606.4 CZK | ROAS: 3.6 | CTR: 0.45%
+    Hook: 4.8% | Hold: 44.7%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 4.8% (benchmark >=25%), ROAS 3.6
+
+  [120237229313300662] kolaz posunute - Copy
+    Spend: 12606.4 CZK | ROAS: 3.6 | CTR: 0.45%
+    Hook: 4.8% | Hold: 44.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 4.8% (benchmark >=25%, minimum 20%)
+
+  [120237229313300662] kolaz posunute - Copy
+    Spend: 12606.4 CZK | ROAS: 3.6 | CTR: 0.45%
+    Hook: 4.8% | Hold: 44.7%
+    >> Video drop-off: spatny opening: Hook 4.8% — zmen 1. frame
+
+  [120238918570880662] UGC 60 zamiluje - Copy
+    Spend: 12578.9 CZK | ROAS: 1.15 | CTR: 1.64%
+    Hook: 31.8% | Hold: 23.3%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 31.8% (OK), Hold 23.3% (benchmark >40%)
+
+  [120237953976860662] Video fitko prosinec - Copy 2
+    Spend: 11980.9 CZK | ROAS: 1.18 | CTR: 1.05%
+    Hook: 8.2% | Hold: 9.8%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 8.2% (benchmark >=25%, minimum 20%)
+
+  [120237953976860662] Video fitko prosinec - Copy 2
+    Spend: 11980.9 CZK | ROAS: 1.18 | CTR: 1.05%
+    Hook: 8.2% | Hold: 9.8%
+    >> Video drop-off: spatny opening: Hook 8.2% — zmen 1. frame
+
+  [120237229313250662] predplatne
+    Spend: 11668.0 CZK | ROAS: 3.35 | CTR: 0.41%
+    Hook: 0.0% | Hold: 12.5%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 3.35
+
+  [120237229313250662] predplatne
+    Spend: 11668.0 CZK | ROAS: 3.35 | CTR: 0.41%
+    Hook: 0.0% | Hold: 12.5%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120237229313250662] predplatne
+    Spend: 11668.0 CZK | ROAS: 3.35 | CTR: 0.41%
+    Hook: 0.0% | Hold: 12.5%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239713720750662] SIJ park 2 Eater 1 LC
+    Spend: 10589.3 CZK | ROAS: 2.84 | CTR: 1.37%
+    Hook: 15.4% | Hold: 25.9%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 15.4% (benchmark >=25%), ROAS 2.84
+
+  [120239713720750662] SIJ park 2 Eater 1 LC
+    Spend: 10589.3 CZK | ROAS: 2.84 | CTR: 1.37%
+    Hook: 15.4% | Hold: 25.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 15.4% (benchmark >=25%, minimum 20%)
+
+  [120239713720750662] SIJ park 2 Eater 1 LC
+    Spend: 10589.3 CZK | ROAS: 2.84 | CTR: 1.37%
+    Hook: 15.4% | Hold: 25.9%
+    >> Video drop-off: spatny opening: Hook 15.4% — zmen 1. frame
+
+  [120237229607110662] jednodušší SINGLE - Copy
+    Spend: 10162.2 CZK | ROAS: 1.98 | CTR: 0.83%
+    Hook: 0.0% | Hold: 25.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120237229607110662] jednodušší SINGLE - Copy
+    Spend: 10162.2 CZK | ROAS: 1.98 | CTR: 0.83%
+    Hook: 0.0% | Hold: 25.0%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239157982210662] USP olivac
+    Spend: 9003.3 CZK | ROAS: 3.07 | CTR: 1.2%
+    Hook: 0.0% | Hold: None%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 3.07
+
+  [120239157982210662] USP olivac
+    Spend: 9003.3 CZK | ROAS: 3.07 | CTR: 1.2%
+    Hook: 0.0% | Hold: None%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120239157982210662] USP olivac
+    Spend: 9003.3 CZK | ROAS: 3.07 | CTR: 1.2%
+    Hook: 0.0% | Hold: None%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120221078974430662] Vlada ja jsem
+    Spend: 8809.8 CZK | ROAS: 2.2 | CTR: 2.61%
+    Hook: 41.1% | Hold: 22.5%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 41.1% (OK), Hold 22.5% (benchmark >40%)
+
+  [120239652697270662] Easter Radim 3
+    Spend: 8685.9 CZK | ROAS: 4.36 | CTR: 1.28%
+    Hook: 12.9% | Hold: 19.5%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 12.9% (benchmark >=25%), ROAS 4.36
+
+  [120239652697270662] Easter Radim 3
+    Spend: 8685.9 CZK | ROAS: 4.36 | CTR: 1.28%
+    Hook: 12.9% | Hold: 19.5%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 12.9% (benchmark >=25%, minimum 20%)
+
+  [120239652697270662] Easter Radim 3
+    Spend: 8685.9 CZK | ROAS: 4.36 | CTR: 1.28%
+    Hook: 12.9% | Hold: 19.5%
+    >> Video drop-off: spatny opening: Hook 12.9% — zmen 1. frame
+
+  [120239068900260662] Oliváč 3
+    Spend: 8673.1 CZK | ROAS: 1.9 | CTR: 2.7%
+    Hook: 19.5% | Hold: 24.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 19.5% (benchmark >=25%, minimum 20%)
+
+  [120239068900260662] Oliváč 3
+    Spend: 8673.1 CZK | ROAS: 1.9 | CTR: 2.7%
+    Hook: 19.5% | Hold: 24.9%
+    >> Video drop-off: spatny opening: Hook 19.5% — zmen 1. frame
+
+  [120239115925150662] Krádež
+    Spend: 8555.1 CZK | ROAS: 2.67 | CTR: 1.59%
+    Hook: 10.7% | Hold: 20.4%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 10.7% (benchmark >=25%), ROAS 2.67
+
+  [120239115925150662] Krádež
+    Spend: 8555.1 CZK | ROAS: 2.67 | CTR: 1.59%
+    Hook: 10.7% | Hold: 20.4%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 10.7% (benchmark >=25%, minimum 20%)
+
+  [120239115925150662] Krádež
+    Spend: 8555.1 CZK | ROAS: 2.67 | CTR: 1.59%
+    Hook: 10.7% | Hold: 20.4%
+    >> Video drop-off: spatny opening: Hook 10.7% — zmen 1. frame
+
+  [120238042373150662] podnikatel roku single ver.1
+    Spend: 8465.0 CZK | ROAS: 3.91 | CTR: 2.75%
+    Hook: 0.0% | Hold: None%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 3.91
+
+  [120238042373150662] podnikatel roku single ver.1
+    Spend: 8465.0 CZK | ROAS: 3.91 | CTR: 2.75%
+    Hook: 0.0% | Hold: None%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120238042373150662] podnikatel roku single ver.1
+    Spend: 8465.0 CZK | ROAS: 3.91 | CTR: 2.75%
+    Hook: 0.0% | Hold: None%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239779318890662] LC 4
+    Spend: 7688.2 CZK | ROAS: 5.9 | CTR: 1.18%
+    Hook: 0.1% | Hold: 20.7%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.1% (benchmark >=25%), ROAS 5.9
+
+  [120239779318890662] LC 4
+    Spend: 7688.2 CZK | ROAS: 5.9 | CTR: 1.18%
+    Hook: 0.1% | Hold: 20.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.1% (benchmark >=25%, minimum 20%)
+
+  [120239779318890662] LC 4
+    Spend: 7688.2 CZK | ROAS: 5.9 | CTR: 1.18%
+    Hook: 0.1% | Hold: 20.7%
+    >> Video drop-off: spatny opening: Hook 0.1% — zmen 1. frame
+
+  [120239124873980662] UGC 64
+    Spend: 7226.2 CZK | ROAS: 2.06 | CTR: 1.39%
+    Hook: 20.0% | Hold: 16.9%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 20.0% (benchmark >=25%), ROAS 2.06
+
+  [120239124873980662] UGC 64
+    Spend: 7226.2 CZK | ROAS: 2.06 | CTR: 1.39%
+    Hook: 20.0% | Hold: 16.9%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120237229607070662] Jídlo 13 - Copy
+    Spend: 7057.6 CZK | ROAS: 1.88 | CTR: 0.76%
+    Hook: 10.6% | Hold: 43.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 10.6% (benchmark >=25%, minimum 20%)
+
+  [120237229607070662] Jídlo 13 - Copy
+    Spend: 7057.6 CZK | ROAS: 1.88 | CTR: 0.76%
+    Hook: 10.6% | Hold: 43.9%
+    >> Video drop-off: spatny opening: Hook 10.6% — zmen 1. frame
+
+  [120239116527090662] Albert 1
+    Spend: 6930.0 CZK | ROAS: 1.97 | CTR: 5.02%
+    Hook: 37.0% | Hold: 27.3%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 37.0% (OK), Hold 27.3% (benchmark >40%)
+
+  [120239116527090662] Albert 1
+    Spend: 6930.0 CZK | ROAS: 1.97 | CTR: 5.02%
+    Hook: 37.0% | Hold: 27.3%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239714697820662] v parku 2 LC
+    Spend: 6901.2 CZK | ROAS: 3.24 | CTR: 1.15%
+    Hook: 0.1% | Hold: 5.3%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.1% (benchmark >=25%), ROAS 3.24
+
+  [120239714697820662] v parku 2 LC
+    Spend: 6901.2 CZK | ROAS: 3.24 | CTR: 1.15%
+    Hook: 0.1% | Hold: 5.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.1% (benchmark >=25%, minimum 20%)
+
+  [120239714697820662] v parku 2 LC
+    Spend: 6901.2 CZK | ROAS: 3.24 | CTR: 1.15%
+    Hook: 0.1% | Hold: 5.3%
+    >> Video drop-off: spatny opening: Hook 0.1% — zmen 1. frame
+
+  [120239062142810662] Test - UGC 63.1 short
+    Spend: 6897.7 CZK | ROAS: 1.64 | CTR: 1.85%
+    Hook: 47.5% | Hold: 22.8%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 47.5% (OK), Hold 22.8% (benchmark >40%)
+
+  [120239062142810662] Test - UGC 63.1 short
+    Spend: 6897.7 CZK | ROAS: 1.64 | CTR: 1.85%
+    Hook: 47.5% | Hold: 22.8%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120237229607080662] test set - Copy
+    Spend: 6790.8 CZK | ROAS: 2.72 | CTR: 1.26%
+    Hook: 0.0% | Hold: None%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 2.72
+
+  [120237229607080662] test set - Copy
+    Spend: 6790.8 CZK | ROAS: 2.72 | CTR: 1.26%
+    Hook: 0.0% | Hold: None%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120237229607080662] test set - Copy
+    Spend: 6790.8 CZK | ROAS: 2.72 | CTR: 1.26%
+    Hook: 0.0% | Hold: None%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239115925140662] Chut 1
+    Spend: 6773.5 CZK | ROAS: 3.45 | CTR: 1.27%
+    Hook: 0.5% | Hold: 28.4%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.5% (benchmark >=25%), ROAS 3.45
+
+  [120239115925140662] Chut 1
+    Spend: 6773.5 CZK | ROAS: 3.45 | CTR: 1.27%
+    Hook: 0.5% | Hold: 28.4%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.5% (benchmark >=25%, minimum 20%)
+
+  [120239115925140662] Chut 1
+    Spend: 6773.5 CZK | ROAS: 3.45 | CTR: 1.27%
+    Hook: 0.5% | Hold: 28.4%
+    >> Video drop-off: spatny opening: Hook 0.5% — zmen 1. frame
+
+  [120239779318850662] LC 1
+    Spend: 6729.1 CZK | ROAS: 3.63 | CTR: 1.25%
+    Hook: 0.1% | Hold: None%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.1% (benchmark >=25%), ROAS 3.63
+
+  [120239779318850662] LC 1
+    Spend: 6729.1 CZK | ROAS: 3.63 | CTR: 1.25%
+    Hook: 0.1% | Hold: None%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.1% (benchmark >=25%, minimum 20%)
+
+  [120239779318850662] LC 1
+    Spend: 6729.1 CZK | ROAS: 3.63 | CTR: 1.25%
+    Hook: 0.1% | Hold: None%
+    >> Video drop-off: spatny opening: Hook 0.1% — zmen 1. frame
+
+  [120239343656150662] Papir
+    Spend: 6629.3 CZK | ROAS: 2.14 | CTR: 0.92%
+    >> Nizky CTR — zmen vizual nebo text: CTR 0.92% (benchmark food&bev >1.5%)
+
+  [120239331651970662] Text based 1
+    Spend: 6228.5 CZK | ROAS: 1.31 | CTR: 0.84%
+    Hook: 8.3% | Hold: 25.1%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 8.3% (benchmark >=25%, minimum 20%)
+
+  [120239331651970662] Text based 1
+    Spend: 6228.5 CZK | ROAS: 1.31 | CTR: 0.84%
+    Hook: 8.3% | Hold: 25.1%
+    >> Video drop-off: spatny opening: Hook 8.3% — zmen 1. frame
+
+  [120239779318860662] LC 2
+    Spend: 6052.1 CZK | ROAS: 4.91 | CTR: 1.14%
+    Hook: 0.1% | Hold: 5.6%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.1% (benchmark >=25%), ROAS 4.91
+
+  [120239779318860662] LC 2
+    Spend: 6052.1 CZK | ROAS: 4.91 | CTR: 1.14%
+    Hook: 0.1% | Hold: 5.6%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.1% (benchmark >=25%, minimum 20%)
+
+  [120239779318860662] LC 2
+    Spend: 6052.1 CZK | ROAS: 4.91 | CTR: 1.14%
+    Hook: 0.1% | Hold: 5.6%
+    >> Video drop-off: spatny opening: Hook 0.1% — zmen 1. frame
+
+  [120237229607090662] Jáma 3 - Copy
+    Spend: 5894.2 CZK | ROAS: 2.45 | CTR: 1.22%
+    Hook: 4.2% | Hold: 19.8%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 4.2% (benchmark >=25%), ROAS 2.45
+
+  [120237229607090662] Jáma 3 - Copy
+    Spend: 5894.2 CZK | ROAS: 2.45 | CTR: 1.22%
+    Hook: 4.2% | Hold: 19.8%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 4.2% (benchmark >=25%, minimum 20%)
+
+  [120237229607090662] Jáma 3 - Copy
+    Spend: 5894.2 CZK | ROAS: 2.45 | CTR: 1.22%
+    Hook: 4.2% | Hold: 19.8%
+    >> Video drop-off: spatny opening: Hook 4.2% — zmen 1. frame
+
+  [120239192440310662] Chut mogr
+    Spend: 5467.9 CZK | ROAS: 1.75 | CTR: 1.24%
+    Hook: 15.3% | Hold: 12.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 15.3% (benchmark >=25%, minimum 20%)
+
+  [120239192440310662] Chut mogr
+    Spend: 5467.9 CZK | ROAS: 1.75 | CTR: 1.24%
+    Hook: 15.3% | Hold: 12.9%
+    >> Video drop-off: spatny opening: Hook 15.3% — zmen 1. frame
+
+  [120239727087520662] SIJ park 3 Easter
+    Spend: 5324.4 CZK | ROAS: 0.62 | CTR: 1.17%
+    Hook: 30.5% | Hold: 19.8%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 30.5% (OK), Hold 19.8% (benchmark >40%)
+
+  [120239068939780662] Saláty nudné
+    Spend: 4751.5 CZK | ROAS: 1.83 | CTR: 1.58%
+    Hook: 49.1% | Hold: 21.8%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 49.1% (OK), Hold 21.8% (benchmark >40%)
+
+  [120239068939780662] Saláty nudné
+    Spend: 4751.5 CZK | ROAS: 1.83 | CTR: 1.58%
+    Hook: 49.1% | Hold: 21.8%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120235497622940662] UGC 29.1 10% CTA short - Copy 3
+    Spend: 4547.6 CZK | ROAS: 3.31 | CTR: 2.26%
+    Hook: 28.8% | Hold: 23.8%
+    >> Solidni hook, slaby hold: Hook 28.8%, Hold 23.8%
+
+  [120239414125400662] Slabikář 1
+    Spend: 4439.5 CZK | ROAS: 1.24 | CTR: 3.12%
+    Hook: 1.9% | Hold: 29.2%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 1.9% (benchmark >=25%, minimum 20%)
+
+  [120239414125400662] Slabikář 1
+    Spend: 4439.5 CZK | ROAS: 1.24 | CTR: 3.12%
+    Hook: 1.9% | Hold: 29.2%
+    >> Video drop-off: spatny opening: Hook 1.9% — zmen 1. frame
+
+  [120239714660550662] Ivča 3 LC
+    Spend: 4410.4 CZK | ROAS: 2.48 | CTR: 1.15%
+    Hook: 0.7% | Hold: 25.9%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.7% (benchmark >=25%), ROAS 2.48
+
+  [120239714660550662] Ivča 3 LC
+    Spend: 4410.4 CZK | ROAS: 2.48 | CTR: 1.15%
+    Hook: 0.7% | Hold: 25.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.7% (benchmark >=25%, minimum 20%)
+
+  [120239714660550662] Ivča 3 LC
+    Spend: 4410.4 CZK | ROAS: 2.48 | CTR: 1.15%
+    Hook: 0.7% | Hold: 25.9%
+    >> Video drop-off: spatny opening: Hook 0.7% — zmen 1. frame
+
+  [120239328339390662] Boj 1
+    Spend: 4336.7 CZK | ROAS: 1.73 | CTR: 0.74%
+    >> Nizky CTR — zmen vizual nebo text: CTR 0.74% (benchmark food&bev >1.5%)
+
+  [120239304880860662] Image IOS
+    Spend: 4186.3 CZK | ROAS: 0.95 | CTR: 0.72%
+    Hook: 0.0% | Hold: 25.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120239304880860662] Image IOS
+    Spend: 4186.3 CZK | ROAS: 0.95 | CTR: 0.72%
+    Hook: 0.0% | Hold: 25.0%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239068939800662] Oliváč 2
+    Spend: 4093.0 CZK | ROAS: 4.51 | CTR: 2.6%
+    Hook: 17.6% | Hold: 23.1%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 17.6% (benchmark >=25%), ROAS 4.51
+
+  [120239068939800662] Oliváč 2
+    Spend: 4093.0 CZK | ROAS: 4.51 | CTR: 2.6%
+    Hook: 17.6% | Hold: 23.1%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 17.6% (benchmark >=25%, minimum 20%)
+
+  [120239068939800662] Oliváč 2
+    Spend: 4093.0 CZK | ROAS: 4.51 | CTR: 2.6%
+    Hook: 17.6% | Hold: 23.1%
+    >> Video drop-off: spatny opening: Hook 17.6% — zmen 1. frame
+
+  [120237484045840662] shon
+    Spend: 3929.8 CZK | ROAS: 1.78 | CTR: 1.0%
+    Hook: 0.6% | Hold: 33.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.6% (benchmark >=25%, minimum 20%)
+
+  [120237484045840662] shon
+    Spend: 3929.8 CZK | ROAS: 1.78 | CTR: 1.0%
+    Hook: 0.6% | Hold: 33.9%
+    >> Video drop-off: spatny opening: Hook 0.6% — zmen 1. frame
+
+  [120239331857550662] Us vs. them oliv 1
+    Spend: 3880.9 CZK | ROAS: 0.72 | CTR: 2.2%
+    Hook: 1.1% | Hold: 45.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 1.1% (benchmark >=25%, minimum 20%)
+
+  [120239331857550662] Us vs. them oliv 1
+    Spend: 3880.9 CZK | ROAS: 0.72 | CTR: 2.2%
+    Hook: 1.1% | Hold: 45.9%
+    >> Video drop-off: spatny opening: Hook 1.1% — zmen 1. frame
+
+  [120237954446480662] UGC 57 - Copy
+    Spend: 3756.6 CZK | ROAS: 2.52 | CTR: 2.2%
+    Hook: 13.2% | Hold: 18.2%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 13.2% (benchmark >=25%), ROAS 2.52
+
+  [120237954446480662] UGC 57 - Copy
+    Spend: 3756.6 CZK | ROAS: 2.52 | CTR: 2.2%
+    Hook: 13.2% | Hold: 18.2%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 13.2% (benchmark >=25%, minimum 20%)
+
+  [120237954446480662] UGC 57 - Copy
+    Spend: 3756.6 CZK | ROAS: 2.52 | CTR: 2.2%
+    Hook: 13.2% | Hold: 18.2%
+    >> Video drop-off: spatny opening: Hook 13.2% — zmen 1. frame
+
+  [120235503273990662] UGC 55
+    Spend: 3716.1 CZK | ROAS: 2.72 | CTR: 1.64%
+    Hook: 28.3% | Hold: 25.8%
+    >> Solidni hook, slaby hold: Hook 28.3%, Hold 25.8%
+
+  [120239331537400662] Single Oliv
+    Spend: 3686.5 CZK | ROAS: 0.92 | CTR: 2.23%
+    Hook: 0.0% | Hold: None%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120239331537400662] Single Oliv
+    Spend: 3686.5 CZK | ROAS: 0.92 | CTR: 2.23%
+    Hook: 0.0% | Hold: None%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239231012180662] Have you seen this video
+    Spend: 3399.6 CZK | ROAS: 3.03 | CTR: 1.89%
+    Hook: 45.0% | Hold: 10.2%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 45.0% (OK), Hold 10.2% (benchmark >40%)
+
+  [120239231012180662] Have you seen this video
+    Spend: 3399.6 CZK | ROAS: 3.03 | CTR: 1.89%
+    Hook: 45.0% | Hold: 10.2%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120237229651100662] SIJ do parku 1 S - Copy 2
+    Spend: 3397.4 CZK | ROAS: 3.21 | CTR: 1.93%
+    Hook: 28.2% | Hold: 20.7%
+    >> Solidni hook, slaby hold: Hook 28.2%, Hold 20.7%
+
+  [120237229607100662] Video fitko prosinec - Copy
+    Spend: 3371.9 CZK | ROAS: 2.84 | CTR: 0.86%
+    Hook: 0.9% | Hold: 27.2%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.9% (benchmark >=25%), ROAS 2.84
+
+  [120237229607100662] Video fitko prosinec - Copy
+    Spend: 3371.9 CZK | ROAS: 2.84 | CTR: 0.86%
+    Hook: 0.9% | Hold: 27.2%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.9% (benchmark >=25%, minimum 20%)
+
+  [120237229607100662] Video fitko prosinec - Copy
+    Spend: 3371.9 CZK | ROAS: 2.84 | CTR: 0.86%
+    Hook: 0.9% | Hold: 27.2%
+    >> Video drop-off: spatny opening: Hook 0.9% — zmen 1. frame
+
+  [120235497622920662] Jídlo 13 - Copy 2
+    Spend: 3323.9 CZK | ROAS: 1.11 | CTR: 0.51%
+    Hook: 9.2% | Hold: 41.8%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 9.2% (benchmark >=25%, minimum 20%)
+
+  [120235497622920662] Jídlo 13 - Copy 2
+    Spend: 3323.9 CZK | ROAS: 1.11 | CTR: 0.51%
+    Hook: 9.2% | Hold: 41.8%
+    >> Video drop-off: spatny opening: Hook 9.2% — zmen 1. frame
+
+  [120239312075170662] Vyhrála 1
+    Spend: 3282.6 CZK | ROAS: 3.42 | CTR: 1.34%
+    Hook: 0.7% | Hold: 34.7%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.7% (benchmark >=25%), ROAS 3.42
+
+  [120239312075170662] Vyhrála 1
+    Spend: 3282.6 CZK | ROAS: 3.42 | CTR: 1.34%
+    Hook: 0.7% | Hold: 34.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.7% (benchmark >=25%, minimum 20%)
+
+  [120239312075170662] Vyhrála 1
+    Spend: 3282.6 CZK | ROAS: 3.42 | CTR: 1.34%
+    Hook: 0.7% | Hold: 34.7%
+    >> Video drop-off: spatny opening: Hook 0.7% — zmen 1. frame
+
+  [120239279060710662] UGC 60 malá
+    Spend: 3199.8 CZK | ROAS: 0.55 | CTR: 1.9%
+    Hook: 16.2% | Hold: 24.4%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 16.2% (benchmark >=25%, minimum 20%)
+
+  [120239279060710662] UGC 60 malá
+    Spend: 3199.8 CZK | ROAS: 0.55 | CTR: 1.9%
+    Hook: 16.2% | Hold: 24.4%
+    >> Video drop-off: spatny opening: Hook 16.2% — zmen 1. frame
+
+  [120238918570930662] UGC 54 - Copy
+    Spend: 3164.2 CZK | ROAS: 0.95 | CTR: 0.56%
+    Hook: 11.7% | Hold: 9.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 11.7% (benchmark >=25%, minimum 20%)
+
+  [120238918570930662] UGC 54 - Copy
+    Spend: 3164.2 CZK | ROAS: 0.95 | CTR: 0.56%
+    Hook: 11.7% | Hold: 9.7%
+    >> Video drop-off: spatny opening: Hook 11.7% — zmen 1. frame
+
+  [120239279091730662] UGC 18 S
+    Spend: 3109.1 CZK | ROAS: 0.63 | CTR: 1.31%
+    Hook: 29.9% | Hold: 25.4%
+    >> Solidni hook, slaby hold: Hook 29.9%, Hold 25.4%
+
+  [120239279091730662] UGC 18 S
+    Spend: 3109.1 CZK | ROAS: 0.63 | CTR: 1.31%
+    Hook: 29.9% | Hold: 25.4%
+    >> Video drop-off: CTA prilis pozde: 75% retention OK ale 100% propad — presun CTA drive
+
+  [120239312075210662] Idnes single
+    Spend: 3037.3 CZK | ROAS: 0.97 | CTR: 2.83%
+    Hook: 0.0% | Hold: None%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120239312075210662] Idnes single
+    Spend: 3037.3 CZK | ROAS: 0.97 | CTR: 2.83%
+    Hook: 0.0% | Hold: None%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120237229607040662] Hodinky koláž In Use - Copy
+    Spend: 2949.9 CZK | ROAS: 3.37 | CTR: 1.0%
+    Hook: 5.5% | Hold: 47.9%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 5.5% (benchmark >=25%), ROAS 3.37
+
+  [120237229607040662] Hodinky koláž In Use - Copy
+    Spend: 2949.9 CZK | ROAS: 3.37 | CTR: 1.0%
+    Hook: 5.5% | Hold: 47.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 5.5% (benchmark >=25%, minimum 20%)
+
+  [120237229607040662] Hodinky koláž In Use - Copy
+    Spend: 2949.9 CZK | ROAS: 3.37 | CTR: 1.0%
+    Hook: 5.5% | Hold: 47.9%
+    >> Video drop-off: spatny opening: Hook 5.5% — zmen 1. frame
+
+  [120239649833830662] kolaz 1
+    Spend: 2940.3 CZK | ROAS: 1.87 | CTR: 0.86%
+    >> Nizky CTR — zmen vizual nebo text: CTR 0.86% (benchmark food&bev >1.5%)
+
+  [120239279091500662] UGC 17 10%
+    Spend: 2794.2 CZK | ROAS: 1.58 | CTR: 3.13%
+    Hook: 40.0% | Hold: 24.5%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 40.0% (OK), Hold 24.5% (benchmark >40%)
+
+  [120239788486260662] UGC 64
+    Spend: 2730.7 CZK | ROAS: 2.39 | CTR: 0.95%
+    Hook: 14.3% | Hold: 15.0%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 14.3% (benchmark >=25%), ROAS 2.39
+
+  [120239788486260662] UGC 64
+    Spend: 2730.7 CZK | ROAS: 2.39 | CTR: 0.95%
+    Hook: 14.3% | Hold: 15.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 14.3% (benchmark >=25%, minimum 20%)
+
+  [120239788486260662] UGC 64
+    Spend: 2730.7 CZK | ROAS: 2.39 | CTR: 0.95%
+    Hook: 14.3% | Hold: 15.0%
+    >> Video drop-off: spatny opening: Hook 14.3% — zmen 1. frame
+
+  [120239068878980662] Or_ugc_1.1.
+    Spend: 2619.3 CZK | ROAS: 2.68 | CTR: 1.09%
+    Hook: 25.5% | Hold: 11.8%
+    >> Solidni hook, slaby hold: Hook 25.5%, Hold 11.8%
+
+  [120239068878980662] Or_ugc_1.1.
+    Spend: 2619.3 CZK | ROAS: 2.68 | CTR: 1.09%
+    Hook: 25.5% | Hold: 11.8%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120221074806910662] dana bab 1 - Copy
+    Spend: 2590.1 CZK | ROAS: 0.86 | CTR: 2.23%
+    Hook: 44.2% | Hold: 28.7%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 44.2% (OK), Hold 28.7% (benchmark >40%)
+
+  [120239762783370662] Slabikář 1
+    Spend: 2514.5 CZK | ROAS: 2.92 | CTR: 0.82%
+    Hook: 29.1% | Hold: 23.8%
+    >> Solidni hook, slaby hold: Hook 29.1%, Hold 23.8%
+
+  [120239762783370662] Slabikář 1
+    Spend: 2514.5 CZK | ROAS: 2.92 | CTR: 0.82%
+    Hook: 29.1% | Hold: 23.8%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239714660530662] Easter Radim 2 LC
+    Spend: 2513.4 CZK | ROAS: 2.35 | CTR: 1.06%
+    Hook: 16.6% | Hold: 15.3%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 16.6% (benchmark >=25%), ROAS 2.35
+
+  [120239714660530662] Easter Radim 2 LC
+    Spend: 2513.4 CZK | ROAS: 2.35 | CTR: 1.06%
+    Hook: 16.6% | Hold: 15.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 16.6% (benchmark >=25%, minimum 20%)
+
+  [120239714660530662] Easter Radim 2 LC
+    Spend: 2513.4 CZK | ROAS: 2.35 | CTR: 1.06%
+    Hook: 16.6% | Hold: 15.3%
+    >> Video drop-off: spatny opening: Hook 16.6% — zmen 1. frame
+
+  [120239764613570662] SIJ park 3 Easter LC
+    Spend: 2362.1 CZK | ROAS: 2.77 | CTR: 1.22%
+    Hook: 27.0% | Hold: 21.3%
+    >> Solidni hook, slaby hold: Hook 27.0%, Hold 21.3%
+
+  [120239764613570662] SIJ park 3 Easter LC
+    Spend: 2362.1 CZK | ROAS: 2.77 | CTR: 1.22%
+    Hook: 27.0% | Hold: 21.3%
+    >> Video drop-off: CTA prilis pozde: 75% retention OK ale 100% propad — presun CTA drive
+
+  [120239157982190662] Oliváč 3long
+    Spend: 2357.1 CZK | ROAS: 2.82 | CTR: 1.57%
+    Hook: 17.4% | Hold: 31.9%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 17.4% (benchmark >=25%), ROAS 2.82
+
+  [120239157982190662] Oliváč 3long
+    Spend: 2357.1 CZK | ROAS: 2.82 | CTR: 1.57%
+    Hook: 17.4% | Hold: 31.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 17.4% (benchmark >=25%, minimum 20%)
+
+  [120239157982190662] Oliváč 3long
+    Spend: 2357.1 CZK | ROAS: 2.82 | CTR: 1.57%
+    Hook: 17.4% | Hold: 31.9%
+    >> Video drop-off: spatny opening: Hook 17.4% — zmen 1. frame
+
+  [120239331857570662] Rovnice 1
+    Spend: 2225.2 CZK | ROAS: None | CTR: 1.06%
+    Hook: 0.4% | Hold: 40.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.4% (benchmark >=25%, minimum 20%)
+
+  [120239331857570662] Rovnice 1
+    Spend: 2225.2 CZK | ROAS: None | CTR: 1.06%
+    Hook: 0.4% | Hold: 40.0%
+    >> Video drop-off: spatny opening: Hook 0.4% — zmen 1. frame
+
+  [120239651457970662] Ivča 3
+    Spend: 2192.1 CZK | ROAS: 1.24 | CTR: 1.15%
+    Hook: 1.6% | Hold: 33.1%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 1.6% (benchmark >=25%, minimum 20%)
+
+  [120239651457970662] Ivča 3
+    Spend: 2192.1 CZK | ROAS: 1.24 | CTR: 1.15%
+    Hook: 1.6% | Hold: 33.1%
+    >> Video drop-off: spatny opening: Hook 1.6% — zmen 1. frame
+
+  [120237953976930662] Jáma 3 - Copy 2
+    Spend: 2133.7 CZK | ROAS: 1.64 | CTR: 1.02%
+    Hook: 13.8% | Hold: 15.8%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 13.8% (benchmark >=25%, minimum 20%)
+
+  [120237953976930662] Jáma 3 - Copy 2
+    Spend: 2133.7 CZK | ROAS: 1.64 | CTR: 1.02%
+    Hook: 13.8% | Hold: 15.8%
+    >> Video drop-off: spatny opening: Hook 13.8% — zmen 1. frame
+
+  [120239788174910662] Easter Radim 6 LC
+    Spend: 2114.6 CZK | ROAS: 3.15 | CTR: 1.01%
+    Hook: 18.6% | Hold: 16.7%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 18.6% (benchmark >=25%), ROAS 3.15
+
+  [120239788174910662] Easter Radim 6 LC
+    Spend: 2114.6 CZK | ROAS: 3.15 | CTR: 1.01%
+    Hook: 18.6% | Hold: 16.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 18.6% (benchmark >=25%, minimum 20%)
+
+  [120239788174910662] Easter Radim 6 LC
+    Spend: 2114.6 CZK | ROAS: 3.15 | CTR: 1.01%
+    Hook: 18.6% | Hold: 16.7%
+    >> Video drop-off: spatny opening: Hook 18.6% — zmen 1. frame
+
+  [120233741713780662] výborný 12
+    Spend: 2114.2 CZK | ROAS: 2.29 | CTR: 2.26%
+    Hook: 0.0% | Hold: None%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 2.29
+
+  [120233741713780662] výborný 12
+    Spend: 2114.2 CZK | ROAS: 2.29 | CTR: 2.26%
+    Hook: 0.0% | Hold: None%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120233741713780662] výborný 12
+    Spend: 2114.2 CZK | ROAS: 2.29 | CTR: 2.26%
+    Hook: 0.0% | Hold: None%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239279091490662] UGC 51 - Copy 2
+    Spend: 1930.0 CZK | ROAS: 1.72 | CTR: 1.84%
+    Hook: 26.8% | Hold: 26.7%
+    >> Solidni hook, slaby hold: Hook 26.8%, Hold 26.7%
+
+  [120237954446520662] UGC 45 - Copy 2
+    Spend: 1852.2 CZK | ROAS: 1.01 | CTR: 2.63%
+    Hook: 33.6% | Hold: 36.4%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 33.6% (OK), Hold 36.4% (benchmark >40%)
+
+  [120239651458110662] Easter Radim 4
+    Spend: 1835.2 CZK | ROAS: 2.43 | CTR: 1.91%
+    Hook: 20.4% | Hold: 15.4%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 20.4% (benchmark >=25%), ROAS 2.43
+
+  [120239651458110662] Easter Radim 4
+    Spend: 1835.2 CZK | ROAS: 2.43 | CTR: 1.91%
+    Hook: 20.4% | Hold: 15.4%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239780149000662] P_UGC_Marcela_0326-4
+    Spend: 1831.1 CZK | ROAS: 2.58 | CTR: 1.31%
+    Hook: 10.2% | Hold: 21.2%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 10.2% (benchmark >=25%), ROAS 2.58
+
+  [120239780149000662] P_UGC_Marcela_0326-4
+    Spend: 1831.1 CZK | ROAS: 2.58 | CTR: 1.31%
+    Hook: 10.2% | Hold: 21.2%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 10.2% (benchmark >=25%, minimum 20%)
+
+  [120239780149000662] P_UGC_Marcela_0326-4
+    Spend: 1831.1 CZK | ROAS: 2.58 | CTR: 1.31%
+    Hook: 10.2% | Hold: 21.2%
+    >> Video drop-off: spatny opening: Hook 10.2% — zmen 1. frame
+
+  [120221074806920662] dana 2 - Copy
+    Spend: 1820.5 CZK | ROAS: 1.08 | CTR: 3.46%
+    Hook: 44.8% | Hold: 34.5%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 44.8% (OK), Hold 34.5% (benchmark >40%)
+
+  [120239714660500662] v parku 1 LC
+    Spend: 1751.0 CZK | ROAS: 2.42 | CTR: 1.08%
+    Hook: 0.0% | Hold: 25.0%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 2.42
+
+  [120239714660500662] v parku 1 LC
+    Spend: 1751.0 CZK | ROAS: 2.42 | CTR: 1.08%
+    Hook: 0.0% | Hold: 25.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120239714660500662] v parku 1 LC
+    Spend: 1751.0 CZK | ROAS: 2.42 | CTR: 1.08%
+    Hook: 0.0% | Hold: 25.0%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120239779318870662] LC 3
+    Spend: 1732.4 CZK | ROAS: 3.79 | CTR: 1.28%
+    Hook: 0.0% | Hold: None%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.0% (benchmark >=25%), ROAS 3.79
+
+  [120239779318870662] LC 3
+    Spend: 1732.4 CZK | ROAS: 3.79 | CTR: 1.28%
+    Hook: 0.0% | Hold: None%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.0% (benchmark >=25%, minimum 20%)
+
+  [120239779318870662] LC 3
+    Spend: 1732.4 CZK | ROAS: 3.79 | CTR: 1.28%
+    Hook: 0.0% | Hold: None%
+    >> Video drop-off: spatny opening: Hook 0.0% — zmen 1. frame
+
+  [120237928207030662] Car 4
+    Spend: 1653.8 CZK | ROAS: 1.61 | CTR: 2.38%
+    Hook: 23.9% | Hold: 23.4%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239780064250662] Have you seen this video
+    Spend: 1653.5 CZK | ROAS: 1.59 | CTR: 0.96%
+    Hook: 17.4% | Hold: 6.2%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 17.4% (benchmark >=25%, minimum 20%)
+
+  [120239780064250662] Have you seen this video
+    Spend: 1653.5 CZK | ROAS: 1.59 | CTR: 0.96%
+    Hook: 17.4% | Hold: 6.2%
+    >> Video drop-off: spatny opening: Hook 17.4% — zmen 1. frame
+
+  [120239810807470662] Partnership 3
+    Spend: 1633.0 CZK | ROAS: 1.85 | CTR: 8.42%
+    Hook: 40.9% | Hold: 35.8%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 40.9% (OK), Hold 35.8% (benchmark >40%)
+
+  [120239722474160662] Ivča 1 - Copy
+    Spend: 1629.3 CZK | ROAS: 3.92 | CTR: 0.81%
+    >> Nizky CTR — zmen vizual nebo text: CTR 0.81% (benchmark food&bev >1.5%)
+
+  [120239777987090662] P_UGC_Marcela_0326-2
+    Spend: 1601.0 CZK | ROAS: 0.84 | CTR: 0.96%
+    Hook: 14.2% | Hold: 20.6%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 14.2% (benchmark >=25%, minimum 20%)
+
+  [120239777987090662] P_UGC_Marcela_0326-2
+    Spend: 1601.0 CZK | ROAS: 0.84 | CTR: 0.96%
+    Hook: 14.2% | Hold: 20.6%
+    >> Video drop-off: spatny opening: Hook 14.2% — zmen 1. frame
+
+  [120216525993060662] 10% stats
+    Spend: 1585.0 CZK | ROAS: 1.38 | CTR: 0.92%
+    >> Nizky CTR — zmen vizual nebo text: CTR 0.92% (benchmark food&bev >1.5%)
+
+  [120239713720800662] Easter Radim 6 LC
+    Spend: 1550.3 CZK | ROAS: 2.91 | CTR: 0.92%
+    Hook: 18.2% | Hold: 19.6%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 18.2% (benchmark >=25%), ROAS 2.91
+
+  [120239713720800662] Easter Radim 6 LC
+    Spend: 1550.3 CZK | ROAS: 2.91 | CTR: 0.92%
+    Hook: 18.2% | Hold: 19.6%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 18.2% (benchmark >=25%, minimum 20%)
+
+  [120239713720800662] Easter Radim 6 LC
+    Spend: 1550.3 CZK | ROAS: 2.91 | CTR: 0.92%
+    Hook: 18.2% | Hold: 19.6%
+    >> Video drop-off: spatny opening: Hook 18.2% — zmen 1. frame
+
+  [120239231690920662] Oliváč 1
+    Spend: 1531.1 CZK | ROAS: 1.44 | CTR: 3.06%
+    Hook: 17.6% | Hold: 24.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 17.6% (benchmark >=25%, minimum 20%)
+
+  [120239231690920662] Oliváč 1
+    Spend: 1531.1 CZK | ROAS: 1.44 | CTR: 3.06%
+    Hook: 17.6% | Hold: 24.9%
+    >> Video drop-off: spatny opening: Hook 17.6% — zmen 1. frame
+
+  [120239304210870662] Krádež
+    Spend: 1512.7 CZK | ROAS: 2.34 | CTR: 1.44%
+    Hook: 53.1% | Hold: 15.4%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 53.1% (OK), Hold 15.4% (benchmark >40%)
+
+  [120239304210870662] Krádež
+    Spend: 1512.7 CZK | ROAS: 2.34 | CTR: 1.44%
+    Hook: 53.1% | Hold: 15.4%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120235503281280662] UGC 57
+    Spend: 1490.7 CZK | ROAS: 1.55 | CTR: 1.93%
+    Hook: 15.9% | Hold: 27.2%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 15.9% (benchmark >=25%, minimum 20%)
+
+  [120235503281280662] UGC 57
+    Spend: 1490.7 CZK | ROAS: 1.55 | CTR: 1.93%
+    Hook: 15.9% | Hold: 27.2%
+    >> Video drop-off: spatny opening: Hook 15.9% — zmen 1. frame
+
+  [120239228113820662] Bold text 1 traffic
+    Spend: 1426.3 CZK | ROAS: None | CTR: 2.34%
+    Hook: 24.0% | Hold: 15.1%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239713720790662] Easter Radim 3 LC
+    Spend: 1416.3 CZK | ROAS: 2.17 | CTR: 1.41%
+    Hook: 16.5% | Hold: 17.3%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 16.5% (benchmark >=25%), ROAS 2.17
+
+  [120239713720790662] Easter Radim 3 LC
+    Spend: 1416.3 CZK | ROAS: 2.17 | CTR: 1.41%
+    Hook: 16.5% | Hold: 17.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 16.5% (benchmark >=25%, minimum 20%)
+
+  [120239713720790662] Easter Radim 3 LC
+    Spend: 1416.3 CZK | ROAS: 2.17 | CTR: 1.41%
+    Hook: 16.5% | Hold: 17.3%
+    >> Video drop-off: spatny opening: Hook 16.5% — zmen 1. frame
+
+  [120234558065780662] UGC 60 zamiluje
+    Spend: 1323.1 CZK | ROAS: 0.57 | CTR: 2.1%
+    Hook: 31.1% | Hold: 25.4%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 31.1% (OK), Hold 25.4% (benchmark >40%)
+
+  [120237954446500662] UGC 55 - Copy
+    Spend: 1314.5 CZK | ROAS: 1.26 | CTR: 2.05%
+    Hook: 35.4% | Hold: 26.9%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 35.4% (OK), Hold 26.9% (benchmark >40%)
+
+  [120237954446500662] UGC 55 - Copy
+    Spend: 1314.5 CZK | ROAS: 1.26 | CTR: 2.05%
+    Hook: 35.4% | Hold: 26.9%
+    >> Video drop-off: CTA prilis pozde: 75% retention OK ale 100% propad — presun CTA drive
+
+  [120239651458050662] rest
+    Spend: 1290.0 CZK | ROAS: 0.27 | CTR: 1.07%
+    Hook: 1.0% | Hold: 40.8%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 1.0% (benchmark >=25%, minimum 20%)
+
+  [120239651458050662] rest
+    Spend: 1290.0 CZK | ROAS: 0.27 | CTR: 1.07%
+    Hook: 1.0% | Hold: 40.8%
+    >> Video drop-off: spatny opening: Hook 1.0% — zmen 1. frame
+
+  [120234609075870662] UGC 29.1 10% CTA short - Copy
+    Spend: 1239.5 CZK | ROAS: 2.64 | CTR: 3.09%
+    Hook: 32.2% | Hold: 27.1%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 32.2% (OK), Hold 27.1% (benchmark >40%)
+
+  [120239430279060662] Oliváč 2
+    Spend: 1233.0 CZK | ROAS: None | CTR: 1.64%
+    Hook: 17.3% | Hold: 20.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 17.3% (benchmark >=25%, minimum 20%)
+
+  [120239430279060662] Oliváč 2
+    Spend: 1233.0 CZK | ROAS: None | CTR: 1.64%
+    Hook: 17.3% | Hold: 20.0%
+    >> Video drop-off: spatny opening: Hook 17.3% — zmen 1. frame
+
+  [120239430279010662] Google search oliv
+    Spend: 1203.1 CZK | ROAS: 0.23 | CTR: 1.69%
+    Hook: 15.6% | Hold: 20.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 15.6% (benchmark >=25%, minimum 20%)
+
+  [120239430279010662] Google search oliv
+    Spend: 1203.1 CZK | ROAS: 0.23 | CTR: 1.69%
+    Hook: 15.6% | Hold: 20.7%
+    >> Video drop-off: spatny opening: Hook 15.6% — zmen 1. frame
+
+  [120239279091470662] UGC 43 too long - Copy
+    Spend: 1198.4 CZK | ROAS: 1.79 | CTR: 4.34%
+    Hook: 41.7% | Hold: 31.0%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 41.7% (OK), Hold 31.0% (benchmark >40%)
+
+  [120239734490680662] Katalog Easter LC
+    Spend: 1190.8 CZK | ROAS: 0.7 | CTR: 0.56%
+    Hook: 3.4% | Hold: 33.6%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 3.4% (benchmark >=25%, minimum 20%)
+
+  [120239734490680662] Katalog Easter LC
+    Spend: 1190.8 CZK | ROAS: 0.7 | CTR: 0.56%
+    Hook: 3.4% | Hold: 33.6%
+    >> Video drop-off: spatny opening: Hook 3.4% — zmen 1. frame
+
+  [120238918570870662] UGC 9 - Copy
+    Spend: 1081.0 CZK | ROAS: 0.39 | CTR: 1.73%
+    Hook: 32.8% | Hold: 20.7%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 32.8% (OK), Hold 20.7% (benchmark >40%)
+
+  [120239192440320662] Duo 1
+    Spend: 1069.0 CZK | ROAS: None | CTR: 1.11%
+    Hook: 3.3% | Hold: 19.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 3.3% (benchmark >=25%, minimum 20%)
+
+  [120239192440320662] Duo 1
+    Spend: 1069.0 CZK | ROAS: None | CTR: 1.11%
+    Hook: 3.3% | Hold: 19.0%
+    >> Video drop-off: spatny opening: Hook 3.3% — zmen 1. frame
+
+  [120235503236480662] UGC 45 - Copy
+    Spend: 1067.5 CZK | ROAS: 5.06 | CTR: 2.75%
+    Hook: 33.0% | Hold: 35.1%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 33.0% (OK), Hold 35.1% (benchmark >40%)
+
+  [120239434509550662] Us vs. them oliv 1
+    Spend: 1043.4 CZK | ROAS: 1.98 | CTR: 2.59%
+    Hook: 0.1% | Hold: 54.5%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.1% (benchmark >=25%, minimum 20%)
+
+  [120239434509550662] Us vs. them oliv 1
+    Spend: 1043.4 CZK | ROAS: 1.98 | CTR: 2.59%
+    Hook: 0.1% | Hold: 54.5%
+    >> Video drop-off: spatny opening: Hook 0.1% — zmen 1. frame
+
+  [120239279219290662] Vlada jídelníček - Copy
+    Spend: 1041.3 CZK | ROAS: None | CTR: 1.92%
+    Hook: 40.3% | Hold: 22.4%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 40.3% (OK), Hold 22.4% (benchmark >40%)
+
+  [120239713720820662] Easter Radim 5 LC
+    Spend: 838.6 CZK | ROAS: 0.99 | CTR: 1.23%
+    Hook: 39.1% | Hold: 8.8%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 39.1% (OK), Hold 8.8% (benchmark >40%)
+
+  [120239649833810662] stul 1
+    Spend: 739.5 CZK | ROAS: 1.12 | CTR: 0.81%
+    >> Nizky CTR — zmen vizual nebo text: CTR 0.81% (benchmark food&bev >1.5%)
+
+  [120233742445200662] víc 15
+    Spend: 727.6 CZK | ROAS: 0.27 | CTR: 2.09%
+    >> Vysoky CTR ale nizky ROAS — disconnect kreativa vs. LP: CTR 2.09%, ROAS 0.27, CVR 0.58%
+
+  [120233742445200662] víc 15
+    Spend: 727.6 CZK | ROAS: 0.27 | CTR: 2.09%
+    >> LP problem — CTR OK ale CVR nizka: CTR 2.09%, CVR 0.58%
+
+  [120239312075150662] Podnikatel 1
+    Spend: 724.7 CZK | ROAS: 1.04 | CTR: 1.18%
+    Hook: 12.4% | Hold: 36.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 12.4% (benchmark >=25%, minimum 20%)
+
+  [120239312075150662] Podnikatel 1
+    Spend: 724.7 CZK | ROAS: 1.04 | CTR: 1.18%
+    Hook: 12.4% | Hold: 36.3%
+    >> Video drop-off: spatny opening: Hook 12.4% — zmen 1. frame
+
+  [120239762335770662] Text based 1
+    Spend: 627.5 CZK | ROAS: 1.07 | CTR: 0.69%
+    Hook: 22.4% | Hold: 28.7%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239331857580662] Lifehacks 1
+    Spend: 625.1 CZK | ROAS: None | CTR: 0.56%
+    >> Nizky CTR — zmen vizual nebo text: CTR 0.56% (benchmark food&bev >1.5%)
+
+  [120239873480500662] Letadlo
+    Spend: 586.7 CZK | ROAS: None | CTR: 2.69%
+    Hook: 60.4% | Hold: 17.2%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 60.4% (OK), Hold 17.2% (benchmark >40%)
+
+  [120239873619610662] P_UGC_Marcela_0326-2Richie
+    Spend: 564.2 CZK | ROAS: 1.34 | CTR: 1.3%
+    Hook: 16.4% | Hold: 25.5%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 16.4% (benchmark >=25%, minimum 20%)
+
+  [120239873619610662] P_UGC_Marcela_0326-2Richie
+    Spend: 564.2 CZK | ROAS: 1.34 | CTR: 1.3%
+    Hook: 16.4% | Hold: 25.5%
+    >> Video drop-off: spatny opening: Hook 16.4% — zmen 1. frame
+
+  [120239652749030662] Easter 7
+    Spend: 560.1 CZK | ROAS: None | CTR: 0.8%
+    Hook: 31.2% | Hold: 27.4%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 31.2% (OK), Hold 27.4% (benchmark >40%)
+
+  [120239652749030662] Easter 7
+    Spend: 560.1 CZK | ROAS: None | CTR: 0.8%
+    Hook: 31.2% | Hold: 27.4%
+    >> Video drop-off: propad uprostred: Silny drop mezi 25-50% videa
+
+  [120239734480260662] P_UGC_Marcela_0326-4
+    Spend: 522.3 CZK | ROAS: 6.67 | CTR: 1.27%
+    Hook: 11.6% | Hold: 20.3%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 11.6% (benchmark >=25%), ROAS 6.67
+
+  [120239734480260662] P_UGC_Marcela_0326-4
+    Spend: 522.3 CZK | ROAS: 6.67 | CTR: 1.27%
+    Hook: 11.6% | Hold: 20.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 11.6% (benchmark >=25%, minimum 20%)
+
+  [120239734480260662] P_UGC_Marcela_0326-4
+    Spend: 522.3 CZK | ROAS: 6.67 | CTR: 1.27%
+    Hook: 11.6% | Hold: 20.3%
+    >> Video drop-off: spatny opening: Hook 11.6% — zmen 1. frame
+
+  [120237229313080662] Pizza 11 - Copy
+    Spend: 520.7 CZK | ROAS: 3.43 | CTR: 0.23%
+    Hook: 0.8% | Hold: 39.6%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.8% (benchmark >=25%), ROAS 3.43
+
+  [120237229313080662] Pizza 11 - Copy
+    Spend: 520.7 CZK | ROAS: 3.43 | CTR: 0.23%
+    Hook: 0.8% | Hold: 39.6%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.8% (benchmark >=25%, minimum 20%)
+
+  [120237229313080662] Pizza 11 - Copy
+    Spend: 520.7 CZK | ROAS: 3.43 | CTR: 0.23%
+    Hook: 0.8% | Hold: 39.6%
+    >> Video drop-off: spatny opening: Hook 0.8% — zmen 1. frame
+
+  [120239652697220662] Easter Radim 5
+    Spend: 500.4 CZK | ROAS: 2.18 | CTR: 1.17%
+    Hook: 34.4% | Hold: 6.2%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 34.4% (OK), Hold 6.2% (benchmark >40%)
+
+  [120237953976900662] Jim chyba - Copy 2
+    Spend: 449.9 CZK | ROAS: 3.02 | CTR: 1.44%
+    Hook: 6.9% | Hold: 19.7%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 6.9% (benchmark >=25%), ROAS 3.02
+
+  [120237953976900662] Jim chyba - Copy 2
+    Spend: 449.9 CZK | ROAS: 3.02 | CTR: 1.44%
+    Hook: 6.9% | Hold: 19.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 6.9% (benchmark >=25%, minimum 20%)
+
+  [120237953976900662] Jim chyba - Copy 2
+    Spend: 449.9 CZK | ROAS: 3.02 | CTR: 1.44%
+    Hook: 6.9% | Hold: 19.7%
+    >> Video drop-off: spatny opening: Hook 6.9% — zmen 1. frame
+
+  [120239722474150662] v parku 3 - Copy
+    Spend: 447.9 CZK | ROAS: 2.42 | CTR: 1.31%
+    Hook: 1.2% | Hold: 56.0%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 1.2% (benchmark >=25%), ROAS 2.42
+
+  [120239722474150662] v parku 3 - Copy
+    Spend: 447.9 CZK | ROAS: 2.42 | CTR: 1.31%
+    Hook: 1.2% | Hold: 56.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 1.2% (benchmark >=25%, minimum 20%)
+
+  [120239722474150662] v parku 3 - Copy
+    Spend: 447.9 CZK | ROAS: 2.42 | CTR: 1.31%
+    Hook: 1.2% | Hold: 56.0%
+    >> Video drop-off: spatny opening: Hook 1.2% — zmen 1. frame
+
+  [120239727242010662] P_UGC_Marcela_0326-2
+    Spend: 390.3 CZK | ROAS: None | CTR: 0.74%
+    Hook: 14.2% | Hold: 18.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 14.2% (benchmark >=25%, minimum 20%)
+
+  [120239727242010662] P_UGC_Marcela_0326-2
+    Spend: 390.3 CZK | ROAS: None | CTR: 0.74%
+    Hook: 14.2% | Hold: 18.3%
+    >> Video drop-off: spatny opening: Hook 14.2% — zmen 1. frame
+
+  [120239650156070662] v parku 3
+    Spend: 352.6 CZK | ROAS: 1.91 | CTR: 0.86%
+    Hook: 4.3% | Hold: 33.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 4.3% (benchmark >=25%, minimum 20%)
+
+  [120239650156070662] v parku 3
+    Spend: 352.6 CZK | ROAS: 1.91 | CTR: 0.86%
+    Hook: 4.3% | Hold: 33.3%
+    >> Video drop-off: spatny opening: Hook 4.3% — zmen 1. frame
+
+  [120239762675960662] P_UGC_Marcela_0326-4
+    Spend: 339.5 CZK | ROAS: None | CTR: 1.11%
+    Hook: 9.6% | Hold: 16.5%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 9.6% (benchmark >=25%, minimum 20%)
+
+  [120239762675960662] P_UGC_Marcela_0326-4
+    Spend: 339.5 CZK | ROAS: None | CTR: 1.11%
+    Hook: 9.6% | Hold: 16.5%
+    >> Video drop-off: spatny opening: Hook 9.6% — zmen 1. frame
+
+  [120237229313340662] tajné - Copy
+    Spend: 327.2 CZK | ROAS: 1.32 | CTR: 0.38%
+    Hook: 0.7% | Hold: 21.8%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.7% (benchmark >=25%, minimum 20%)
+
+  [120237229313340662] tajné - Copy
+    Spend: 327.2 CZK | ROAS: 1.32 | CTR: 0.38%
+    Hook: 0.7% | Hold: 21.8%
+    >> Video drop-off: spatny opening: Hook 0.7% — zmen 1. frame
+
+  [120239312075190662] Vyhrála single 2
+    Spend: 324.7 CZK | ROAS: None | CTR: 2.16%
+    Hook: 0.3% | Hold: 33.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.3% (benchmark >=25%, minimum 20%)
+
+  [120239312075190662] Vyhrála single 2
+    Spend: 324.7 CZK | ROAS: None | CTR: 2.16%
+    Hook: 0.3% | Hold: 33.3%
+    >> Video drop-off: spatny opening: Hook 0.3% — zmen 1. frame
+
+  [120237229313150662] nesnaset - Copy
+    Spend: 304.2 CZK | ROAS: None | CTR: 0.28%
+    Hook: 0.6% | Hold: 34.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.6% (benchmark >=25%, minimum 20%)
+
+  [120237229313150662] nesnaset - Copy
+    Spend: 304.2 CZK | ROAS: None | CTR: 0.28%
+    Hook: 0.6% | Hold: 34.9%
+    >> Video drop-off: spatny opening: Hook 0.6% — zmen 1. frame
+
+  [120239762702770662] P_UGC_Marcela_0326-2
+    Spend: 286.0 CZK | ROAS: 2.94 | CTR: 0.82%
+    Hook: 14.0% | Hold: 16.9%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 14.0% (benchmark >=25%), ROAS 2.94
+
+  [120239762702770662] P_UGC_Marcela_0326-2
+    Spend: 286.0 CZK | ROAS: 2.94 | CTR: 0.82%
+    Hook: 14.0% | Hold: 16.9%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 14.0% (benchmark >=25%, minimum 20%)
+
+  [120239762702770662] P_UGC_Marcela_0326-2
+    Spend: 286.0 CZK | ROAS: 2.94 | CTR: 0.82%
+    Hook: 14.0% | Hold: 16.9%
+    >> Video drop-off: spatny opening: Hook 14.0% — zmen 1. frame
+
+  [120237229313360662] říkají 6 - Copy
+    Spend: 278.7 CZK | ROAS: 8.71 | CTR: 0.18%
+    Hook: 2.1% | Hold: 25.0%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 2.1% (benchmark >=25%), ROAS 8.71
+
+  [120237229313360662] říkají 6 - Copy
+    Spend: 278.7 CZK | ROAS: 8.71 | CTR: 0.18%
+    Hook: 2.1% | Hold: 25.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 2.1% (benchmark >=25%, minimum 20%)
+
+  [120237229313360662] říkají 6 - Copy
+    Spend: 278.7 CZK | ROAS: 8.71 | CTR: 0.18%
+    Hook: 2.1% | Hold: 25.0%
+    >> Video drop-off: spatny opening: Hook 2.1% — zmen 1. frame
+
+  [120237229313090662] Závislost 10 - Copy
+    Spend: 227.0 CZK | ROAS: 2.91 | CTR: 0.38%
+    Hook: 0.9% | Hold: 15.8%
+    >> Podprumerny hook ale slusny ROAS — natoc novy hook: Hook 0.9% (benchmark >=25%), ROAS 2.91
+
+  [120237229313090662] Závislost 10 - Copy
+    Spend: 227.0 CZK | ROAS: 2.91 | CTR: 0.38%
+    Hook: 0.9% | Hold: 15.8%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.9% (benchmark >=25%, minimum 20%)
+
+  [120237229313090662] Závislost 10 - Copy
+    Spend: 227.0 CZK | ROAS: 2.91 | CTR: 0.38%
+    Hook: 0.9% | Hold: 15.8%
+    >> Video drop-off: spatny opening: Hook 0.9% — zmen 1. frame
+
+  [120237484045930662] old 2
+    Spend: 211.3 CZK | ROAS: 0.6 | CTR: 0.51%
+    Hook: 0.3% | Hold: 16.7%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.3% (benchmark >=25%, minimum 20%)
+
+  [120237484045930662] old 2
+    Spend: 211.3 CZK | ROAS: 0.6 | CTR: 0.51%
+    Hook: 0.3% | Hold: 16.7%
+    >> Video drop-off: spatny opening: Hook 0.3% — zmen 1. frame
+
+  [120221078974460662] Vlada jídelníček
+    Spend: 204.3 CZK | ROAS: None | CTR: 1.14%
+    Hook: 35.4% | Hold: 18.0%
+    >> Dobry hook, slaby hold — uprav stred videa: Hook 35.4% (OK), Hold 18.0% (benchmark >40%)
+
+  [120237229313350662] Venna - Copy
+    Spend: 150.3 CZK | ROAS: None | CTR: 0.37%
+    Hook: 0.5% | Hold: 40.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.5% (benchmark >=25%, minimum 20%)
+
+  [120237229313350662] Venna - Copy
+    Spend: 150.3 CZK | ROAS: None | CTR: 0.37%
+    Hook: 0.5% | Hold: 40.0%
+    >> Video drop-off: spatny opening: Hook 0.5% — zmen 1. frame
+
+  [120221074806900662] dana dcera short - Copy
+    Spend: 145.7 CZK | ROAS: None | CTR: 1.35%
+    Hook: 18.4% | Hold: 19.3%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 18.4% (benchmark >=25%, minimum 20%)
+
+  [120221074806900662] dana dcera short - Copy
+    Spend: 145.7 CZK | ROAS: None | CTR: 1.35%
+    Hook: 18.4% | Hold: 19.3%
+    >> Video drop-off: spatny opening: Hook 18.4% — zmen 1. frame
+
+  [120237484045940662] čekat
+    Spend: 129.1 CZK | ROAS: None | CTR: 0.39%
+    Hook: 0.2% | Hold: 20.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.2% (benchmark >=25%, minimum 20%)
+
+  [120237484045940662] čekat
+    Spend: 129.1 CZK | ROAS: None | CTR: 0.39%
+    Hook: 0.2% | Hold: 20.0%
+    >> Video drop-off: spatny opening: Hook 0.2% — zmen 1. frame
+
+  [120237229313370662] Chutné 9 - Copy 2
+    Spend: 96.6 CZK | ROAS: None | CTR: 0.26%
+    Hook: 0.1% | Hold: 20.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.1% (benchmark >=25%, minimum 20%)
+
+  [120237229313370662] Chutné 9 - Copy 2
+    Spend: 96.6 CZK | ROAS: None | CTR: 0.26%
+    Hook: 0.1% | Hold: 20.0%
+    >> Video drop-off: spatny opening: Hook 0.1% — zmen 1. frame
+
+  [120237229313390662] děti 11 - Copy
+    Spend: 40.8 CZK | ROAS: None | CTR: 0.14%
+    Hook: 0.1% | Hold: 100.0%
+    >> Nizky hook — 1. frame a text overlay nefunguje: Hook 0.1% (benchmark >=25%, minimum 20%)
+
+  [120237229313390662] děti 11 - Copy
+    Spend: 40.8 CZK | ROAS: None | CTR: 0.14%
+    Hook: 0.1% | Hold: 100.0%
+    >> Video drop-off: spatny opening: Hook 0.1% — zmen 1. frame
+
+======================================================================
+  TOP PERFORMERS (by ROAS)
+======================================================================
+
+  Ad Name                                Spend   ROAS     CPA   Hook   Hold
+  ----------------------------------- -------- ------ ------- ------ ------
+  Komplet 1                               140  19.07    69.9      —      —
+  říkají 6 - Copy                         279   8.71   139.3   2.1%  25.0%
+  P_UGC_Marcela_0326-4                    522   6.67   104.5  11.6%  20.3%
+  LC 4                                   7688   5.90   128.1   0.1%  20.7%
+  Ivča 2                                  221   5.46   110.4      —      —
+  Have you seen this video                158   5.25   158.4  45.7%  11.7%
+  UGC 45 - Copy                          1068   5.06   177.9  33.0%  35.1%
+  LC 2                                   6052   4.91   163.6   0.1%   5.6%
+  Oliváč 2                               4093   4.51   240.8  17.6%  23.1%
+  simple                                46912   4.37   189.9      —  16.7%
+
+======================================================================
+  BENCHMARKY v2 (research-backed)
+======================================================================
+  Video:  Hook >=25% standard, >=30% dobre, >=35% elite
+          Hold >=40% standard, >=50% dobre, >=60% elite
+  Static: CTR >=1.0% minimum, >=1.5% dobre, >=2.0% elite
+  Oba:    CVR >=2.0% dobre, >=3.0% vyborne (food&bev)
+  Target: ROAS 2.5 | CPA 250 CZK
+======================================================================
