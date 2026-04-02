@@ -40,14 +40,11 @@ meta_roas = meta_revenue / meta_spend if meta_spend > 0 else 0
 ga4_data = None
 ga4_error = None
 try:
-    # Try to import ga4_bridge if available
-    scripts_dir = Path(__file__).parent.parent.parent / "scripts"
-    sys.path.insert(0, str(scripts_dir))
-    import ga4_bridge as ga4b
+    from creative_intelligence.ga4_bridge import fetch_ga4_attribution
 
     @st.cache_data(ttl=3600, show_spinner="Nacitam GA4 data...")
     def load_ga4(d):
-        return ga4b.fetch_ga4_attribution(d)
+        return fetch_ga4_attribution(d)
 
     ga4_data = load_ga4(days)
 except Exception as e:
@@ -60,10 +57,10 @@ shoptet_error = None
 shoptet_token = os.environ.get("SHOPTET_API_TOKEN")
 if shoptet_token:
     try:
-        import shoptet_bridge as sb
+        from creative_intelligence.shoptet_bridge import fetch_daily_summary
         @st.cache_data(ttl=3600, show_spinner="Nacitam Shoptet data...")
         def load_shoptet(d):
-            return sb.fetch_daily_summary(d)
+            return fetch_daily_summary(d)
         shoptet_data = load_shoptet(days)
     except Exception as e:
         shoptet_error = str(e)
