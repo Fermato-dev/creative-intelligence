@@ -64,7 +64,7 @@ for col, comp_type, label in [
         st.markdown(f"""<div class="health-card">
         <div class="health-label">{label}</div>
         <div class="health-value">{c['count']}</div>
-        <div class="health-sub">avg ROAS: {c['avg_roas']:.2f if c['avg_roas'] else '—'}</div>
+        <div class="health-sub">avg ROAS: {f"{c['avg_roas']:.2f}" if c['avg_roas'] else '—'}</div>
         </div>""", unsafe_allow_html=True)
 
 with c4:
