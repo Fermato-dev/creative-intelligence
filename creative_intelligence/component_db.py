@@ -15,8 +15,15 @@ from pathlib import Path
 from .config import DB_PATH, DATA_DIR, COMPONENT_REANALYSIS_DAYS
 
 
-def get_db():
+def get_db(readonly=False):
     """Get SQLite connection with initialized schema."""
+    if readonly:
+        # Read-only mode for dashboard (no WAL, no schema init)
+        if not DB_PATH.exists():
+            raise FileNotFoundError(f"DB not found: {DB_PATH}")
+        conn = sqlite3.connect(f"file:{DB_PATH}?mode=ro", uri=True)
+        conn.row_factory = sqlite3.Row
+        return conn
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row

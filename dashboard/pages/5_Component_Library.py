@@ -40,7 +40,7 @@ try:
     _counts = {t: _c.execute(f"SELECT COUNT(*) FROM [{t}]").fetchone()[0] for t in _tables}
     _c.close()
     st.caption(f"DB: {DB_PATH} | exists: {DB_PATH.exists()} | size: {DB_PATH.stat().st_size}B | tables: {_counts}")
-    conn = get_db()
+    conn = get_db(readonly=True)
     has_db = True
 except Exception as e:
     has_db = False
