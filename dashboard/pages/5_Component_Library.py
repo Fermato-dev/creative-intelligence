@@ -34,7 +34,12 @@ try:
         get_pending_recommendations,
     )
     from creative_intelligence.config import DB_PATH
-    st.caption(f"DB: {DB_PATH} | exists: {DB_PATH.exists()}")
+    import sqlite3 as _sql
+    _c = _sql.connect(str(DB_PATH))
+    _tables = [t[0] for t in _c.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+    _counts = {t: _c.execute(f"SELECT COUNT(*) FROM [{t}]").fetchone()[0] for t in _tables}
+    _c.close()
+    st.caption(f"DB: {DB_PATH} | exists: {DB_PATH.exists()} | size: {DB_PATH.stat().st_size}B | tables: {_counts}")
     conn = get_db()
     has_db = True
 except Exception as e:
