@@ -2,3 +2,5 @@ streamlit>=1.30
 plotly>=5.18
 pandas>=2.0
 anthropic>=0.40.0
+google-analytics-data>=0.18.0
+google-auth-oauthlib>=1.0.0

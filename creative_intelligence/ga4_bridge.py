@@ -4,7 +4,11 @@ Na Railway bez OAuth tokenu vraci graceful error.
 Lokalne vyzaduje google-analytics-data package + OAuth token.
 """
 
+import base64
+import json
+import os
 import sys
+import tempfile
 from pathlib import Path
 
 META_SOURCES = [
@@ -28,27 +32,47 @@ def _get_ga4_client():
         raise ImportError("google-analytics-data package neni nainstalovany. Spust: pip install google-analytics-data google-auth-oauthlib")
 
     SCOPES = ["https://www.googleapis.com/auth/analytics.readonly"]
-    # Try multiple token locations
-    token_paths = [
-        Path(__file__).parent.parent / "data" / ".ga4_token.json",
-        Path(__file__).parent.parent / "config" / ".ga4_token.json",
-        Path.home() / ".ga4_token.json",
-    ]
 
     creds = None
-    for tp in token_paths:
-        if tp.exists():
-            creds = Credentials.from_authorized_user_file(str(tp), SCOPES)
+
+    # Strategy 1: GA4_TOKEN_B64 env var (Railway)
+    token_b64 = os.environ.get("GA4_TOKEN_B64")
+    if token_b64:
+        try:
+            token_json = base64.b64decode(token_b64).decode("utf-8")
+            token_data = json.loads(token_json)
+            # Write to temp file for Credentials loader
+            tmp = Path(tempfile.gettempdir()) / ".ga4_token.json"
+            tmp.write_text(token_json, encoding="utf-8")
+            creds = Credentials.from_authorized_user_file(str(tmp), SCOPES)
             if creds and creds.expired and creds.refresh_token:
-                try:
-                    creds.refresh(Request())
-                    tp.write_text(creds.to_json())
-                except Exception:
-                    creds = None
-            break
+                creds.refresh(Request())
+                # Update env-sourced token with refreshed version
+                tmp.write_text(creds.to_json())
+        except Exception as e:
+            print(f"  WARN: GA4_TOKEN_B64 decode/refresh failed: {e}", file=sys.stderr)
+            creds = None
+
+    # Strategy 2: Local token files
+    if not creds or not creds.valid:
+        token_paths = [
+            Path(__file__).parent.parent / "data" / ".ga4_token.json",
+            Path(__file__).parent.parent / "config" / ".ga4_token.json",
+            Path.home() / ".ga4_token.json",
+        ]
+        for tp in token_paths:
+            if tp.exists():
+                creds = Credentials.from_authorized_user_file(str(tp), SCOPES)
+                if creds and creds.expired and creds.refresh_token:
+                    try:
+                        creds.refresh(Request())
+                        tp.write_text(creds.to_json())
+                    except Exception:
+                        creds = None
+                break
 
     if not creds or not creds.valid:
-        raise RuntimeError("GA4 OAuth token neni dostupny. Spust lokalne: python -m creative_intelligence.ga4_setup")
+        raise RuntimeError("GA4 OAuth token neni dostupny — nastav GA4_TOKEN_B64 env var nebo lokalni token file")
 
     return BetaAnalyticsDataClient(credentials=creds)
 
