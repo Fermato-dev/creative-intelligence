@@ -1,5 +1,5 @@
 """
-Startup DB validation — ensures creative_analysis.db has correct schema.
+Startup DB validation — ensures all SQLite DBs have correct schema.
 Runs before Streamlit on Railway deploy.
 
 Autor: Claude Code + CEO
@@ -11,39 +11,69 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).parent.parent
-DB_PATH = REPO_ROOT / "data" / "creative_analysis.db"
-
-REQUIRED_TABLES = ["components", "tested_combinations", "recommendations"]
+DATA_DIR = REPO_ROOT / "data"
+COMPONENT_DB = DATA_DIR / "creative_analysis.db"
+VOICE_DB = DATA_DIR / "customer_voice.db"
 
 
 def init():
-    """Validate DB exists and has v3 schema. Create schema if missing."""
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    """Validate all DBs exist and have correct schemas."""
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-    if not DB_PATH.exists() or DB_PATH.stat().st_size == 0:
-        print(f"INIT: DB missing or empty at {DB_PATH}, creating schema...")
-        _create_schema()
+    _init_component_db()
+    _init_voice_db()
+
+
+def _init_component_db():
+    """Validate component library DB."""
+    required = ["components", "tested_combinations", "recommendations"]
+
+    if not COMPONENT_DB.exists() or COMPONENT_DB.stat().st_size == 0:
+        print(f"INIT: Component DB missing/empty, creating schema...")
+        _create_component_schema()
         return
 
-    # DB exists — check tables
-    conn = sqlite3.connect(str(DB_PATH))
-    tables = [t[0] for t in conn.execute(
-        "SELECT name FROM sqlite_master WHERE type='table'"
-    ).fetchall()]
+    conn = sqlite3.connect(str(COMPONENT_DB))
+    tables = [t[0] for t in conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
     conn.close()
 
-    missing = [t for t in REQUIRED_TABLES if t not in tables]
+    missing = [t for t in required if t not in tables]
     if missing:
-        print(f"INIT: DB missing tables {missing}, initializing schema...")
-        _create_schema()
+        print(f"INIT: Component DB missing tables {missing}, initializing...")
+        _create_component_schema()
         return
 
-    # All good — report status
-    conn = sqlite3.connect(str(DB_PATH))
+    conn = sqlite3.connect(str(COMPONENT_DB))
     count = conn.execute("SELECT count(*) FROM components").fetchone()[0]
     rec_count = conn.execute("SELECT count(*) FROM recommendations").fetchone()[0]
     conn.close()
-    print(f"INIT: DB OK — {count} components, {rec_count} recommendations ({DB_PATH.stat().st_size} bytes)")
+    print(f"INIT: Component DB OK — {count} components, {rec_count} recommendations")
+
+
+def _init_voice_db():
+    """Validate customer voice DB."""
+    required = ["voice_sources", "customer_profiles"]
+
+    if not VOICE_DB.exists() or VOICE_DB.stat().st_size == 0:
+        print(f"INIT: Voice DB missing/empty, creating schema...")
+        _create_voice_schema()
+        return
+
+    conn = sqlite3.connect(str(VOICE_DB))
+    tables = [t[0] for t in conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()]
+    conn.close()
+
+    missing = [t for t in required if t not in tables]
+    if missing:
+        print(f"INIT: Voice DB missing tables {missing}, initializing...")
+        _create_voice_schema()
+        return
+
+    conn = sqlite3.connect(str(VOICE_DB))
+    profiles = conn.execute("SELECT count(*) FROM customer_profiles").fetchone()[0]
+    sources = conn.execute("SELECT count(*) FROM voice_sources").fetchone()[0]
+    conn.close()
+    print(f"INIT: Voice DB OK — {profiles} profiles, {sources} sources")
 
 
 def _create_schema():
@@ -106,7 +136,36 @@ def _create_schema():
     """)
     conn.commit()
     conn.close()
-    print(f"INIT: Schema created ({DB_PATH.stat().st_size} bytes)")
+    print(f"INIT: Component schema created ({COMPONENT_DB.stat().st_size} bytes)")
+
+
+def _create_voice_schema():
+    """Create customer voice schema."""
+    conn = sqlite3.connect(str(VOICE_DB))
+    conn.executescript("""
+        CREATE TABLE IF NOT EXISTS voice_sources (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            product_key TEXT NOT NULL,
+            source_type TEXT NOT NULL,
+            source_url TEXT,
+            raw_content TEXT NOT NULL,
+            fetched_at TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS customer_profiles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            product_key TEXT NOT NULL,
+            profile_json TEXT NOT NULL,
+            voice_vocabulary TEXT NOT NULL,
+            source_count INTEGER,
+            created_at TEXT NOT NULL,
+            cost_usd REAL
+        );
+        CREATE INDEX IF NOT EXISTS idx_voice_product ON voice_sources(product_key);
+        CREATE INDEX IF NOT EXISTS idx_profile_product ON customer_profiles(product_key);
+    """)
+    conn.commit()
+    conn.close()
+    print(f"INIT: Voice schema created ({VOICE_DB.stat().st_size} bytes)")
 
 
 if __name__ == "__main__":

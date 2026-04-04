@@ -88,10 +88,10 @@ st.caption("Psychologicky profil zakazniku z recenzi + 4 paralelni creative brie
 # ── Data Loading ──
 
 def load_voice_profiles():
-    if not VOICE_DB.exists():
+    if not VOICE_DB.exists() or VOICE_DB.stat().st_size == 0:
         return []
     try:
-        conn = sqlite3.connect(str(VOICE_DB))
+        conn = sqlite3.connect(f"file:{VOICE_DB}?mode=ro", uri=True)
         conn.row_factory = sqlite3.Row
         rows = conn.execute(
             "SELECT product_key, profile_json, source_count, created_at, cost_usd "
@@ -119,7 +119,7 @@ profiles = load_voice_profiles()
 briefs_files = load_briefs_json()
 
 if not profiles and not briefs_files:
-    st.info("Zatim zadna data. Spust `python -m creative_intelligence` s `--briefs` flagem.")
+    st.info("Zatim zadna data. Spust `python -m creative_intelligence briefs --product zalivka`.")
     st.stop()
 
 # ── Tab layout ──

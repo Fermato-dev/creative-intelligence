@@ -27,6 +27,10 @@ def main():
         _show_components(args[1:])
     elif command == "recommend":
         _run_recommend(args[1:])
+    elif command == "voice":
+        _run_voice(args[1:])
+    elif command == "briefs":
+        _run_briefs(args[1:])
     else:
         # Default: treat as report args
         _run_report(args)
@@ -45,14 +49,18 @@ Commands:
   decompose [--days N] [--limit N]  Rozloz videa na hook/body/CTA a uloz do knihovny
   components [--type hook|body|cta] Zobraz komponentni knihovnu
   recommend                         Vygeneruj kombinatoricka doporuceni
+  voice [--product X]               Customer Voice Mining — psychologicky profil z recenzi
+  briefs [--product X] [--with-mining]  Germain pipeline — 4 paralelni creative briefy
   help                              Tato napoveda
 
 Options:
-  --days N        Pocet dni dat (default: 14 pro report, 7 pro weekly)
-  --json          JSON output
-  --csv           CSV output
-  --no-pumble     Neposilej Pumble notifikaci
-  --limit N       Max pocet kreativ k analyze
+  --days N          Pocet dni dat (default: 14 pro report, 7 pro weekly)
+  --json            JSON output
+  --csv             CSV output
+  --no-pumble       Neposilej Pumble notifikaci
+  --limit N         Max pocet kreativ k analyze
+  --product X       Produkt (zalivka, chilli, crunch, simrato, naley, napivo)
+  --with-mining     Spusti i voice mining pred generovanim briefu
 """)
 
 
@@ -222,3 +230,50 @@ def _run_recommend(args):
     print(f"\nUlozeno: {path}", file=sys.stderr)
 
     conn.close()
+
+
+def _run_voice(args):
+    """Run Customer Voice Mining."""
+    from .voice import run_voice_mining
+
+    product = "zalivka"
+    output_format = "text"
+    i = 0
+    while i < len(args):
+        if args[i] == "--product" and i + 1 < len(args):
+            product = args[i + 1]
+            i += 2
+        elif args[i] == "--json":
+            output_format = "json"
+            i += 1
+        else:
+            i += 1
+
+    profile, cost = run_voice_mining(product, output_format)
+    if profile and output_format == "json":
+        print(json.dumps(profile, indent=2, ensure_ascii=False))
+    elif profile:
+        print(f"\nProfil vygenerovan pro '{product}'. Cost: ${cost:.4f}", file=sys.stderr)
+
+
+def _run_briefs(args):
+    """Run Germain Creative Briefs pipeline."""
+    from .briefs import run_briefs_pipeline
+
+    product = "zalivka"
+    with_mining = False
+    i = 0
+    while i < len(args):
+        if args[i] == "--product" and i + 1 < len(args):
+            product = args[i + 1]
+            i += 2
+        elif args[i] == "--with-mining":
+            with_mining = True
+            i += 1
+        else:
+            i += 1
+
+    briefs, cost = run_briefs_pipeline(product, with_mining=with_mining)
+    if briefs:
+        from .briefs import format_briefs_report
+        print(format_briefs_report(briefs))
