@@ -87,26 +87,42 @@ def load_snapshots():
         return []
 
 def load_ai():
+    """Load component library data (v3 schema)."""
     import sqlite3
     p = DATA_DIR / "creative_analysis.db"
-    if not p.exists(): return {}
-    conn = sqlite3.connect(str(p)); conn.row_factory = sqlite3.Row
-    try:
-        rows = conn.execute("SELECT * FROM creative_analyses ORDER BY analyzed_at DESC").fetchall()
-    except Exception:
-        conn.close()
+    if not p.exists() or p.stat().st_size == 0:
         return {}
-    conn.close()
+    try:
+        conn = sqlite3.connect(f"file:{p}?mode=ro", uri=True)
+        conn.row_factory = sqlite3.Row
+        # v3: read from components table
+        rows = conn.execute(
+            "SELECT * FROM components ORDER BY analyzed_at DESC"
+        ).fetchall()
+        conn.close()
+    except Exception:
+        return {}
     out = {}
     for r in rows:
-        if r["ad_id"] not in out:
-            out[r["ad_id"]] = {
-                "hook": json.loads(r["hook_analysis"]) if r["hook_analysis"] else None,
-                "full": json.loads(r["full_analysis"]) if r["full_analysis"] else None,
-                "transcript": r["transcript"],
-                "creative_type": r["creative_type"],
-                "at": r["analyzed_at"][:10],
-            }
+        ad_id = r["ad_id"]
+        comp_type = r["component_type"]
+        if ad_id not in out:
+            out[ad_id] = {}
+        analysis = None
+        if r["analysis"]:
+            try:
+                analysis = json.loads(r["analysis"])
+            except json.JSONDecodeError:
+                pass
+        out[ad_id][comp_type] = {
+            "analysis": analysis,
+            "transcript": r["transcript"],
+            "roas": r["roas"],
+            "hook_rate": r["hook_rate"],
+            "hold_rate": r["hold_rate"],
+            "spend": r["spend"],
+            "at": r["analyzed_at"][:10] if r["analyzed_at"] else None,
+        }
     return out
 
 # ── Filters (shared sidebar) ──

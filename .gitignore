@@ -9,6 +9,7 @@ venv/
 
 # Data (local only)
 data/*.db
+!data/creative_analysis.db
 data/*.duckdb
 data/creative_assets/
 data/models/
