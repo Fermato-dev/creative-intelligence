@@ -50,7 +50,7 @@ try:
 except Exception as e:
     ga4_error = str(e)
 
-# ── Shoptet data ──
+# ── Shoptet data (NEZAVISLE na GA4) ──
 
 shoptet_data = None
 shoptet_error = None
@@ -58,53 +58,102 @@ shoptet_token = os.environ.get("SHOPTET_API_TOKEN")
 if shoptet_token:
     try:
         from creative_intelligence.shoptet_bridge import fetch_daily_summary
+
         @st.cache_data(ttl=3600, show_spinner="Nacitam Shoptet data...")
         def load_shoptet(d):
             return fetch_daily_summary(d)
+
         shoptet_data = load_shoptet(days)
     except Exception as e:
         shoptet_error = str(e)
+        import traceback
+        shoptet_error = f"{e}\n{traceback.format_exc()}"
 
-# ── Hlavni srovnani ──
+# ══════════════════════════════
+# HLAVNI SROVNANI — vzdy zobrazit
+# ══════════════════════════════
 
 st.divider()
+st.markdown("### Kolik nakupu vidi kazdy zdroj?")
 
-if ga4_data:
-    ga4_meta = ga4_data["meta_ga4"]
-    ga4_totals = ga4_data["totals"]
+c1, c2, c3 = st.columns(3)
 
-    st.markdown("### Kolik nakupu vidi kazdy zdroj?")
+with c1:
+    st.markdown(f"""<div class="health-card">
+    <div class="health-label">Meta Ads (self-report)</div>
+    <div class="health-value">{meta_purchases:,}</div>
+    <div class="health-sub">{meta_revenue:,.0f} CZK · ROAS {meta_roas:.2f}</div></div>""", unsafe_allow_html=True)
 
-    c1, c2, c3 = st.columns(3)
-
-    with c1:
-        st.markdown(f"""<div class="health-card">
-        <div class="health-label">Meta Ads (self-report)</div>
-        <div class="health-value">{meta_purchases:,}</div>
-        <div class="health-sub">{meta_revenue:,.0f} CZK · ROAS {meta_roas:.2f}</div></div>""", unsafe_allow_html=True)
-
-    with c2:
+with c2:
+    if ga4_data:
+        ga4_meta = ga4_data["meta_ga4"]
         ga4_color = "#38a169" if ga4_meta["purchases"] < meta_purchases * 0.7 else "#d69e2e"
         st.markdown(f"""<div class="health-card">
         <div class="health-label">GA4 (z Meta zdroju)</div>
         <div class="health-value" style="color:{ga4_color}">{ga4_meta['purchases']:,}</div>
         <div class="health-sub">{ga4_meta['revenue']:,} CZK · {ga4_meta['share_purchases_pct']}% vsech nakupu</div></div>""", unsafe_allow_html=True)
+    else:
+        st.markdown(f"""<div class="health-card">
+        <div class="health-label">GA4</div>
+        <div class="health-value" style="color:#ccc">—</div>
+        <div class="health-sub">Chyba: {(ga4_error or 'Neznama')[:60]}</div></div>""", unsafe_allow_html=True)
 
-    with c3:
-        if shoptet_data:
-            st_totals = shoptet_data["totals"]
-            st.markdown(f"""<div class="health-card">
-            <div class="health-label">Shoptet (realita)</div>
-            <div class="health-value">{st_totals['orders']:,}</div>
-            <div class="health-sub">{st_totals['revenue']:,} CZK · AOV {st_totals['aov']} CZK</div></div>""", unsafe_allow_html=True)
-        else:
-            st.markdown(f"""<div class="health-card">
-            <div class="health-label">Shoptet</div>
-            <div class="health-value" style="color:#ccc">—</div>
-            <div class="health-sub">{'Neni SHOPTET_API_TOKEN' if not shoptet_token else shoptet_error or 'Chyba'}</div></div>""", unsafe_allow_html=True)
+with c3:
+    if shoptet_data:
+        st_totals = shoptet_data["totals"]
+        st.markdown(f"""<div class="health-card">
+        <div class="health-label">Shoptet (realita)</div>
+        <div class="health-value">{st_totals['orders']:,}</div>
+        <div class="health-sub">{st_totals['revenue']:,} CZK · AOV {st_totals['aov']} CZK</div></div>""", unsafe_allow_html=True)
+    elif not shoptet_token:
+        st.markdown(f"""<div class="health-card">
+        <div class="health-label">Shoptet</div>
+        <div class="health-value" style="color:#ccc">—</div>
+        <div class="health-sub">Neni SHOPTET_API_TOKEN env var</div></div>""", unsafe_allow_html=True)
+    else:
+        st.markdown(f"""<div class="health-card">
+        <div class="health-label">Shoptet</div>
+        <div class="health-value" style="color:#e53e3e">ERR</div>
+        <div class="health-sub">Viz chyba nize</div></div>""", unsafe_allow_html=True)
+
+# ── Shoptet error detail ──
+if shoptet_token and shoptet_error:
+    st.error(f"**Shoptet API chyba:** {shoptet_error}")
+
+# ── Shoptet denni data (nezavisle na GA4) ──
+if shoptet_data:
+    st.divider()
+    st.markdown("### Shoptet — denni objednavky")
+    daily = shoptet_data.get("daily", [])
+    if daily:
+        dates = [d["date"] for d in daily]
+        fig_st = go.Figure()
+        fig_st.add_trace(go.Bar(x=dates, y=[d["orders"] for d in daily],
+                                name="Objednavky", marker_color="rgba(56,161,105,0.6)"))
+        fig_st.add_trace(go.Scatter(x=dates, y=[d["revenue"] for d in daily],
+                                    name="Revenue (CZK)", yaxis="y2",
+                                    line=dict(color="#6c63ff", width=2), mode="lines+markers"))
+        fig_st.update_layout(
+            height=300, margin=dict(t=10, b=30),
+            yaxis=dict(title="Objednavky"), yaxis2=dict(title="Revenue", overlaying="y", side="right"),
+            legend=dict(orientation="h", y=-0.15),
+        )
+        st.plotly_chart(fig_st, use_container_width=True)
+
+        # Errors in daily data
+        errors = [d for d in daily if d.get("error")]
+        if errors:
+            st.warning(f"Shoptet API chyby pro {len(errors)} dni: {errors[0].get('error', '?')[:80]}")
+
+# ══════════════════════════════
+# GA4 detaily (pokud dostupne)
+# ══════════════════════════════
+
+if ga4_data:
+    ga4_meta = ga4_data["meta_ga4"]
+    ga4_totals = ga4_data["totals"]
 
     # ── Attribution gap ──
-
     st.divider()
     st.markdown("### Attribution gap")
 
@@ -141,7 +190,6 @@ if ga4_data:
         <div class="health-sub">vyssi = vice iOS modelovani</div></div>""", unsafe_allow_html=True)
 
     # ── Srovnavaci tabulka ──
-
     st.divider()
     st.markdown("### Cisla vedle sebe")
 
@@ -162,7 +210,6 @@ if ga4_data:
     st.dataframe(pd.DataFrame(comp_rows), hide_index=True, use_container_width=True)
 
     # ── Channel Mix ──
-
     st.divider()
     st.markdown("### Channel Mix (GA4)")
 
@@ -188,7 +235,6 @@ if ga4_data:
         st.caption("Cervena = Meta (FB/IG) | Fialova = Google Ads | Zelena = Email | Seda = ostatni")
 
     # ── Devices ──
-
     st.divider()
     st.markdown("### Zarizeni")
 
@@ -203,8 +249,7 @@ if ga4_data:
                 <div class="health-value">{dev['sessions']:,}</div>
                 <div class="health-sub">Revenue: {dev['revenue']:,} CZK · CVR: {dev['cvr']}%</div></div>""", unsafe_allow_html=True)
 
-    # ── Denni trend ──
-
+    # ── Denni trend GA4 ──
     daily_ga4 = ga4_data.get("daily", [])
     if daily_ga4 and len(daily_ga4) > 1:
         st.divider()
@@ -224,7 +269,6 @@ if ga4_data:
         st.plotly_chart(fig_daily, use_container_width=True)
 
     # ── Interpretace ──
-
     st.divider()
     st.markdown("### Jak cist tato data")
     gap_ratio_val = meta_purchases / ga4_data["meta_ga4"]["purchases"] if ga4_data["meta_ga4"]["purchases"] > 0 else 0
@@ -245,8 +289,14 @@ if ga4_data:
 """)
 
 else:
-    st.error(f"**GA4 neni dostupna:** {ga4_error or 'Neznama chyba'}")
-    st.markdown("GA4 vyzaduje OAuth2 token (`ga4_analytics.py`) nebo GA4 bridge skript.")
+    st.warning(f"**GA4 neni dostupna:** {ga4_error or 'Neznama chyba'}. Zobrazuji pouze Meta + Shoptet data.")
+
+# ── Debug info ──
+with st.expander("Debug info", expanded=False):
+    st.text(f"SHOPTET_API_TOKEN: {'set (' + shoptet_token[:8] + '...)' if shoptet_token else 'NOT SET'}")
+    st.text(f"GA4: {'OK' if ga4_data else f'ERROR: {ga4_error}'}")
+    st.text(f"Shoptet: {'OK — ' + str(shoptet_data.get('totals', {}).get('orders', 0)) + ' orders' if shoptet_data else f'ERROR: {shoptet_error}' if shoptet_error else 'No token'}")
+    st.text(f"Meta: {meta_purchases} purchases, {meta_spend:,.0f} CZK spend")
 
 st.divider()
 st.caption(f"Attribution Check · {days} dni · {datetime.now().strftime('%d.%m.%Y %H:%M')}")

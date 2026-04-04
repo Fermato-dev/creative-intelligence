@@ -6,17 +6,22 @@ import urllib.request
 import urllib.parse
 from datetime import datetime, timedelta
 
-SHOPTET_TOKEN = os.environ.get("SHOPTET_API_TOKEN")
 API_BASE = "https://api.myshoptet.com/api"
 
 
-def shoptet_fetch(endpoint, params=None):
-    if not SHOPTET_TOKEN:
+def _get_token():
+    token = os.environ.get("SHOPTET_API_TOKEN")
+    if not token:
         raise RuntimeError("SHOPTET_API_TOKEN neni nastaven")
+    return token
+
+
+def shoptet_fetch(endpoint, params=None):
+    token = _get_token()
     url = f"{API_BASE}/{endpoint}"
     if params:
         url += "?" + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url, headers={"Shoptet-Private-API-Token": SHOPTET_TOKEN})
+    req = urllib.request.Request(url, headers={"Shoptet-Private-API-Token": token})
     with urllib.request.urlopen(req, timeout=30) as resp:
         return json.loads(resp.read())
 
