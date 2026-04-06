@@ -11,6 +11,7 @@ venv/
 data/*.db
 !data/creative_analysis.db
 !data/customer_voice.db
+!data/competitor_intel.db
 data/*.duckdb
 data/creative_assets/
 data/models/
