@@ -104,6 +104,78 @@ def detect_scenes(video_path):
         return [0.0]
 
 
+# ── Smart cut detection ──
+
+# Tolerance window: how far from the target time we look for a natural cut point
+SMART_CUT_TOLERANCE = 0.8  # seconds — search ±0.8s around target
+
+
+def detect_silence_gaps(video_path, noise_threshold=-30, min_silence=0.15):
+    """Detect silence gaps in audio using ffmpeg silencedetect.
+
+    Returns list of (start, end) tuples for each silence period.
+    Short silences (>=150ms) mark word/sentence boundaries.
+    """
+    try:
+        result = subprocess.run([
+            "ffmpeg", "-i", str(video_path),
+            "-af", f"silencedetect=noise={noise_threshold}dB:d={min_silence}",
+            "-f", "null", "-"
+        ], capture_output=True, text=True, timeout=60)
+
+        silences = []
+        current_start = None
+        for line in result.stderr.split("\n"):
+            start_match = re.search(r"silence_start:\s*(\d+\.?\d*)", line)
+            end_match = re.search(r"silence_end:\s*(\d+\.?\d*)", line)
+            if start_match:
+                current_start = float(start_match.group(1))
+            if end_match and current_start is not None:
+                silences.append((current_start, float(end_match.group(1))))
+                current_start = None
+        return silences
+    except Exception as e:
+        print(f"  WARN: Silence detection failed: {e}", file=sys.stderr)
+        return []
+
+
+def find_smart_cut(target_time, scenes, silences, tolerance=SMART_CUT_TOLERANCE):
+    """Find the best cut point near target_time.
+
+    Priority:
+    1. Silence gap within tolerance (mid-point of silence = cleanest audio cut)
+    2. Scene change within tolerance (visual break)
+    3. Fallback: original target_time
+
+    Returns: (adjusted_time, cut_reason)
+    """
+    candidates = []
+
+    # Silence gaps — best for avoiding mid-word cuts
+    for s_start, s_end in silences:
+        mid = (s_start + s_end) / 2
+        if abs(mid - target_time) <= tolerance:
+            # Prefer longer silences (sentence boundaries) over short ones (word boundaries)
+            silence_len = s_end - s_start
+            priority = 0 if silence_len > 0.4 else 1  # sentence vs word boundary
+            candidates.append((mid, priority, abs(mid - target_time),
+                               f"silence ({silence_len:.2f}s)"))
+
+    # Scene changes — good visual cut points
+    for scene_ts in scenes:
+        if abs(scene_ts - target_time) <= tolerance:
+            candidates.append((scene_ts, 2, abs(scene_ts - target_time),
+                               "scene change"))
+
+    if not candidates:
+        return target_time, "hard cut (no natural boundary found)"
+
+    # Sort: priority first, then distance from target
+    candidates.sort(key=lambda x: (x[0 + 1], x[2]))
+    best = candidates[0]
+    return round(best[0], 3), best[3]
+
+
 def transcribe_segment(video_path, output_dir):
     """Transcribe audio from video segment using Whisper."""
     if not Path(WHISPER_MODEL_SHORT).exists():
@@ -201,6 +273,9 @@ Odpovez POUZE v JSON:
 def decompose_video(video_path, work_dir):
     """Decompose video into hook/body/CTA segments.
 
+    Uses smart cuts: finds natural boundaries (silence gaps, scene changes)
+    near the target cut points to avoid cutting mid-word or mid-sentence.
+
     Returns:
         dict with keys: hook, body, cta — each containing segment path,
         frames, and timestamps.
@@ -209,12 +284,40 @@ def decompose_video(video_path, work_dir):
     work_dir = Path(work_dir)
     work_dir.mkdir(parents=True, exist_ok=True)
 
-    hook_end = min(HOOK_DURATION, duration)
-    cta_start = max(duration - CTA_DURATION, hook_end)
+    scenes = detect_scenes(video_path)
+    silences = detect_silence_gaps(video_path)
+
+    # Target cut points (hard)
+    raw_hook_end = min(HOOK_DURATION, duration)
+    raw_cta_start = max(duration - CTA_DURATION, raw_hook_end)
+
+    # Smart cut: find natural boundaries near target times
+    hook_end, hook_cut_reason = find_smart_cut(raw_hook_end, scenes, silences)
+    cta_start, cta_cut_reason = find_smart_cut(raw_cta_start, scenes, silences)
+
+    # Sanity: hook must end before CTA starts, with room for body
+    if hook_end >= cta_start - MIN_SCENE_DURATION:
+        hook_end = raw_hook_end
+        cta_start = raw_cta_start
+        hook_cut_reason = "hard cut (overlap fallback)"
+        cta_cut_reason = "hard cut (overlap fallback)"
+
     body_start = hook_end
     body_end = cta_start
 
-    result = {"duration": duration, "scenes": detect_scenes(video_path)}
+    print(f"  Smart cuts: hook 0-{hook_end:.2f}s ({hook_cut_reason}), "
+          f"body {body_start:.2f}-{body_end:.2f}s, "
+          f"cta {cta_start:.2f}-{duration:.2f}s ({cta_cut_reason})",
+          file=sys.stderr)
+
+    result = {
+        "duration": duration,
+        "scenes": scenes,
+        "smart_cuts": {
+            "hook_end": {"target": raw_hook_end, "actual": hook_end, "reason": hook_cut_reason},
+            "cta_start": {"target": raw_cta_start, "actual": cta_start, "reason": cta_cut_reason},
+        },
+    }
 
     # Extract segments
     hook_path = work_dir / "hook.mp4"
@@ -315,6 +418,7 @@ def decompose_and_analyze(ad_id, video_path, performance=None):
         result = {"decomposition": {
             "duration": decomp["duration"],
             "scenes": decomp["scenes"],
+            "smart_cuts": decomp.get("smart_cuts"),
             "hook_range": [0, decomp["hook"]["end"]],
             "body_range": [decomp["body"]["start"], decomp["body"]["end"]],
             "cta_range": [decomp["cta"]["start"], decomp["cta"]["end"]],
