@@ -45,13 +45,42 @@ st.markdown("""<style>
 .insight-banner { background: linear-gradient(135deg, #eef9f7 0%, #f0fdf4 100%);
     border: 1px solid #99f6e4; border-radius: 10px; padding: 16px 20px; margin-bottom: 12px; }
 .insight-banner strong { color: #0f766e; }
+
+.glossary-term { display: inline-block; background: #f0f9ff; border: 1px solid #bae6fd;
+    border-radius: 6px; padding: 6px 10px; margin: 3px; font-size: 0.82em; }
+.glossary-term strong { color: #0369a1; }
+.glossary-term span { color: #475569; }
+
+.pattern-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
+    padding: 16px 18px; margin: 8px 0; transition: box-shadow 0.12s ease; }
+.pattern-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.pattern-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.pattern-name { font-weight: 700; font-size: 1.05em; color: #1a202c; }
+.pattern-count { font-size: 0.75em; color: #6b7280; background: #f3f4f6;
+    padding: 2px 8px; border-radius: 10px; }
+.pattern-desc { font-size: 0.84em; color: #4b5563; line-height: 1.5; margin-bottom: 8px; }
+.pattern-why { font-size: 0.82em; color: #6b7280; font-style: italic; margin-bottom: 8px; }
+
+.example-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
+    padding: 10px 12px; margin: 4px 0; }
+.example-brand { font-weight: 600; color: #0f766e; font-size: 0.88em; }
+.example-insight { font-size: 0.82em; color: #475569; margin-top: 4px; line-height: 1.4; }
+.example-link { display: inline-block; margin-top: 4px; font-size: 0.78em; font-weight: 600;
+    color: #0d9488; text-decoration: none; padding: 2px 8px; background: #ccfbf1;
+    border-radius: 4px; }
+.example-link:hover { background: #99f6e4; color: #0f766e; }
+
+.score-bar { height: 6px; border-radius: 3px; background: #e5e7eb; margin-top: 4px; }
+.score-fill { height: 100%; border-radius: 3px; }
+.score-fill-t { background: linear-gradient(90deg, #14b8a6, #0d9488); }
+.score-fill-f { background: linear-gradient(90deg, #3b82f6, #1d4ed8); }
 </style>""", unsafe_allow_html=True)
 
 # ── Sidebar ──
 
 with st.sidebar:
     st.markdown("### Patterns")
-    st.caption("Root Cause + Pattern Library")
+    st.caption("Root Cause + Pattern Library + Glossary")
 
 # ── Database ──
 
@@ -78,7 +107,7 @@ def load_pattern_data(_db_path):
 
     data = {}
 
-    # Hook patterns (combined organic + paid)
+    # Hook patterns (combined organic + paid) with examples
     hook_organic = {}
     for r in conn.execute("""
         SELECT hook_type, COUNT(*) as cnt, AVG(transferability_score) as avg_t,
@@ -112,20 +141,109 @@ def load_pattern_data(_db_path):
     combined.sort(key=lambda x: x["total"], reverse=True)
     data["hook_patterns"] = combined
 
-    # Pattern Library
-    data["patterns"] = [dict(r) for r in conn.execute("""
-        SELECT name, pattern_type, example_count, avg_transferability, avg_brand_fit, status
+    # Hook pattern examples (organic with URLs)
+    hook_examples = {}
+    for r in conn.execute("""
+        SELECT pa.hook_type, b.name as brand, op.post_url, pa.analysis_json,
+               pa.transferability_score as t, pa.brand_fit_score as f,
+               pa.energy_level, pa.visual_style, pa.format_type,
+               pa.food_visible, pa.person_present
+        FROM post_analysis pa
+        JOIN organic_posts op ON pa.post_id = op.id
+        JOIN brands b ON op.brand_id = b.id
+        WHERE pa.hook_type IS NOT NULL
+        ORDER BY (pa.transferability_score + pa.brand_fit_score) DESC
+    """).fetchall():
+        ht = r["hook_type"]
+        if ht not in hook_examples:
+            hook_examples[ht] = []
+        analysis = json.loads(r["analysis_json"] or "{}")
+        hook_examples[ht].append({
+            "brand": r["brand"], "url": r["post_url"],
+            "insight": analysis.get("key_insight", ""),
+            "t": r["t"], "f": r["f"],
+            "energy": r["energy_level"], "style": r["visual_style"],
+            "format": r["format_type"],
+            "food": r["food_visible"], "person": r["person_present"],
+        })
+    data["hook_examples"] = hook_examples
+
+    # Pattern Library (full with examples)
+    patterns = []
+    for r in conn.execute("""
+        SELECT name, pattern_type, slug, description, why_works, examples_json,
+               example_count, avg_transferability, avg_brand_fit, status,
+               performance_notes, cz_adaptation_notes
         FROM patterns ORDER BY example_count DESC
-    """).fetchall()]
+    """).fetchall():
+        p = dict(r)
+        p["examples"] = json.loads(p["examples_json"] or "[]")
+        patterns.append(p)
+    data["patterns"] = patterns
+
+    # Stats for overview
+    data["total_analyzed_organic"] = conn.execute(
+        "SELECT COUNT(*) as c FROM post_analysis").fetchone()["c"]
+    data["total_analyzed_paid"] = conn.execute(
+        "SELECT COUNT(*) as c FROM competitor_ads WHERE analyzed_at IS NOT NULL").fetchone()["c"]
+    data["total_patterns"] = conn.execute(
+        "SELECT COUNT(*) as c FROM patterns").fetchone()["c"]
 
     conn.close()
     return data
 
 
-# ── Root Cause (hardcoded from sprint) ──
+# ══════════════════════════════════════════════════════
+# GLOSSARY / LEGENDA
+# ══════════════════════════════════════════════════════
 
 st.markdown("## Patterns & Root Cause")
-st.caption("Co odlisuje uspesne hooky od neuspesnych — analyza 187 video reklam")
+st.caption("Co odlisuje uspesne hooky od neuspesnych — analyza 187 video reklam + competitor intelligence")
+
+with st.expander("Legenda pojmu", expanded=False):
+    st.markdown("#### Hook typy")
+    st.markdown("""
+<div class="glossary-term"><strong>curiosity_gap</strong> <span>— Hook, ktery vytvari napeti a nutka divaka sledovat dal. Napr. "Tohle jsem necekal..." nebo bait-and-switch, personality quizy. Nejuspesnejsi typ — 45-58% hook rate.</span></div>
+<div class="glossary-term"><strong>ugc_reaction</strong> <span>— Autentická reakce creatora na produkt ("Tenhle smell!", "Wait what?"). Buduje duveru pres social proof. 2. nejuspesnejsi typ.</span></div>
+<div class="glossary-term"><strong>product_reveal</strong> <span>— Vizualni odhaleni produktu — unboxing, naliti, aplikace. Funguje dobre kdyz je spojeny s akci (pohyb, ruka).</span></div>
+<div class="glossary-term"><strong>food_closeup</strong> <span>— Detailni zaber na jidlo/napoj. Silny vizualni appeal, vysoke skore kdyz jidlo vypada "craveable".</span></div>
+<div class="glossary-term"><strong>recipe_demo</strong> <span>— Ukazka receptu s produktem. Edukativni hodnota + aspiracni lifestyle.</span></div>
+<div class="glossary-term"><strong>before_after</strong> <span>— Srovnani pred/po pouziti produktu. Funguje hlavne u "problem-solution" frameworku.</span></div>
+<div class="glossary-term"><strong>generic</strong> <span>— Bez jasneho hooku — logo, staticke foto, popisne texty. NEFUNGUJE — ~0% hook rate.</span></div>
+""", unsafe_allow_html=True)
+
+    st.markdown("#### Energy level")
+    st.markdown("""
+<div class="glossary-term"><strong>medium</strong> <span>— Pohyb v prvnich 2 sekundach (naliti, sypani, ruka se natahuje). 9/10 top performeru ma medium energy. Toto je sweet spot.</span></div>
+<div class="glossary-term"><strong>high</strong> <span>— Rychly strih, hodne akce, dynamicke prechody. Funguje, ale neni nutnost.</span></div>
+<div class="glossary-term"><strong>low</strong> <span>— Staticke, bez pohybu. NEFUNGUJE — vsech 6 bottom performeru ma low energy. Urcite se vyhnout.</span></div>
+""", unsafe_allow_html=True)
+
+    st.markdown("#### Skore")
+    st.markdown("""
+<div class="glossary-term"><strong>Transferability (T)</strong> <span>— Jak snadno lze koncept prevzit a adaptovat pro Fermato. 1-10, kde 8+ = primo pouzitelne.</span></div>
+<div class="glossary-term"><strong>Brand Fit (F)</strong> <span>— Jak dobre koncept sedi k Fermato brandu (ceske FMCG, jidlo, soseky/zalivky). 1-10, kde 6+ = dobra shoda.</span></div>
+""", unsafe_allow_html=True)
+
+    st.markdown("#### Format")
+    st.markdown("""
+<div class="glossary-term"><strong>short_video</strong> <span>— Kratke video (Reels/Stories/TikTok). Hlavni format pro ads.</span></div>
+<div class="glossary-term"><strong>carousel</strong> <span>— Vice snimku/slidu. Dobry pro storytelling a engagement.</span></div>
+<div class="glossary-term"><strong>static_image</strong> <span>— Jednoduchy obrazek. Funguje pro retargeting a znacku, slabsi na top-of-funnel.</span></div>
+""", unsafe_allow_html=True)
+
+    st.markdown("#### Visual style")
+    st.markdown("""
+<div class="glossary-term"><strong>polished</strong> <span>— Profesionalne natocene a editovane. Neni to faktor uspechu — lo-fi i polished funguje.</span></div>
+<div class="glossary-term"><strong>bright_clean</strong> <span>— Svetle, ciste prostredi, vysoka saturace. Funguje pro food obsah.</span></div>
+<div class="glossary-term"><strong>lo-fi / UGC</strong> <span>— Autenticky, telefon-style. Funguje stejne dobre jako polished — rozhoduje KONCEPT, ne produkce.</span></div>
+""", unsafe_allow_html=True)
+
+st.divider()
+
+# ══════════════════════════════════════════════════════
+# ROOT CAUSE — INSIGHT BANNER
+# ══════════════════════════════════════════════════════
 
 st.markdown("""<div class="insight-banner">
 <strong>Bottleneck = kreativni koncept, ne exekuce.</strong>
@@ -165,7 +283,9 @@ with c3:
 
 st.divider()
 
-# ── Hook Patterns ──
+# ══════════════════════════════════════════════════════
+# HOOK PATTERNS
+# ══════════════════════════════════════════════════════
 
 data = load_pattern_data(db_path) if db_path else None
 
@@ -173,7 +293,22 @@ st.markdown("### Hook patterny (organic + paid)")
 
 if data and data["hook_patterns"]:
     hp = data["hook_patterns"]
-    df = pd.DataFrame(hp)
+
+    # Sidebar filters
+    with st.sidebar:
+        st.markdown("---")
+        st.markdown("#### Filtry")
+        min_count = st.slider("Min. pocet vyskytu", 0, max(h["total"] for h in hp), 0)
+        source_filter = st.radio("Zdroj", ["Vsechny", "Organic", "Paid"], horizontal=True)
+
+    # Apply filters
+    filtered = [h for h in hp if h["total"] >= min_count]
+    if source_filter == "Organic":
+        filtered = [h for h in filtered if h["organic"] > 0]
+    elif source_filter == "Paid":
+        filtered = [h for h in filtered if h["paid"] > 0]
+
+    df = pd.DataFrame(filtered)
     df = df.rename(columns={
         "hook": "Hook typ", "total": "Celkem", "organic": "Organic",
         "paid": "Paid", "avg_t": "Avg Transfer", "avg_f": "Avg Fit"
@@ -182,13 +317,14 @@ if data and data["hook_patterns"]:
     # Bar chart
     import plotly.graph_objects as go
     fig = go.Figure()
-    fig.add_trace(go.Bar(name="Organic", y=[h["hook"] for h in hp],
-                         x=[h["organic"] for h in hp],
+    fig.add_trace(go.Bar(name="Organic", y=[h["hook"] for h in filtered],
+                         x=[h["organic"] for h in filtered],
                          orientation="h", marker_color="#14b8a6"))
-    fig.add_trace(go.Bar(name="Paid", y=[h["hook"] for h in hp],
-                         x=[h["paid"] for h in hp],
+    fig.add_trace(go.Bar(name="Paid", y=[h["hook"] for h in filtered],
+                         x=[h["paid"] for h in filtered],
                          orientation="h", marker_color="#3b82f6"))
-    fig.update_layout(barmode="stack", height=300, margin=dict(l=0, r=0, t=10, b=0),
+    fig.update_layout(barmode="stack", height=max(200, len(filtered) * 45),
+                      margin=dict(l=0, r=0, t=10, b=0),
                       plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
                       legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
                       xaxis=dict(title="Pocet", gridcolor="#e5e7eb"),
@@ -201,6 +337,55 @@ if data and data["hook_patterns"]:
                      "Avg Transfer": st.column_config.NumberColumn(format="%.1f"),
                      "Avg Fit": st.column_config.NumberColumn(format="%.1f"),
                  })
+
+    # ── Hook detail expanders with examples ──
+    st.markdown("#### Detail podle hook typu")
+    st.caption("Klikni pro priklady s odkazy na konkretni posty")
+
+    for h in filtered:
+        hook_name = h["hook"]
+        examples = data["hook_examples"].get(hook_name, [])
+        label = f"{hook_name}  —  {h['total']}x  |  T: {h['avg_t']}  F: {h['avg_f']}"
+
+        with st.expander(label, expanded=False):
+            mc1, mc2, mc3 = st.columns(3)
+            mc1.metric("Organic", h["organic"])
+            mc2.metric("Paid", h["paid"])
+            mc3.metric("Celkem", h["total"])
+
+            if examples:
+                st.markdown("**Priklady:**")
+                for ex in examples:
+                    t_val = ex.get("t") or 0
+                    f_val = ex.get("f") or 0
+                    t_pct = int(t_val * 10)
+                    f_pct = int(f_val * 10)
+                    tags = []
+                    if ex.get("energy"):
+                        tags.append(f"energy: {ex['energy']}")
+                    if ex.get("format"):
+                        tags.append(ex["format"])
+                    if ex.get("food"):
+                        tags.append("food visible")
+                    if ex.get("person"):
+                        tags.append("osoba v zaberu")
+                    tag_str = " · ".join(tags)
+
+                    st.markdown(f"""<div class="example-card">
+<span class="example-brand">{ex['brand']}</span>
+<span style="font-size:0.75em;color:#9ca3af;margin-left:6px">{tag_str}</span>
+<div style="display:flex;gap:16px;margin-top:4px">
+<div style="flex:1"><span style="font-size:0.72em;color:#0d9488">Transfer {t_val:.0f}/10</span>
+<div class="score-bar"><div class="score-fill score-fill-t" style="width:{t_pct}%"></div></div></div>
+<div style="flex:1"><span style="font-size:0.72em;color:#3b82f6">Brand Fit {f_val:.0f}/10</span>
+<div class="score-bar"><div class="score-fill score-fill-f" style="width:{f_pct}%"></div></div></div>
+</div>
+<div class="example-insight">{(ex.get('insight') or '')[:200]}</div>
+<a class="example-link" href="{ex['url']}" target="_blank">Zobrazit post</a>
+</div>""", unsafe_allow_html=True)
+            else:
+                st.caption("Zadne analyzovane organic priklady pro tento hook typ.")
+
 else:
     if not db_path:
         st.warning("competitor_intel.db nenalezena.")
@@ -209,25 +394,82 @@ else:
 
 st.divider()
 
-# ── Pattern Library ──
+# ══════════════════════════════════════════════════════
+# PATTERN LIBRARY (interactive)
+# ══════════════════════════════════════════════════════
 
 st.markdown("### Pattern Library")
 
 if data and data["patterns"]:
-    for p in data["patterns"]:
+    # Stats
+    st.caption(f"{len(data['patterns'])} patternu · "
+               f"{sum(p['example_count'] for p in data['patterns'])} prikladu celkem")
+
+    # Filter by status
+    with st.sidebar:
+        st.markdown("#### Pattern status")
+        statuses = sorted(set(p["status"] or "draft" for p in data["patterns"]))
+        selected_statuses = st.multiselect("Status", statuses, default=statuses)
+
+    filtered_patterns = [p for p in data["patterns"]
+                         if (p["status"] or "draft") in selected_statuses]
+
+    for p in filtered_patterns:
         status = p["status"] or "draft"
         status_cls = {"draft": "ps-draft", "validated": "ps-validated",
                      "testing": "ps-testing", "proven": "ps-proven"}.get(status, "ps-draft")
 
         avg_t = p["avg_transferability"] or 0
         avg_f = p["avg_brand_fit"] or 0
+        examples = p.get("examples", [])
 
-        st.markdown(f"""
-**{p['name']}** <span class="pattern-status {status_cls}">{status}</span>
-· {p['example_count']} prikladu
-· Transfer: {avg_t:.1f}
-· Fit: {avg_f:.1f}
-""", unsafe_allow_html=True)
+        with st.expander(
+            f"{p['name']}  —  {p['example_count']} prikladu  |  "
+            f"T: {avg_t:.1f}  F: {avg_f:.1f}  |  {status}",
+            expanded=False,
+        ):
+            # Header metrics
+            hc1, hc2, hc3, hc4 = st.columns(4)
+            hc1.metric("Priklady", p["example_count"])
+            hc2.metric("Avg Transferability", f"{avg_t:.1f}")
+            hc3.metric("Avg Brand Fit", f"{avg_f:.1f}")
+            hc4.markdown(f'<span class="pattern-status {status_cls}" '
+                         f'style="font-size:0.9em;padding:6px 12px">{status}</span>',
+                         unsafe_allow_html=True)
+
+            # Description
+            if p.get("description"):
+                st.markdown(f"**Popis:** {p['description']}")
+
+            # Why it works
+            if p.get("why_works"):
+                why_lines = [l.strip() for l in (p["why_works"] or "").split(";") if l.strip()]
+                if why_lines:
+                    st.markdown("**Proc to funguje:**")
+                    for line in why_lines:
+                        st.markdown(f"- {line}")
+
+            # CZ adaptation
+            if p.get("cz_adaptation_notes"):
+                st.info(f"Adaptace pro CZ: {p['cz_adaptation_notes']}")
+
+            # Examples with links
+            if examples:
+                st.markdown(f"**Priklady ({len(examples)}):**")
+                for ex in examples:
+                    brand = ex.get("brand", "?")
+                    url = ex.get("url", "")
+                    insight = ex.get("insight", "")
+                    link_html = (f' <a class="example-link" href="{url}" '
+                                 f'target="_blank">Zobrazit</a>') if url else ""
+
+                    st.markdown(f"""<div class="example-card">
+<span class="example-brand">{brand}</span>{link_html}
+<div class="example-insight">{insight[:250]}</div>
+</div>""", unsafe_allow_html=True)
+            else:
+                st.caption("Zadne priklady.")
+
 else:
     st.info("Pattern Library je prazdna. Spust `pattern_library.py detect`.")
 
@@ -236,11 +478,11 @@ else:
 st.divider()
 st.markdown("### Pravidla pro brief")
 st.markdown("""
-| Pravidlo | Detail |
-|----------|--------|
-| **Hook typ** | curiosity_gap nebo ugc_reaction — NIKDY generic |
-| **Energie** | Medium — pohyb v prvnich 2 sekundach |
-| **Prvni frame** | Jidlo viditelne, ruka/akce/naliti, NE staticke logo |
-| **Styl** | Lo-fi i polished OK — rozhoduje koncept |
-| **Text overlay** | Ano, ale nestaci sam o sobe |
+| Pravidlo | Detail | Proc |
+|----------|--------|------|
+| **Hook typ** | curiosity_gap nebo ugc_reaction — NIKDY generic | 4x a 3x v top 10 performeru |
+| **Energie** | Medium — pohyb v prvnich 2 sekundach | 9/10 top performeru, 0/6 bottom |
+| **Prvni frame** | Jidlo viditelne, ruka/akce/naliti, NE staticke logo | 9/10 top ma food visible |
+| **Styl** | Lo-fi i polished OK — rozhoduje koncept | Analyza 187 videi to potvrdila |
+| **Text overlay** | Ano, ale nestaci sam o sobe | Vsichni ho maji — neni diferenciator |
 """)
