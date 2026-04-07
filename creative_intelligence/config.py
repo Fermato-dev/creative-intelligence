@@ -48,3 +48,16 @@ HOOK_DURATION = 3.0      # seconds — first 3s
 CTA_DURATION = 5.0       # seconds — last 5s
 MIN_SCENE_DURATION = 1.0 # seconds — minimum scene length
 COMPONENT_REANALYSIS_DAYS = 14
+
+# ── Remix filtr: sezonni/flash kampane vyloucene z doporuceni ──
+# Patterny v campaign_name NEBO ad_name ktere oznacuji sezonni/flash obsah.
+# Case-insensitive substring match.
+SEASONAL_CAMPAIGN_PATTERNS = [
+    "easter", "velikonoc", "valentyn", "valentine",
+    "christmas", "vanoce", "xmas",
+    "black friday", "bf ", "cyber monday",
+    "flash", "seasonal", "sezonni",
+    "halloween", "mothers day", "den matek",
+    "fathers day", "den otcu",
+    "new year", "novy rok", "silvestr",
+]

@@ -19,7 +19,22 @@ from .component_db import (
     get_db, get_top_components, get_all_components, count_components,
     is_combination_tested, save_recommendation, get_pending_recommendations,
 )
-from .config import TARGET_ROAS, TARGET_CPA, BENCHMARKS
+from .config import TARGET_ROAS, TARGET_CPA, BENCHMARKS, SEASONAL_CAMPAIGN_PATTERNS
+
+
+# ── Seasonal/flash campaign filter ──
+
+def is_seasonal(comp):
+    """Check if a component comes from a seasonal/flash campaign.
+
+    Matches against campaign_name and ad_name using patterns from config.
+    Components from seasonal campaigns should NOT be used in remix recommendations
+    because their performance is inflated by time-limited context (holiday, promo).
+    """
+    campaign = (comp.get("campaign_name") or "").lower()
+    ad_name = (comp.get("ad_name") or "").lower()
+    text = campaign + " " + ad_name
+    return any(p in text for p in SEASONAL_CAMPAIGN_PATTERNS)
 
 
 # ── Thompson Sampling ──
@@ -85,8 +100,8 @@ def recommend_hook_swaps(conn, min_spend=200, max_results=5):
     """
     recommendations = []
 
-    # Get weak hooks (low hook_rate, but some spend)
-    weak_hooks = conn.execute("""
+    # Get weak hooks (low hook_rate, but some spend) — exclude seasonal
+    weak_hooks = [dict(r) for r in conn.execute("""
         SELECT * FROM components
         WHERE component_type = 'hook'
           AND hook_rate IS NOT NULL
@@ -96,13 +111,13 @@ def recommend_hook_swaps(conn, min_spend=200, max_results=5):
           AND roas > 1.0
         ORDER BY spend DESC
         LIMIT 20
-    """, (min_spend,)).fetchall()
+    """, (min_spend,)).fetchall() if not is_seasonal(dict(r))]
 
-    # Get top hooks for replacement
-    top_hooks = get_top_components(conn, "hook", metric="hook_rate", limit=10, min_spend=min_spend)
+    # Get top hooks for replacement — exclude seasonal
+    top_hooks = [h for h in get_top_components(conn, "hook", metric="hook_rate", limit=10, min_spend=min_spend)
+                 if not is_seasonal(h)]
 
     for weak in weak_hooks:
-        weak = dict(weak)
         for strong in top_hooks:
             if strong["ad_id"] == weak["ad_id"]:
                 continue
@@ -137,7 +152,7 @@ def recommend_body_swaps(conn, min_spend=200, max_results=5):
     """
     recommendations = []
 
-    weak_bodies = conn.execute("""
+    weak_bodies = [dict(r) for r in conn.execute("""
         SELECT * FROM components
         WHERE component_type = 'body'
           AND hold_rate IS NOT NULL
@@ -147,12 +162,12 @@ def recommend_body_swaps(conn, min_spend=200, max_results=5):
           AND spend >= ?
         ORDER BY spend DESC
         LIMIT 20
-    """, (min_spend,)).fetchall()
+    """, (min_spend,)).fetchall() if not is_seasonal(dict(r))]
 
-    top_bodies = get_top_components(conn, "body", metric="hold_rate", limit=10, min_spend=min_spend)
+    top_bodies = [b for b in get_top_components(conn, "body", metric="hold_rate", limit=10, min_spend=min_spend)
+                  if not is_seasonal(b)]
 
     for weak in weak_bodies:
-        weak = dict(weak)
         for strong in top_bodies:
             if strong["ad_id"] == weak["ad_id"]:
                 continue
@@ -194,10 +209,13 @@ def recommend_new_combinations(conn, min_spend=200, max_results=5):
     if not hooks or not bodies or not ctas:
         return []
 
-    # Score all components via Thompson Sampling
-    scored_hooks = [(h, component_score(h)) for h in hooks if (h.get("spend") or 0) >= min_spend]
-    scored_bodies = [(b, component_score(b)) for b in bodies if (b.get("spend") or 0) >= min_spend]
-    scored_ctas = [(c, component_score(c)) for c in ctas if (c.get("spend") or 0) >= min_spend]
+    # Score all components via Thompson Sampling — exclude seasonal/flash campaigns
+    scored_hooks = [(h, component_score(h)) for h in hooks
+                    if (h.get("spend") or 0) >= min_spend and not is_seasonal(h)]
+    scored_bodies = [(b, component_score(b)) for b in bodies
+                     if (b.get("spend") or 0) >= min_spend and not is_seasonal(b)]
+    scored_ctas = [(c, component_score(c)) for c in ctas
+                   if (c.get("spend") or 0) >= min_spend and not is_seasonal(c)]
 
     # Sort by score (Thompson sample)
     scored_hooks.sort(key=lambda x: x[1], reverse=True)
@@ -274,20 +292,23 @@ def recommend_refresh_alerts(conn, fatigue_days=10, min_spend=500):
 
     for comp in old_components:
         comp = dict(comp)
+        if is_seasonal(comp):
+            continue
         age_days = (datetime.now() - datetime.fromisoformat(comp["analyzed_at"])).days
 
-        # Find alternative hooks
-        alternatives = conn.execute("""
-            SELECT ad_name, hook_rate, roas FROM components
+        # Find alternative hooks — exclude seasonal
+        alternatives = [dict(a) for a in conn.execute("""
+            SELECT ad_name, hook_rate, roas, campaign_name FROM components
             WHERE component_type = 'hook'
               AND ad_id != ?
               AND hook_rate IS NOT NULL
               AND spend >= 200
             ORDER BY hook_rate DESC
-            LIMIT 3
-        """, (comp["ad_id"],)).fetchall()
+            LIMIT 10
+        """, (comp["ad_id"],)).fetchall() if not is_seasonal(dict(a))]
+        alternatives = alternatives[:3]
 
-        alt_names = [f"{dict(a)['ad_name'][:30]} (hook {dict(a)['hook_rate']}%)" for a in alternatives]
+        alt_names = [f"{a['ad_name'][:30]} (hook {a['hook_rate']}%)" for a in alternatives]
 
         recommendations.append({
             "type": "REFRESH_ALERT",

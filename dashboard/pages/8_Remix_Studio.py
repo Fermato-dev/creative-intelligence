@@ -19,6 +19,18 @@ sys.path.insert(0, str(DASHBOARD_DIR))
 sys.path.insert(0, str(REPO_ROOT))
 from shared_data import SHARED_CSS
 
+# Seasonal filter — same patterns as combinator
+SEASONAL_PATTERNS = [
+    "easter", "velikonoc", "valentyn", "valentine", "christmas", "vanoce",
+    "xmas", "black friday", "bf ", "cyber monday", "flash", "seasonal",
+    "sezonni", "halloween", "mothers day", "den matek", "fathers day",
+    "den otcu", "new year", "novy rok", "silvestr",
+]
+
+def _is_seasonal(comp):
+    text = ((comp.get("campaign_name") or "") + " " + (comp.get("ad_name") or "")).lower()
+    return any(p in text for p in SEASONAL_PATTERNS)
+
 st.markdown(SHARED_CSS, unsafe_allow_html=True)
 
 # ── CSS ──
@@ -173,6 +185,8 @@ st.caption("Videa na Google Drive — klikni pro prehrani nebo stazeni")
 with st.sidebar:
     st.markdown("---")
     st.markdown("#### Filtry")
+    hide_seasonal = st.checkbox("Skryt sezonni/flash kampane", value=True,
+                                help="Easter, Valentyn, Black Friday, Flash atd.")
     hook_ads = sorted(set(r["hook"]["ad"] for r in remixes))
     selected_hooks = st.multiselect("Hook z reklamy", hook_ads, default=[])
 
@@ -262,11 +276,16 @@ tab_h, tab_b, tab_c = st.tabs(["Hooky", "Body", "CTA"])
 
 with tab_h:
     if hooks:
+        filtered_hooks = [h for h in hooks if not (hide_seasonal and _is_seasonal(h))]
+        skipped_h = len(hooks) - len(filtered_hooks)
+        if skipped_h:
+            st.caption(f"{skipped_h} sezonni/flash reklam skryto")
         rows = []
-        for h in hooks:
+        for h in filtered_hooks:
             analysis = json.loads(h["analysis"] or "{}")
             rows.append({
                 "Reklama": h["ad_name"],
+                "Kampan": h.get("campaign_name", "?"),
                 "Hook Rate": f"{h['hook_rate']:.1f}%",
                 "ROAS": f"{h['roas']:.2f}",
                 "CPA": f"{h['cpa']:.0f} CZK",
@@ -279,11 +298,16 @@ with tab_h:
 
 with tab_b:
     if bodies:
+        filtered_bodies = [b for b in bodies if not (hide_seasonal and _is_seasonal(b))]
+        skipped_b = len(bodies) - len(filtered_bodies)
+        if skipped_b:
+            st.caption(f"{skipped_b} sezonni/flash reklam skryto")
         rows = []
-        for b in bodies:
+        for b in filtered_bodies:
             analysis = json.loads(b["analysis"] or "{}")
             rows.append({
                 "Reklama": b["ad_name"],
+                "Kampan": b.get("campaign_name", "?"),
                 "Hold Rate": f"{b['hold_rate']:.1f}%",
                 "ROAS": f"{b['roas']:.2f}",
                 "Spend": f"{b['spend']:,.0f} CZK",
@@ -293,11 +317,16 @@ with tab_b:
 
 with tab_c:
     if ctas:
+        filtered_ctas = [c for c in ctas if not (hide_seasonal and _is_seasonal(c))]
+        skipped_c = len(ctas) - len(filtered_ctas)
+        if skipped_c:
+            st.caption(f"{skipped_c} sezonni/flash reklam skryto")
         rows = []
-        for c in ctas:
+        for c in filtered_ctas:
             analysis = json.loads(c["analysis"] or "{}")
             rows.append({
                 "Reklama": c["ad_name"],
+                "Kampan": c.get("campaign_name", "?"),
                 "CVR": f"{c['cvr']:.2f}%",
                 "ROAS": f"{c['roas']:.2f}",
                 "Spend": f"{c['spend']:,.0f} CZK",
