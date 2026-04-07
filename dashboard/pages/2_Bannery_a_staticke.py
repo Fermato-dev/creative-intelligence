@@ -9,6 +9,14 @@ st.set_page_config(page_title="Bannery & staticke", page_icon="📸", layout="wi
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
+from auth import check_password
+if not check_password():
+    import streamlit as st
+    st.stop()
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
 from shared_data import *
 
 st.markdown(SHARED_CSS, unsafe_allow_html=True)

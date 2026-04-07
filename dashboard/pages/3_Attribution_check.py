@@ -9,6 +9,14 @@ from pathlib import Path
 
 st.set_page_config(page_title="Attribution Check", page_icon="🔍", layout="wide")
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from auth import check_password
+if not check_password():
+    import streamlit as st
+    st.stop()
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from shared_data import *
 
