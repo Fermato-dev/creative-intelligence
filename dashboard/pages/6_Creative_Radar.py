@@ -403,7 +403,7 @@ with tab2:
                 "T": p.get("t") or 0,
                 "F": p.get("f") or 0,
                 "Dni": p.get("days_running") or 0,
-                "Od": (p.get("first_seen") or "")[:10],
+                "Od": str(p.get("first_seen") or "")[:10],
                 "Kreativa": p.get("media_url") or "",
                 "Thumbnail": p.get("thumbnail_url") or "",
                 "Landing": p.get("ad_url") or "",
