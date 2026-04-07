@@ -43,16 +43,34 @@ def get_video_duration(video_path):
     return 30  # default
 
 
-def extract_segment(video_path, output_path, start, end):
-    """Extract video segment [start, end] seconds."""
+def extract_segment(video_path, output_path, start, end, reencode=True):
+    """Extract video segment [start, end] seconds.
+
+    When reencode=True (default), re-encodes with libx264 to ensure clean
+    keyframes at segment boundaries. This prevents frozen frames when
+    concatenating segments from different source videos (remix assembly).
+    """
     duration = end - start
     if duration <= 0:
         return None
     try:
-        subprocess.run([
-            "ffmpeg", "-ss", str(start), "-i", str(video_path),
-            "-t", str(duration), "-c", "copy", "-y", str(output_path)
-        ], capture_output=True, timeout=60)
+        if reencode:
+            # Re-encode: clean keyframes, consistent format for concat
+            subprocess.run([
+                "ffmpeg", "-ss", str(start), "-i", str(video_path),
+                "-t", str(duration),
+                "-c:v", "libx264", "-preset", "fast", "-crf", "20",
+                "-c:a", "aac", "-b:a", "128k",
+                "-force_key_frames", "expr:eq(n,0)",
+                "-movflags", "+faststart",
+                "-y", str(output_path)
+            ], capture_output=True, timeout=120)
+        else:
+            # Stream copy: fast but may cause frozen frames at boundaries
+            subprocess.run([
+                "ffmpeg", "-ss", str(start), "-i", str(video_path),
+                "-t", str(duration), "-c", "copy", "-y", str(output_path)
+            ], capture_output=True, timeout=60)
         if Path(output_path).exists() and Path(output_path).stat().st_size > 0:
             return output_path
     except Exception as e:
