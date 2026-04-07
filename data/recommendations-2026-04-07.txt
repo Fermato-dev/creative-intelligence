@@ -1,0 +1,92 @@
+============================================================
+  CREATIVE INTELLIGENCE v3 — COMBINATORIAL RECOMMENDATIONS
+  2026-04-07T13:29:02.233681
+============================================================
+
+## SWAP HOOK — nahrad spatny hook lepsim
+
+  1. UGC 51 - Copy 3
+     Soucasny hook: 21.0% | ROAS: 2.68
+     Nahrad hookem z: milan leden (43.5%)
+     Ocekavany dopad: +22.5pp hook rate
+     Duvod: Ad ma ROAS 2.68 ale hook jen 21.0% — dobry obsah, spatny zacatek
+
+  2. UGC 51 - Copy 3
+     Soucasny hook: 21.0% | ROAS: 2.68
+     Nahrad hookem z: UGC 43 too long - Copy 2 (41.9%)
+     Ocekavany dopad: +20.9pp hook rate
+     Duvod: Ad ma ROAS 2.68 ale hook jen 21.0% — dobry obsah, spatny zacatek
+
+  3. UGC 51 - Copy 3
+     Soucasny hook: 21.0% | ROAS: 2.68
+     Nahrad hookem z: UGC 17 10% - Copy (36.2%)
+     Ocekavany dopad: +15.2pp hook rate
+     Duvod: Ad ma ROAS 2.68 ale hook jen 21.0% — dobry obsah, spatny zacatek
+
+  4. UGC 61 - Copy 2
+     Soucasny hook: 12.1% | ROAS: 1.58
+     Nahrad hookem z: milan leden (43.5%)
+     Ocekavany dopad: +31.4pp hook rate
+     Duvod: Ad ma ROAS 1.58 ale hook jen 12.1% — dobry obsah, spatny zacatek
+
+  5. UGC 61 - Copy 2
+     Soucasny hook: 12.1% | ROAS: 1.58
+     Nahrad hookem z: UGC 43 too long - Copy 2 (41.9%)
+     Ocekavany dopad: +29.8pp hook rate
+     Duvod: Ad ma ROAS 1.58 ale hook jen 12.1% — dobry obsah, spatny zacatek
+
+## SWAP BODY — nahrad slaby stred videa
+
+  1. UGC 17 10% - Copy
+     Hook: 36.2% (OK) | Hold: 21.3% (slaby)
+     Nahrad body z: UGC 43 too long - Copy 2 (hold 29.7%)
+     Duvod: Hook funguje (36.2%) ale body ztraci lidi (hold 21.3%)
+
+  2. UGC 17 10% - Copy
+     Hook: 36.2% (OK) | Hold: 21.3% (slaby)
+     Nahrad body z: milan leden (hold 24.1%)
+     Duvod: Hook funguje (36.2%) ale body ztraci lidi (hold 21.3%)
+
+  3. UGC 17 10% - Copy
+     Hook: 36.2% (OK) | Hold: 21.3% (slaby)
+     Nahrad body z: UGC 51 - Copy 3 (hold 23.3%)
+     Duvod: Hook funguje (36.2%) ale body ztraci lidi (hold 21.3%)
+
+  4. milan leden
+     Hook: 43.5% (OK) | Hold: 24.1% (slaby)
+     Nahrad body z: UGC 43 too long - Copy 2 (hold 29.7%)
+     Duvod: Hook funguje (43.5%) ale body ztraci lidi (hold 24.1%)
+
+## NOVE KOMBINACE — nikdy netestovane
+
+  1. Score: 0.763
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: UGC 43 too long - Copy 2 — product_demo (hold 29.7%)
+     CTA:  UGC 51 - Copy 3 — text_overlay (CVR 3.28%)
+     Duvod: Top hook (41.9%) + top body (hold 29.7%) + top CTA (CVR 3.28%) — nikdy netestovano spolu
+
+  2. Score: 0.744
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: UGC 51 - Copy 3 — recipe (hold 23.3%)
+     CTA:  UGC 51 - Copy 3 — text_overlay (CVR 3.28%)
+     Duvod: Top hook (41.9%) + top body (hold 23.3%) + top CTA (CVR 3.28%) — nikdy netestovano spolu
+
+  3. Score: 0.717
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: UGC 43 too long - Copy 2 — product_demo (hold 29.7%)
+     CTA:  UGC 61 - Copy 2 — none (CVR 2.88%)
+     Duvod: Top hook (41.9%) + top body (hold 29.7%) + top CTA (CVR 2.88%) — nikdy netestovano spolu
+
+  4. Score: 0.698
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: UGC 51 - Copy 3 — recipe (hold 23.3%)
+     CTA:  UGC 61 - Copy 2 — none (CVR 2.88%)
+     Duvod: Top hook (41.9%) + top body (hold 23.3%) + top CTA (CVR 2.88%) — nikdy netestovano spolu
+
+  5. Score: 0.671
+     Hook: UGC 43 too long - Copy 2 — ugc_reaction (41.9%)
+     Body: milan leden — testimonial (hold 24.1%)
+     CTA:  UGC 51 - Copy 3 — text_overlay (CVR 3.28%)
+     Duvod: Top hook (41.9%) + top body (hold 24.1%) + top CTA (CVR 3.28%) — nikdy netestovano spolu
+
+============================================================
