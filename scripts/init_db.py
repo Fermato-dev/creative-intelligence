@@ -25,8 +25,9 @@ def init():
 
 
 def _init_component_db():
-    """Validate component library DB."""
-    required = ["components", "tested_combinations", "recommendations"]
+    """Validate component library DB + change tracking tables."""
+    required = ["components", "tested_combinations", "recommendations",
+                "ad_daily_snapshots", "change_events", "learnings"]
 
     if not COMPONENT_DB.exists() or COMPONENT_DB.stat().st_size == 0:
         print(f"INIT: Component DB missing/empty, creating schema...")
@@ -46,8 +47,11 @@ def _init_component_db():
     conn = sqlite3.connect(str(COMPONENT_DB))
     count = conn.execute("SELECT count(*) FROM components").fetchone()[0]
     rec_count = conn.execute("SELECT count(*) FROM recommendations").fetchone()[0]
+    snap_count = conn.execute("SELECT count(*) FROM ad_daily_snapshots").fetchone()[0]
+    change_count = conn.execute("SELECT count(*) FROM change_events").fetchone()[0]
     conn.close()
-    print(f"INIT: Component DB OK — {count} components, {rec_count} recommendations")
+    print(f"INIT: Component DB OK — {count} components, {rec_count} recommendations, "
+          f"{snap_count} snapshots, {change_count} changes")
 
 
 def _init_voice_db():
@@ -76,9 +80,9 @@ def _init_voice_db():
     print(f"INIT: Voice DB OK — {profiles} profiles, {sources} sources")
 
 
-def _create_schema():
-    """Create v3 component library schema."""
-    conn = sqlite3.connect(str(DB_PATH))
+def _create_component_schema():
+    """Create v3 component library schema + change tracking tables."""
+    conn = sqlite3.connect(str(COMPONENT_DB))
     conn.executescript("""
         CREATE TABLE IF NOT EXISTS components (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -134,6 +138,10 @@ def _create_schema():
             status TEXT DEFAULT 'pending'
         );
     """)
+    # Change tracking tables
+    from creative_intelligence.change_tracker import CHANGE_TRACKING_SCHEMA
+    conn.executescript(CHANGE_TRACKING_SCHEMA)
+
     conn.commit()
     conn.close()
     print(f"INIT: Component schema created ({COMPONENT_DB.stat().st_size} bytes)")
