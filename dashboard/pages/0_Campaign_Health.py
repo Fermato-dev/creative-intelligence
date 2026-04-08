@@ -16,9 +16,12 @@ from auth import check_password
 if not check_password():
     st.stop()
 
-sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from meta_client import meta_fetch, meta_fetch_all, AD_ACCOUNT_ID
-from shared_data import *
+from shared_data import *  # adds REPO_ROOT to sys.path
+
+try:
+    from creative_intelligence.meta_client import meta_fetch, meta_fetch_all, AD_ACCOUNT_ID
+except ImportError:
+    from meta_client import meta_fetch, meta_fetch_all, AD_ACCOUNT_ID
 
 st.markdown(SHARED_CSS, unsafe_allow_html=True)
 
