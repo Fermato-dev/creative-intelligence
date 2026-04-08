@@ -25,36 +25,48 @@ except ImportError:
 
 st.markdown(SHARED_CSS, unsafe_allow_html=True)
 
-# ── Extra CSS ──
+# ── Extra CSS — explicit colors on everything so dark mode works ──
 st.markdown("""<style>
-.severity-critical { background:#fef2f2; border:2px solid #e53e3e; border-radius:12px; padding:16px 20px; margin-bottom:8px; }
-.severity-off      { background:#fff7ed; border:2px solid #ed8936; border-radius:12px; padding:16px 20px; margin-bottom:8px; }
-.severity-watch    { background:#fffff0; border:2px solid #d69e2e; border-radius:12px; padding:16px 20px; margin-bottom:8px; }
-.severity-ok       { background:#f0fff4; border:2px solid #38a169; border-radius:12px; padding:16px 20px; margin-bottom:8px; }
-.sev-title  { font-size:1.05em; font-weight:700; }
-.sev-detail { font-size:0.86em; margin-top:4px; color:#374151; }
+.severity-critical { background:#fef2f2; border:2px solid #e53e3e; border-radius:12px; padding:16px 20px; margin-bottom:8px; color:#1a202c !important; }
+.severity-off      { background:#fff7ed; border:2px solid #ed8936; border-radius:12px; padding:16px 20px; margin-bottom:8px; color:#1a202c !important; }
+.severity-watch    { background:#fffff0; border:2px solid #d69e2e; border-radius:12px; padding:16px 20px; margin-bottom:8px; color:#1a202c !important; }
+.severity-ok       { background:#f0fff4; border:2px solid #38a169; border-radius:12px; padding:16px 20px; margin-bottom:8px; color:#1a202c !important; }
+.sev-title  { font-size:1.05em; font-weight:700; color:#1a202c !important; }
+.sev-detail { font-size:0.86em; margin-top:4px; color:#374151 !important; }
 
 .median-diagnosis { background:#eef2ff; border-left:4px solid #6366f1; border-radius:8px;
-    padding:12px 16px; font-size:0.87em; color:#3730a3; line-height:1.55; }
+    padding:12px 16px; font-size:0.87em; color:#3730a3 !important; line-height:1.55; }
 
-.adset-fail { display:inline-block; background:#fef2f2; color:#e53e3e;
+.adset-fail { display:inline-block; background:#fef2f2; color:#e53e3e !important;
     font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
-.adset-ok   { display:inline-block; background:#f0fff4; color:#38a169;
+.adset-ok   { display:inline-block; background:#f0fff4; color:#38a169 !important;
     font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
-.fatigue-tag { display:inline-block; background:#fff7ed; color:#c05621;
+.fatigue-tag { display:inline-block; background:#fff7ed; color:#c05621 !important;
     font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
 
 .callout-card { border-radius:10px; padding:12px 16px; margin:5px 0;
-    border-left:4px solid; font-size:0.84em; line-height:1.5; }
+    border-left:4px solid; font-size:0.84em; line-height:1.5; color:#1a202c !important; }
 .callout-ll   { background:#fef2f2; border-left-color:#e53e3e; }
 .callout-fat  { background:#fff7ed; border-left-color:#ed8936; }
 .callout-eff  { background:#f0fff4; border-left-color:#38a169; }
+.callout-card strong { color:#1a202c !important; }
+.callout-card * { color:#1a202c !important; }
 
 .prog-wrap { background:#e8ecf1; border-radius:6px; height:9px; overflow:hidden; margin:3px 0 8px; }
 .prog-fill { height:9px; border-radius:6px; }
 
 .goal-derived { background:#f0f4ff; border-radius:8px; padding:8px 12px;
-    font-size:0.82em; color:#4338ca; margin-top:4px; }
+    font-size:0.82em; color:#4338ca !important; margin-top:4px; }
+.goal-derived * { color:#4338ca !important; }
+
+/* Fix shared act-box cards in dark mode */
+.act-kill, .act-scale, .act-iterate { color:#1a202c !important; }
+.act-kill *, .act-scale *, .act-iterate * { color:#1a202c !important; }
+.act-kill small, .act-scale small, .act-iterate small { color:#6b7280 !important; }
+
+/* Fix reliability banner in dark mode */
+.reliability-banner { color:#4338ca !important; }
+.reliability-banner * { color:#4338ca !important; }
 </style>""", unsafe_allow_html=True)
 
 # ── Standard sidebar ──
