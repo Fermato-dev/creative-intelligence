@@ -15,7 +15,10 @@ RETRY_BACKOFF_BASE = 2
 
 
 def _get_token():
-    return os.environ.get("META_ADS_ACCESS_TOKEN", "")
+    token = os.environ.get("META_ADS_ACCESS_TOKEN", "")
+    if not token:
+        raise RuntimeError("META_ADS_ACCESS_TOKEN env var is not set — check Railway environment variables")
+    return token
 
 
 def meta_fetch(endpoint, params=None, timeout=30):

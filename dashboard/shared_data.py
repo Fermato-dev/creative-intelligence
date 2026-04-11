@@ -83,7 +83,8 @@ def load_snapshots():
         """).df()
         con.close()
         return [{"data": json.loads(row["data"]), "date": row["date"]} for _, row in df.iterrows()]
-    except Exception:
+    except Exception as e:
+        print(f"WARN: snapshot load failed: {e}", file=sys.stderr)
         return []
 
 def load_ai():

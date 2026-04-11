@@ -146,6 +146,7 @@ def calculate_metrics(row):
         "ad_id": row.get("ad_id"),
         "ad_name": row.get("ad_name", ""),
         "campaign_name": row.get("campaign_name", ""),
+        "adset_id": row.get("adset_id"),
         "adset_name": row.get("adset_name", ""),
         "impressions": int(impressions),
         "reach": int(float(row.get("reach", 0))),
