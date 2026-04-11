@@ -471,6 +471,100 @@ st.plotly_chart(fig_comp, use_container_width=True)
 
 
 # ══════════════════════════════════════════════
+# SECTION 7: INSPIRACE — CO DELAJI JINAK JINDE
+# ══════════════════════════════════════════════
+
+st.markdown("---")
+st.markdown("### Inspirace ze sveta — co delaji jinak?")
+
+insp_tab1, insp_tab2, insp_tab3 = st.tabs(["Brandy & Taktiky", "Formaty k vyzkouseni", "Konkretni napady"])
+
+with insp_tab1:
+    st.markdown("""
+<div class="insight-box">
+<strong>Mid-Day Squares ($30M)</strong> — 3 zakladatele na kameru DENNE. Business behind-the-scenes, priznani chyb, osobni zranitelnost.
+Factory vlog = 438K zhlednuti. <em>Pro Fermato: "The Fermato Show" — CEO 2-3x tydne, ne jen uspechy ale i prusery.</em>
+</div>
+
+<div class="insight-box">
+<strong>Graza (olivovy olej, $50M+)</strong> — 9 mesicu BEZ reklam. Vzorky creatorum pres DM, zadne smlouvy.
+Facebook ads = prepouzite TikTok klipy. Absurdisticky humor ("847 lzicek").
+<em>Pro Fermato: Poslat zalivky 30 food micro-influencerum v CZ/HU. Prepouzit jejich obsah jako Meta Ads.</em>
+</div>
+
+<div class="insight-box">
+<strong>The Ordinary — radikalni transparentnost</strong> — Produkty pojmenovane po slozkach. Zadne glamour.
+Vzdelavaci obsah co produkt dela a co NEDELA.
+<em>Pro Fermato: Split screen etiketa supermarket vs Fermato. "Co vase zalivka NEUMI je stejne dulezite."</em>
+</div>
+
+<div class="insight-box">
+<strong>Fly By Jing (condiments)</strong> — Moderni dating jazyk: "No strings attached, just noods."
+Zakladatelka na osobnim uctu sdili food filozofii.
+<em>Pro Fermato: "Ghostujete svuj salat? Fermato vam pomuze najit The One."</em>
+</div>
+
+<div class="insight-box">
+<strong>Liquid Death ($1.4B)</strong> — Collab s e.l.f. Cosmetics — vyprodano za 45 minut.
+Negativni komentare = material pro dalsi content. Prvni spot za $1,500.
+<em>Pro Fermato: Collab s necekany CZ brandem. Negativni komentare jako content.</em>
+</div>
+
+<div class="insight-box">
+<strong>Siete Family Foods ($200M)</strong> — 7 clenu rodiny = brand. Kampan natocena in-house rodinou.
+Z osobni potreby (autoimunitni onemocneni) = brand.
+<em>Pro Fermato: Osobni pribeh zakladatele jako MOTOR kazde kampane, ne jen "O nas" stranka.</em>
+</div>
+""", unsafe_allow_html=True)
+
+with insp_tab2:
+    st.markdown("""
+| Format | Inspirace | Effort | Proc funguje |
+|--------|-----------|--------|-------------|
+| **"Reality show" serie** | Mid-Day Squares | Low | Founder hook — nase data: ROAS 2.59 |
+| **Srovnavaci reklama (etikety)** | The Ordinary | Low | Contradiction hook — nase data: 40.6% |
+| **Behind-the-scenes vyroba** | Top DTC format 2026 | Low-Med | Transparentnost + curiosity |
+| **Anti-ad / ugly ad** | 42% top DTC reklam je lo-fi | Low | Lo-fi — nase data: hook 23.5% |
+| **Challenge content** | #FermatoChallenge | Low | UGC generator, viralni potencial |
+| **Meme marketing** | Liquid Death, Fly By Jing | Low | 60% organicky engagement |
+| **Customer stories** | Siete, Farmer's Dog | Med | Customer — nase data: hook 38.4% |
+| **Podcast snippet** | AG1 ($2.2M/mes podcast ads) | Med | Anti-ad format, intimni |
+| **Chef x Brand collab** | Liquid Death collab model | Med-High | Novy audience, sdilene publikum |
+| **Vzdelavaci mini-serie** | The Ordinary | Low-Med | Educational — nase data: hook 26.3% |
+""")
+
+    st.markdown("""<div class="insight-box">
+    <strong>Klicove:</strong> Kazdy format je propojen s nasimi daty. Necopirujeme slepe — testujeme to,
+    co nase cisla naznacuji ze by mohlo fungovat (contradiction, lo-fi, osoba, founder).
+    </div>""", unsafe_allow_html=True)
+
+with insp_tab3:
+    st.markdown("#### Quick wins (telefon, 1 osoba)")
+    st.markdown("""
+1. **"Tohle jsem nechtela nikomu rikat"** — Zakaznice selfie: "...ale dam tu zalivku doslova na vsechno." 15s Reel. Hook: curiosity_gap.
+2. **"Srovnani — co je UVNITR"** — Split screen: supermarket vs Fermato etikety. 30s Reel. Hook: contradiction. *(The Ordinary)*
+3. **"Zachrante veceri"** — POV hands-only. Poloprazdna lednice → zalivka = hotovy salat za 60s. Hook: problem_opening.
+4. **"Ghostujete svuj salat?"** — Meme: "Ja: Budu jist zdraveji. Taky ja:" + leje zalivku na vsechno. 15s. *(Fly By Jing)*
+""")
+
+    st.markdown("#### Medium effort")
+    st.markdown("""
+5. **"847 pokusu"** — CEO pred horou lahvicek: "Ochutnali jsme 847 verzi." Flashbacky, skleby, posledni pokus = usmev. 15s. *(Graza)*
+6. **"CEO Taste Test" (serial)** — Kazdy tyden zalivka na neco absurdniho (zmrzlina, chipsy). Realne reakce. 15-30s. *(Mid-Day Squares)*
+7. **"3 generace, 1 salat"** — Babicka, dcera, vnucka: "Tento recept jsme zdedily. Zalivku ne." 30s. *(Siete)*
+8. **"Ve vyrobne v 5 rano"** — Hodiny 5:00, alarm, realne zabery vyroby. Ambient + text overlay. 30-60s. *(BTS documentary)*
+9. **"Pod poklickou" (5 dilu)** — Kazdy dil = 1 ingredience. "Vedeli jste ze...?" 30s. *(The Ordinary)*
+""")
+
+    st.markdown("#### Higher effort")
+    st.markdown("""
+10. **"Zalivkovy horoskop"** — Carousel 12 slidu. "Strelec — Chilli mango. Protoze zivot bez rizika neni zivot."
+11. **"Dvojite rande"** — Fermato x cesky pivovar. Spolecny recept. 30s. *(Liquid Death collab)*
+12. **"Nekam to nechod" (anti-ad)** — "Toto NENI reklama." Bezny salat, ochutna, oci se rozsiri. Zadny branding do posledni sekundy. 15s.
+""")
+
+
+# ══════════════════════════════════════════════
 # FOOTER: CAVEATS
 # ══════════════════════════════════════════════
 
