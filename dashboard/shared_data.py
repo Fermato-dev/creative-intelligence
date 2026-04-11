@@ -125,6 +125,48 @@ def load_ai():
         }
     return out
 
+# ── Creative Diversity Tags ──
+
+@st.cache_data(ttl=1800, show_spinner="Nacitam creative tags...")
+def load_creative_tags():
+    """Load creative diversity tags from SQLite (fallback: JSON).
+    Returns DataFrame with archetype, hook_strategy, visual_style, etc."""
+    import sqlite3 as _sql
+
+    # Try SQLite first
+    db = DATA_DIR / "creative_analysis.db"
+    if db.exists():
+        try:
+            conn = _sql.connect(f"file:{db}?mode=ro", uri=True)
+            df = pd.read_sql_query("""
+                SELECT * FROM creative_tags
+                WHERE tagged_at = (SELECT MAX(tagged_at) FROM creative_tags)
+            """, conn)
+            conn.close()
+            if len(df) > 0:
+                return df
+        except Exception:
+            pass
+
+    # Fallback: search for JSON files
+    search_dirs = [
+        DATA_DIR,
+        REPO_ROOT.parent / "Chief-of-Staff" / "scripts" / "analysis",
+        Path.home() / "Chief-of-Staff" / "scripts" / "analysis",
+    ]
+    for d in search_dirs:
+        if d.exists():
+            for f in sorted(d.glob("*precise_tags_output*.json"), reverse=True):
+                try:
+                    with open(f, encoding="utf-8") as fh:
+                        data = json.load(fh)
+                    return pd.DataFrame(data)
+                except Exception:
+                    continue
+
+    return pd.DataFrame()
+
+
 # ── Filters (shared sidebar) ──
 
 def setup_sidebar():

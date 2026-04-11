@@ -27,7 +27,8 @@ def init():
 def _init_component_db():
     """Validate component library DB + change tracking tables."""
     required = ["components", "tested_combinations", "recommendations",
-                "ad_daily_snapshots", "change_events", "learnings"]
+                "ad_daily_snapshots", "change_events", "learnings",
+                "creative_tags"]
 
     if not COMPONENT_DB.exists() or COMPONENT_DB.stat().st_size == 0:
         print(f"INIT: Component DB missing/empty, creating schema...")
@@ -138,6 +139,42 @@ def _create_component_schema():
             status TEXT DEFAULT 'pending'
         );
     """)
+    # Creative diversity tags
+    conn.executescript("""
+        CREATE TABLE IF NOT EXISTS creative_tags (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            ad_id TEXT NOT NULL,
+            ad_name TEXT,
+            campaign_name TEXT,
+            archetype TEXT,
+            archetype_confidence REAL,
+            archetype_reasoning TEXT,
+            hook_strategy TEXT,
+            energy_level TEXT,
+            visual_style TEXT,
+            person_present TEXT,
+            person_type TEXT,
+            food_visible TEXT,
+            text_overlay_content TEXT,
+            production_quality TEXT,
+            dominant_color TEXT,
+            frames_count INTEGER,
+            has_transcript BOOLEAN DEFAULT 0,
+            ad_copy TEXT,
+            impressions INTEGER,
+            spend REAL,
+            purchases INTEGER,
+            hook_rate REAL,
+            roas REAL,
+            cpa REAL,
+            tagged_at TEXT NOT NULL,
+            UNIQUE(ad_id, tagged_at)
+        );
+        CREATE INDEX IF NOT EXISTS idx_tags_archetype ON creative_tags(archetype);
+        CREATE INDEX IF NOT EXISTS idx_tags_ad ON creative_tags(ad_id);
+        CREATE INDEX IF NOT EXISTS idx_tags_tagged ON creative_tags(tagged_at);
+    """)
+
     # Change tracking tables
     from creative_intelligence.change_tracker import CHANGE_TRACKING_SCHEMA
     conn.executescript(CHANGE_TRACKING_SCHEMA)
