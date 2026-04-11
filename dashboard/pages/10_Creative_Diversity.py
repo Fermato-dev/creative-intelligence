@@ -477,9 +477,8 @@ st.plotly_chart(fig_comp, use_container_width=True)
 st.markdown("---")
 with st.expander("Cim si nejsem jisty"):
     st.markdown("""
-- **Archetype tagging bez audio transkriptu** — klasifikace z framu + ad copy, ne z audia. Founder story vs UGC se nejlepe rozlisi z reci.
-- **Contradiction hook = maly vzorek** (2 kreativy) — 43.8% hook je silny signal ale statisticky nespolehlivy.
+- **Contradiction hook = maly vzorek** (3 kreativy) — 40.6% hook je silny signal ale statisticky nespolehlivy. Potreba vic dat.
 - **ROAS != kreativa** — ROAS ovlivnuje produkt, cena, sezona, product page. Nepricitat zmeny vyhradne archetype mixu.
-- **CZ/HU trh** — vetsina benchmarku z US. Andromeda efekty mohou byt na malych trzich odlisne.
-- **Person_type tagging** — Vision model odhaduje typ osoby z vizualu, bez kontextu kdo to je.
+- **CZ/HU trh** — vetsina benchmarku z US. Andromeda efekty mohou byt na malych trzich (~5M/4M Meta useru) odlisne.
+- **Person_type tagging** — Whisper transkript pomaha rozlisit kdo mluvi (founder vs UGC creator), ale person_type (founder/customer/model) se stale odhaduje primarne z vizualu. Pokud osoba nemluvi, kontext chybi.
 """)
