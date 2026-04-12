@@ -53,6 +53,34 @@ st.markdown("""<style>
 .arch-table tr:hover { background: #f8fafc; }
 .arch-bar { height: 6px; border-radius: 3px; background: #e5e7eb; }
 .arch-fill { height: 100%; border-radius: 3px; }
+
+.cg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 12px 0; }
+@media (max-width: 768px) { .cg-grid { grid-template-columns: 1fr; } }
+.cg-card { display: flex; gap: 12px; padding: 12px; border-radius: 10px;
+    border: 1px solid #e8ecf1; background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: all 0.15s; }
+.cg-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-color: #c7d2fe; transform: translateY(-1px); }
+.cg-thumb { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: #f1f5f9; }
+.cg-thumb-placeholder { width: 80px; height: 80px; border-radius: 8px; flex-shrink: 0;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    display: flex; align-items: center; justify-content: center; font-size: 1.6em; color: #94a3b8; }
+.cg-meta { flex: 1; min-width: 0; }
+.cg-name { font-weight: 600; font-size: 0.82em; color: #1e293b; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.cg-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+.cg-badge { font-size: 0.68em; padding: 2px 7px; border-radius: 4px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.03em; }
+.cg-metrics { display: flex; gap: 8px; flex-wrap: wrap; font-size: 0.74em; color: #6b7280; }
+.cg-metric { white-space: nowrap; }
+.cg-metric b { color: #374151; }
+.cg-copy { font-size: 0.72em; color: #9ca3af; margin-top: 4px; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; }
+.cg-link { display: inline-block; font-size: 0.7em; color: #6366f1; text-decoration: none;
+    font-weight: 600; margin-top: 4px; }
+.cg-link:hover { color: #4f46e5; text-decoration: underline; }
+.cg-conf-hi { background: #dcfce7; color: #166534; }
+.cg-conf-mid { background: #fef9c3; color: #854d0e; }
+.cg-conf-lo { background: #fee2e2; color: #991b1b; }
 </style>""", unsafe_allow_html=True)
 
 # ── Sidebar ──
@@ -77,6 +105,7 @@ tags = tags[tags["archetype"].notna() & (tags["archetype"] != "unknown")]
 with st.sidebar:
     min_spend = st.slider("Min. spend (CZK)", 0, 5000, 200, 100)
     tags = tags[tags["spend"] >= min_spend]
+    gallery_sort = st.selectbox("Radit galerii dle", ["Spend", "ROAS", "Hook Rate", "CPA"], index=0)
     st.caption(f"{len(tags)} kreativ | Data: {tags['tagged_at'].max() if 'tagged_at' in tags.columns else '?'}")
 
 # ══════════════════════════════════════════════
@@ -225,6 +254,109 @@ st.markdown("""<table class="arch-table">
     <td>{kc(r['Spend'])}</td>
 </tr>""" for _, r in arch_df.iterrows()) +
 "</table>", unsafe_allow_html=True)
+
+
+# ══════════════════════════════════════════════
+# SECTION 2b: CREATIVE GALLERY — DRILL-DOWN
+# ══════════════════════════════════════════════
+
+st.markdown("---")
+st.markdown("### Creative Gallery — proklik na kreativy")
+
+ADS_MANAGER_URL = "https://business.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids="
+SORT_MAP = {"Spend": ("spend", False), "ROAS": ("roas", False), "Hook Rate": ("hook_rate", False), "CPA": ("cpa", True)}
+sort_col, sort_asc = SORT_MAP.get(gallery_sort, ("spend", False))
+
+for arch in arch_df["Archetyp"].values:
+    arch_group = tags[tags["archetype"] == arch].copy()
+    if len(arch_group) == 0:
+        continue
+
+    # Sort
+    if sort_col in arch_group.columns:
+        arch_group = arch_group.sort_values(sort_col, ascending=sort_asc, na_position="last")
+
+    arch_color = colors.get(arch, "#94a3b8")
+    arch_row = arch_df[arch_df["Archetyp"] == arch].iloc[0]
+    label = f"{arch} — {int(arch_row['Pocet'])} kreativ | ROAS {arch_row['ROAS']:.2f} | Hook {arch_row['Hook Rate']:.1f}%"
+
+    with st.expander(label, expanded=False):
+        cards_html = '<div class="cg-grid">'
+        for _, ad in arch_group.iterrows():
+            ad_id = ad.get("ad_id", "")
+            ad_name = str(ad.get("ad_name", ""))[:60]
+            thumb_url = ad.get("thumbnail_url") or ad.get("image_url") or ""
+            hook = ad.get("hook_strategy", "")
+            hook_rate = ad.get("hook_rate")
+            roas = ad.get("roas")
+            cpa = ad.get("cpa")
+            spend = ad.get("spend", 0)
+            conf = ad.get("archetype_confidence", 0) or 0
+            copy_text = str(ad.get("ad_copy", ""))[:80]
+            person = ad.get("person_type", "none")
+            style = ad.get("visual_style", "")
+            quality = ad.get("production_quality", "")
+
+            # Thumbnail or placeholder
+            if thumb_url:
+                thumb_html = f'<img class="cg-thumb" src="{thumb_url}" alt="" onerror="this.outerHTML=\'<div class=cg-thumb-placeholder>&#x1f3ac;</div>\'">'
+            else:
+                thumb_html = '<div class="cg-thumb-placeholder">&#x1f3ac;</div>'
+
+            # Confidence badge
+            if conf >= 0.8:
+                conf_cls = "cg-conf-hi"
+            elif conf >= 0.6:
+                conf_cls = "cg-conf-mid"
+            else:
+                conf_cls = "cg-conf-lo"
+
+            # Hook badge color
+            hook_colors = {
+                "contradiction": "#7c3aed", "ugc_reaction": "#0d9488", "visual_reveal": "#2563eb",
+                "statement": "#d97706", "product_hero": "#6b7280", "question": "#db2777",
+                "problem_opening": "#ea580c", "curiosity_gap": "#8b5cf6",
+            }
+            hook_bg = hook_colors.get(hook, "#94a3b8")
+
+            # Metrics
+            metrics_parts = []
+            if hook_rate is not None and pd.notna(hook_rate):
+                metrics_parts.append(f'<span class="cg-metric"><b>{hook_rate:.1f}%</b> hook</span>')
+            if roas is not None and pd.notna(roas):
+                metrics_parts.append(f'<span class="cg-metric"><b>{roas:.2f}</b> ROAS</span>')
+            if cpa is not None and pd.notna(cpa):
+                metrics_parts.append(f'<span class="cg-metric"><b>{cpa:,.0f}</b> CPA</span>')
+            metrics_parts.append(f'<span class="cg-metric"><b>{spend:,.0f}</b> CZK</span>')
+            metrics_html = " ".join(metrics_parts)
+
+            # Person/style info
+            detail_badges = ""
+            if person and person != "none":
+                detail_badges += f'<span class="cg-badge" style="background:#e0f2fe;color:#0369a1">{person}</span>'
+            if quality:
+                q_colors = {"amateur": "#fef3c7", "professional": "#dbeafe", "semi_pro": "#f3e8ff", "raw_ugc": "#fce7f3"}
+                q_bg = q_colors.get(quality, "#f1f5f9")
+                detail_badges += f'<span class="cg-badge" style="background:{q_bg};color:#374151">{quality}</span>'
+
+            cards_html += f'''<div class="cg-card">
+                {thumb_html}
+                <div class="cg-meta">
+                    <div class="cg-name" title="{ad_name}">{ad_name}</div>
+                    <div class="cg-badges">
+                        <span class="cg-badge" style="background:{arch_color};color:#fff">{arch}</span>
+                        <span class="cg-badge" style="background:{hook_bg};color:#fff">{hook}</span>
+                        <span class="cg-badge {conf_cls}">{conf:.0%}</span>
+                        {detail_badges}
+                    </div>
+                    <div class="cg-metrics">{metrics_html}</div>
+                    <div class="cg-copy" title="{copy_text}">{copy_text}</div>
+                    <a class="cg-link" href="{ADS_MANAGER_URL}{ad_id}" target="_blank">Otevrit v Ads Manager &#x2197;</a>
+                </div>
+            </div>'''
+
+        cards_html += '</div>'
+        st.markdown(cards_html, unsafe_allow_html=True)
 
 
 # ══════════════════════════════════════════════

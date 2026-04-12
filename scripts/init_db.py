@@ -167,6 +167,9 @@ def _create_component_schema():
             hook_rate REAL,
             roas REAL,
             cpa REAL,
+            thumbnail_url TEXT,
+            image_url TEXT,
+            video_id TEXT,
             tagged_at TEXT NOT NULL,
             UNIQUE(ad_id, tagged_at)
         );

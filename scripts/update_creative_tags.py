@@ -62,8 +62,9 @@ def insert_tags(data, source_file):
                  archetype_reasoning, hook_strategy, energy_level, visual_style,
                  person_present, person_type, food_visible, text_overlay_content,
                  production_quality, dominant_color, frames_count, has_transcript,
-                 ad_copy, impressions, spend, purchases, hook_rate, roas, cpa, tagged_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 ad_copy, impressions, spend, purchases, hook_rate, roas, cpa,
+                 thumbnail_url, image_url, video_id, tagged_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 ad.get("ad_id"), ad.get("ad_name"), ad.get("campaign_name"),
                 ad.get("archetype"), ad.get("archetype_confidence"),
@@ -75,7 +76,8 @@ def insert_tags(data, source_file):
                 ad.get("frames_count"), 1 if ad.get("has_transcript") else 0,
                 ad.get("ad_copy"), ad.get("impressions"), ad.get("spend"),
                 ad.get("purchases"), ad.get("hook_rate"), ad.get("roas"),
-                ad.get("cpa"), tagged_at,
+                ad.get("cpa"), ad.get("thumbnail_url"), ad.get("image_url"),
+                ad.get("video_id"), tagged_at,
             ))
             inserted += 1
         except Exception as e:
