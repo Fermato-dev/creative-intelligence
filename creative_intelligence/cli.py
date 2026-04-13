@@ -1,4 +1,4 @@
-"""Unified CLI entry point for Creative Intelligence v3."""
+"""Unified CLI entry point for Creative Intelligence v3.5."""
 
 import json
 import os
@@ -31,6 +31,18 @@ def main():
         _run_voice(args[1:])
     elif command == "briefs":
         _run_briefs(args[1:])
+    elif command == "scores":
+        _run_scores(args[1:])
+    elif command == "shifts":
+        _run_shifts(args[1:])
+    elif command == "leaderboard":
+        _run_leaderboard(args[1:])
+    elif command == "tag":
+        _run_tag(args[1:])
+    elif command == "compare":
+        _run_compare(args[1:])
+    elif command == "dashboard":
+        _run_dashboard(args[1:])
     else:
         # Default: treat as report args
         _run_report(args)
@@ -51,6 +63,12 @@ Commands:
   recommend                         Vygeneruj kombinatoricka doporuceni
   voice [--product X]               Customer Voice Mining — psychologicky profil z recenzi
   briefs [--product X] [--with-mining]  Germain pipeline — 4 paralelni creative briefy
+  scores [--days N]                 Funnel scores (Hook/Watch/Click/Convert 1-100)
+  shifts [--days N]                 Performance shifts (Scaling/Declining/New/Paused)
+  leaderboard [--days N] [--top N]  Creative leaderboard s rank tracking
+  tag [--force]                     AI visual format tagging (Claude Vision)
+  compare [--days N]                Comparative analysis (ad type, format, messaging)
+  dashboard [--days N] [--open]     Generate HTML dashboard
   help                              Tato napoveda
 
 Options:
@@ -277,3 +295,154 @@ def _run_briefs(args):
     if briefs:
         from .briefs import format_briefs_report
         print(format_briefs_report(briefs))
+
+
+def _run_scores(args):
+    """Calculate and display funnel scores."""
+    from . import metrics
+    from .funnel_scores import score_all_ads, save_funnel_scores, init_funnel_scores_schema
+    from .component_db import get_db
+
+    days = _parse_arg(args, "--days", 14)
+
+    print(f"Stahuji data za {days} dni...", file=sys.stderr)
+    raw_data = metrics.fetch_ad_insights(days)
+    ads_metrics = [metrics.calculate_metrics(row) for row in raw_data]
+
+    scored = score_all_ads(ads_metrics)
+    scored.sort(key=lambda x: x.get("overall_score") or 0, reverse=True)
+
+    # Save to DB
+    conn = get_db()
+    init_funnel_scores_schema(conn)
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    saved = save_funnel_scores(conn, scored, date_str)
+    conn.close()
+
+    # Print
+    print(f"\n{'Ad Name':<35} {'Hook':>5} {'Watch':>6} {'Click':>6} {'Conv':>5} {'Score':>6}  {'ROAS':>6} {'Spend':>10}")
+    print("-" * 90)
+    for ad in scored[:25]:
+        if ad["spend"] < 100:
+            continue
+        h = f"{ad['hook_score']:>3}{ad['hook_grade']}" if ad.get("hook_score") is not None else "  --"
+        w = f"{ad['watch_score']:>3}{ad['watch_grade']}" if ad.get("watch_score") is not None else "   --"
+        cl = f"{ad['click_score']:>3}{ad['click_grade']}" if ad.get("click_score") is not None else "   --"
+        cv = f"{ad['convert_score']:>3}{ad['convert_grade']}" if ad.get("convert_score") is not None else "  --"
+        ov = f"{ad['overall_score']:>3}{ad['overall_grade']}" if ad.get("overall_score") is not None else "   --"
+        roas = f"{ad['roas']:.2f}" if ad.get("roas") else "N/A"
+        print(f"{ad['ad_name'][:35]:<35} {h:>5} {w:>6} {cl:>6} {cv:>5} {ov:>6}  {roas:>6} {ad['spend']:>10,.0f}")
+
+    print(f"\nScores saved: {saved}", file=sys.stderr)
+
+
+def _run_shifts(args):
+    """Show performance shifts."""
+    from .performance_shifts import categorize_performance_shifts, format_shifts_report
+    from .component_db import get_db
+    from .change_tracker import init_change_tracking_schema
+
+    conn = get_db()
+    init_change_tracking_schema(conn)
+    shifts = categorize_performance_shifts(conn)
+    print(format_shifts_report(shifts))
+    conn.close()
+
+
+def _run_leaderboard(args):
+    """Show creative leaderboard."""
+    from .leaderboard import generate_leaderboard, save_leaderboard, format_leaderboard_report, init_leaderboard_schema
+    from .component_db import get_db
+
+    days = _parse_arg(args, "--days", 7)
+    top = _parse_arg(args, "--top", 15)
+
+    conn = get_db()
+    init_leaderboard_schema(conn)
+    lb = generate_leaderboard(conn, days=days, limit=top)
+
+    # Save
+    week_start = (datetime.now() - __import__("datetime").timedelta(days=days - 1)).strftime("%Y-%m-%d")
+    save_leaderboard(conn, lb, week_start)
+
+    print(format_leaderboard_report(lb, top_n=top))
+    conn.close()
+
+
+def _run_tag(args):
+    """Run AI visual format tagging."""
+    from . import metrics
+    from .visual_tagger import batch_tag_creatives, init_creative_tags_schema, get_format_distribution
+    from .component_db import get_db
+
+    force = "--force" in args
+
+    limit = _parse_arg(args, "--limit", 30)
+    print("Stahuji creative metadata...", file=sys.stderr)
+    creatives = metrics.fetch_ad_creatives()
+    # Filter to ACTIVE only for cost efficiency
+    active = [c for c in creatives if c.get("effective_status") == "ACTIVE"]
+    creatives_to_tag = active[:limit] if active else creatives[:limit]
+    print(f"Nalezeno {len(creatives)} ads, tagging {len(creatives_to_tag)} (active, limit {limit}).", file=sys.stderr)
+
+    conn = get_db()
+    init_creative_tags_schema(conn)
+    tagged = batch_tag_creatives(conn, creatives_to_tag, force=force)
+    print(f"\nTagged: {tagged} ads", file=sys.stderr)
+
+    # Show distribution
+    dist = get_format_distribution(conn)
+    if dist:
+        print("\nVisual Format Distribution:")
+        for d in dist:
+            print(f"  {d['visual_format']}: {d['count']} ads")
+
+    conn.close()
+
+
+def _run_compare(args):
+    """Run comparative analysis."""
+    from .comparative import (
+        compare_ad_types, compare_visual_formats,
+        compare_messaging_angles, compare_ad_lengths,
+        analyze_landing_pages, format_comparative_report,
+    )
+    from .component_db import get_db
+
+    days = _parse_arg(args, "--days", 14)
+
+    conn = get_db()
+    ad_types = compare_ad_types(conn, days)
+    visual_formats = compare_visual_formats(conn, days)
+    messaging_angles = compare_messaging_angles(conn, days)
+    ad_lengths = compare_ad_lengths(conn, days)
+    landing_pages = analyze_landing_pages(conn, days)
+
+    print(format_comparative_report(ad_types, visual_formats, messaging_angles, ad_lengths, landing_pages))
+    conn.close()
+
+
+def _run_dashboard(args):
+    """Generate HTML dashboard."""
+    from .dashboard import generate_dashboard
+    from .component_db import get_db
+
+    days = _parse_arg(args, "--days", 14)
+    do_open = "--open" in args
+
+    conn = get_db()
+    path = generate_dashboard(conn, days=days)
+    conn.close()
+
+    print(f"Dashboard generated: {path}", file=sys.stderr)
+    if do_open:
+        import webbrowser
+        webbrowser.open(f"file:///{path}")
+
+
+def _parse_arg(args, flag, default):
+    """Parse a CLI argument with a default value."""
+    for i, a in enumerate(args):
+        if a == flag and i + 1 < len(args):
+            return int(args[i + 1])
+    return default

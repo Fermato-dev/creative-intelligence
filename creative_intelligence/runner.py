@@ -6,7 +6,10 @@ Steps:
 3. Generate text report
 4. v3: Decompose top creatives + build component library
 5. v3: Generate combinatorial recommendations
-6. Send Pumble notification
+6. v3.5: Funnel scores + performance shifts + leaderboard
+7. v3.5: AI visual format tagging
+8. v3.5: Generate HTML dashboard
+9. Send Pumble notification (upgraded)
 """
 
 import json
@@ -28,7 +31,7 @@ OUTPUT_DIR = DATA_DIR
 
 def main(days=7, do_pumble=True, do_vision=True, do_decompose=True, do_recommend=True):
     """Run full weekly pipeline."""
-    print(f"[{_ts()}] Creative Intelligence v3 Runner", file=sys.stderr)
+    print(f"[{_ts()}] Creative Intelligence v3.5 Runner", file=sys.stderr)
     print(f"  Days: {days} | Pumble: {do_pumble} | Vision: {do_vision} | Decompose: {do_decompose}", file=sys.stderr)
 
     # ── Step 1: Fetch & calculate ──
@@ -114,7 +117,68 @@ def main(days=7, do_pumble=True, do_vision=True, do_decompose=True, do_recommend
             print(f"[{_ts()}] Decomposition/Recommend failed: {e}", file=sys.stderr)
             traceback.print_exc(file=sys.stderr)
 
-    # ── Step 5: Pumble ──
+    # ── Step 5: v3.5 Funnel Scores + Shifts + Leaderboard ──
+    dashboard_conn = None
+    try:
+        from .component_db import get_db
+        from .funnel_scores import score_all_ads, save_funnel_scores, init_funnel_scores_schema
+        from .performance_shifts import categorize_performance_shifts
+        from .leaderboard import generate_leaderboard, save_leaderboard, init_leaderboard_schema
+
+        dashboard_conn = get_db()
+        date_str = datetime.now().strftime("%Y-%m-%d")
+
+        # Funnel scores
+        scored = score_all_ads(ads_metrics)
+        init_funnel_scores_schema(dashboard_conn)
+        fs_saved = save_funnel_scores(dashboard_conn, scored, date_str)
+        print(f"[{_ts()}] Funnel scores: {fs_saved} ads scored", file=sys.stderr)
+
+        # Leaderboard
+        init_leaderboard_schema(dashboard_conn)
+        lb = generate_leaderboard(dashboard_conn, days=days, limit=15)
+        week_start = (datetime.now() - __import__("datetime").timedelta(days=days - 1)).strftime("%Y-%m-%d")
+        save_leaderboard(dashboard_conn, lb, week_start)
+        print(f"[{_ts()}] Leaderboard: {len(lb)} entries saved", file=sys.stderr)
+
+    except Exception as e:
+        print(f"[{_ts()}] v3.5 scoring/leaderboard failed: {e}", file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+
+    # ── Step 6: v3.5 AI Visual Tagging ──
+    try:
+        from .visual_tagger import batch_tag_creatives, init_creative_tags_schema
+
+        if dashboard_conn is None:
+            from .component_db import get_db
+            dashboard_conn = get_db()
+
+        init_creative_tags_schema(dashboard_conn)
+        creatives = m.fetch_ad_creatives()
+        tagged = batch_tag_creatives(dashboard_conn, creatives)
+        print(f"[{_ts()}] Visual tagging: {tagged} new ads tagged", file=sys.stderr)
+
+    except Exception as e:
+        print(f"[{_ts()}] v3.5 tagging failed: {e}", file=sys.stderr)
+
+    # ── Step 7: v3.5 HTML Dashboard ──
+    try:
+        from .dashboard import generate_dashboard
+
+        if dashboard_conn is None:
+            from .component_db import get_db
+            dashboard_conn = get_db()
+
+        dash_path = generate_dashboard(dashboard_conn, days=days)
+        print(f"[{_ts()}] Dashboard: {dash_path}", file=sys.stderr)
+
+    except Exception as e:
+        print(f"[{_ts()}] v3.5 dashboard failed: {e}", file=sys.stderr)
+
+    if dashboard_conn:
+        dashboard_conn.close()
+
+    # ── Step 8: Pumble ──
     if do_pumble:
         msg = _build_pumble_summary(ads_metrics)
         success = send_pumble(msg)
@@ -144,7 +208,7 @@ def _get_video_id_for_ad(ad_id):
 
 
 def _build_pumble_summary(ads_metrics):
-    """Build compact Pumble message."""
+    """Build compact Pumble message with v3.5 data."""
     total_spend = sum(ad["spend"] for ad in ads_metrics)
     total_purchases = sum(ad["purchases"] for ad in ads_metrics)
     total_revenue = sum(ad["revenue"] for ad in ads_metrics)
@@ -163,17 +227,56 @@ def _build_pumble_summary(ads_metrics):
                 actions[action] += 1
 
     lines = [
-        f"**FERMATO Creative Intelligence v3 — {datetime.now().strftime('%Y-%m-%d')}**",
+        f"**FERMATO Creative Intelligence v3.5 — {datetime.now().strftime('%Y-%m-%d')}**",
+        "",
         f"ROAS: **{overall_roas:.2f}** | Spend: {total_spend:,.0f} CZK | Purchases: {total_purchases}",
         f"Hook Rate: **{avg_hook:.1f}%** | Ads: {len(ads_metrics)}",
         f"KILL: {actions['KILL']} | SCALE: {actions['SCALE']} | ITERATE: {actions['ITERATE']} | WATCH: {actions['WATCH']}",
     ]
 
+    # v3.5: Performance shifts summary
+    try:
+        from .component_db import get_db
+        from .performance_shifts import categorize_performance_shifts
+
+        conn = get_db()
+        shifts = categorize_performance_shifts(conn)
+        conn.close()
+
+        s_count = len(shifts.get("scaling", []))
+        d_count = len(shifts.get("declining", []))
+        n_count = len(shifts.get("newly_launched", []))
+
+        lines.append("")
+        if shifts.get("scaling"):
+            lines.append(f"**SCALING ({s_count}):**")
+            for ad in shifts["scaling"][:3]:
+                name = ad.get("ad_name", "")[:30]
+                sd = ad.get("spend_delta")
+                sd_str = f"+{sd:.0f}%" if sd and sd > 0 else f"{sd:.0f}%" if sd else "N/A"
+                roas = ad.get("this_week_roas")
+                roas_str = f"ROAS {roas:.2f}" if roas else ""
+                lines.append(f"  {name} | spend {sd_str} | {roas_str}")
+
+        if shifts.get("declining"):
+            lines.append(f"**DECLINING ({d_count}):**")
+            for ad in shifts["declining"][:2]:
+                name = ad.get("ad_name", "")[:30]
+                rd = ad.get("roas_delta")
+                rd_str = f"{rd:.0f}%" if rd else "N/A"
+                lines.append(f"  {name} | ROAS {rd_str}")
+
+        if n_count:
+            lines.append(f"New: {n_count} launched")
+    except Exception:
+        pass
+
     # Top 3 performers
     top = sorted([ad for ad in ads_metrics if ad["roas"] and ad["spend"] > 200],
                  key=lambda x: x.get("weighted_roas", 0), reverse=True)[:3]
     if top:
-        lines.append("\n**TOP:**")
+        lines.append("")
+        lines.append("**TOP:**")
         for t in top:
             lines.append(f"  {t['ad_name'][:35]} | ROAS {t['roas']} | {t['purchases']} purch")
 
