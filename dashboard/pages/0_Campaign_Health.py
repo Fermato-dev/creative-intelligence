@@ -155,6 +155,19 @@ def fetch_learning():
         return {}
 
 
+@st.cache_data(ttl=900, show_spinner="Načítám statusy reklam...")
+def fetch_ad_statuses():
+    """Returns dict of ad_id -> effective_status for all non-deleted ads."""
+    try:
+        ads = meta_fetch_all(f"{AD_ACCOUNT_ID}/ads", {
+            "fields": "id,effective_status",
+            "limit": "200",
+        })
+        return {str(a["id"]): a.get("effective_status", "UNKNOWN") for a in ads}
+    except Exception:
+        return {}
+
+
 # ── Re-evaluation engine (volume-first, percentile-based) ──
 
 def re_evaluate_health(df, target_roas, max_cpa):
@@ -275,19 +288,30 @@ def re_evaluate_health(df, target_roas, max_cpa):
 
 def render_health_action_cards(df, min_conf, p10_roas, watch_lower):
     """Render KILL/SCALE/ITERATE columns using h_action column."""
-    kill_df  = df[(df["h_action"] == "KILL")    & (df["confidence"] >= min_conf)].nlargest(5, "spend")
+    is_active = df.get("is_active", pd.Series(True, index=df.index))
+
+    # KILL: only active ads need action; already-paused ones are informational
+    kill_active = df[(df["h_action"] == "KILL") & (df["confidence"] >= min_conf) & is_active]
+    kill_paused = df[(df["h_action"] == "KILL") & (df["confidence"] >= min_conf) & ~is_active]
+    kill_df  = kill_active.nlargest(5, "spend")
     scale_df = df[(df["h_action"] == "SCALE")   & (df["confidence"] >= min_conf)].nlargest(5, "roas")
     iter_df  = df[(df["h_action"] == "ITERATE") & (df["confidence"] >= min_conf)].nlargest(5, "spend")
 
-    n_kill  = len(df[(df["h_action"] == "KILL")    & (df["confidence"] >= min_conf)])
-    n_scale = len(df[(df["h_action"] == "SCALE")   & (df["confidence"] >= min_conf)])
+    n_kill  = len(kill_active)
+    n_paused_kill = len(kill_paused)
+    n_scale = len(df[(df["h_action"] == "SCALE") & (df["confidence"] >= min_conf)])
     n_iter  = len(df[(df["h_action"] == "ITERATE") & (df["confidence"] >= min_conf)])
-    waste   = df[(df["h_action"] == "KILL") & (df["confidence"] >= min_conf)]["spend"].sum()
+    waste   = kill_active["spend"].sum()
 
     a1, a2, a3 = st.columns(3)
 
     with a1:
-        st.markdown(f"**Zastavit** · {n_kill} reklam · {kc(waste)}")
+        st.markdown(f"**Zastavit** · {n_kill} aktivních reklam · {kc(waste)}")
+        if n_paused_kill > 0:
+            st.markdown(
+                f'<div style="font-size:0.78em;color:#9ca3af;margin:-4px 0 6px">'
+                f'+ {n_paused_kill} dalších už zastaveno ({kc(kill_paused["spend"].sum())} historický spend)</div>',
+                unsafe_allow_html=True)
         for _, ad in kill_df.iterrows():
             rsns = ad.get("h_reasons") or []
             r    = rsns[0][:60] if rsns else ""
@@ -320,8 +344,15 @@ ROAS {ad['roas'] or 0:.2f} · CPA {kc(ad['cpa'])}{cvr_str} · {int(ad['purchases
 
 
 # ── Load ──
-mtd         = fetch_mtd()
-learning_map = fetch_learning()
+mtd            = fetch_mtd()
+learning_map   = fetch_learning()
+ad_status_map  = fetch_ad_statuses()
+
+# Statuses considered "still running" — everything else is already stopped
+ACTIVE_STATUSES = {"ACTIVE", "CAMPAIGN_PAUSED", "ADSET_PAUSED"}
+# Only ACTIVE means the ad itself is on; CAMPAIGN_PAUSED / ADSET_PAUSED means
+# the ad creative is live but blocked at a higher level — still relevant to review.
+# PAUSED / ARCHIVED / DELETED = user already stopped it → skip from KILL cards.
 
 # ── Date math ──
 today          = datetime.now()
@@ -361,6 +392,15 @@ if len(df_main) > 0:
         )
     else:
         df_main["learning_status"] = "unknown"
+
+    # Join current delivery status
+    if "ad_id" in df_main.columns:
+        df_main["effective_status"] = df_main["ad_id"].astype(str).map(
+            lambda x: ad_status_map.get(x, "UNKNOWN")
+        )
+    else:
+        df_main["effective_status"] = "UNKNOWN"
+    df_main["is_active"] = df_main["effective_status"].isin(ACTIVE_STATUSES)
 
     # Run custom evaluation
     df_main, p10_roas, account_median, watch_lower = re_evaluate_health(df_main, target_roas, max_cpa)
@@ -545,7 +585,9 @@ if len(df_main) > 0:
         learning = ("❌ LL" if ls == "FAIL"
                     else "✓" if ls == "SUCCESS"
                     else "")
-        flags    = " ".join(filter(None, [fatigue, learning]))
+        eff_status = ad.get("effective_status", "UNKNOWN")
+        paused_tag = "" if eff_status in ("ACTIVE", "UNKNOWN") else f"[{eff_status}]"
+        flags    = " ".join(filter(None, [paused_tag, fatigue, learning]))
         h_act    = ad.get("h_action", "OK")
 
         rows.append({

@@ -94,9 +94,88 @@ with st.sidebar:
 
 # ── Load data ──
 tags = load_creative_tags()
+USING_FALLBACK = len(tags) == 0
 
-if len(tags) == 0:
-    st.warning("Zadna creative diversity data. Spustte precise archetype tagger.")
+if USING_FALLBACK:
+    # ── Fallback: derive basic diversity from insights data ──
+    sys.path.insert(0, str(DASHBOARD_DIR))
+    from shared_data import load_data as _load_data
+    _df = _load_data(14)
+    if len(_df) == 0:
+        st.warning("Žádná data — ani z archetype taggeru, ani z Meta API.")
+        st.stop()
+
+    st.info(
+        "Archetype tagger ještě nebyl spuštěn — zobrazuji základní diverzitu "
+        "z Meta insights (formát, kampaň, výkon).",
+        icon="ℹ️",
+    )
+
+    st.markdown("## Creative Diversity — základní přehled")
+
+    _df = _df[_df["spend"] >= 200].copy()
+    _total_spend = _df["spend"].sum()
+    _total_purch = max(_df["purchases"].sum(), 1)
+
+    # Format mix
+    _vid = _df[_df["is_video"] == True]
+    _sta = _df[_df["is_video"] == False]
+    _vid_spend_pct = _vid["spend"].sum() / _total_spend * 100 if _total_spend > 0 else 0
+    _sta_spend_pct = _sta["spend"].sum() / _total_spend * 100 if _total_spend > 0 else 0
+    _vid_roas = (_vid["spend"] * _vid["roas"]).sum() / _vid["spend"].sum() if len(_vid) > 0 and _vid["spend"].sum() > 0 else 0
+    _sta_roas = (_sta["spend"] * _sta["roas"]).dropna().sum() / _sta["spend"].sum() if len(_sta) > 0 and _sta["spend"].sum() > 0 else 0
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Video reklam", len(_vid), delta=f"{_vid_spend_pct:.0f}% spend")
+    c2.metric("Statických reklam", len(_sta), delta=f"{_sta_spend_pct:.0f}% spend")
+    c3.metric("Video ROAS", f"{_vid_roas:.2f}")
+    c4.metric("Static ROAS", f"{_sta_roas:.2f}")
+
+    st.markdown("---")
+    st.markdown("### Spend a výkon podle kampaně")
+
+    _camp_stats = []
+    for camp, g in _df.groupby("campaign_name"):
+        g_spend = g["spend"].sum()
+        g_rev   = (g["spend"] * g["roas"]).dropna().sum()
+        g_purch = g["purchases"].sum()
+        _camp_stats.append({
+            "Kampaň":     camp,
+            "Reklam":     len(g),
+            "Spend (Kč)": int(g_spend),
+            "% spend":    round(g_spend / _total_spend * 100, 1),
+            "ROAS":        round(g_rev / g_spend, 2) if g_spend > 0 else 0,
+            "Nákupy":     int(g_purch),
+            "Video":      int(g["is_video"].sum()),
+            "Statické":   int((~g["is_video"]).sum()),
+        })
+    st.dataframe(
+        pd.DataFrame(_camp_stats).sort_values("Spend (Kč)", ascending=False),
+        hide_index=True,
+        use_container_width=True,
+        column_config={
+            "Spend (Kč)": st.column_config.NumberColumn(format="%d"),
+            "% spend":    st.column_config.NumberColumn(format="%.1f"),
+            "ROAS":       st.column_config.NumberColumn(format="%.2f"),
+        },
+    )
+
+    st.markdown("### Top reklamy — ROAS")
+    _top = _df.nlargest(15, "roas")[["ad_name", "campaign_name", "roas", "spend", "purchases", "is_video"]]
+    _top = _top.rename(columns={"ad_name": "Reklama", "campaign_name": "Kampaň",
+                                 "roas": "ROAS", "spend": "Spend (Kč)",
+                                 "purchases": "Nákupy", "is_video": "Video"})
+    st.dataframe(_top, hide_index=True, use_container_width=True,
+                 column_config={
+                     "ROAS":       st.column_config.NumberColumn(format="%.2f"),
+                     "Spend (Kč)": st.column_config.NumberColumn(format="%.0f"),
+                 })
+
+    st.markdown("---")
+    st.caption(
+        "Pro plnou analýzu archetypů (founder story, UGC, lifestyle atd.) spusť "
+        "`python -m creative_intelligence decompose` a poté archetype tagger."
+    )
     st.stop()
 
 # Filter to ads with archetype
