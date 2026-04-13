@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creative Intelligence Dashboard | Fermato</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface2: #1a1a26;
+  --border: #2a2a3a;
+  --text: #e4e4ef;
+  --text-muted: #8888a0;
+  --accent: #6366f1;
+  --green: #22c55e;
+  --green-light: #86efac;
+  --yellow: #facc15;
+  --orange: #fb923c;
+  --red: #ef4444;
+  --blue: #3b82f6;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  background: var(--bg);
+  color: var(--text);
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+h2 {
+  font-size: 14px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--accent); margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
+}
+.header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
+.header .meta { color: var(--text-muted); font-size: 11px; }
+.section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+
+/* KPI Grid */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.kpi-card { background: var(--surface2); border-radius: 8px; padding: 16px; text-align: center; }
+.kpi-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.kpi-value { font-size: 24px; font-weight: 700; margin: 4px 0; }
+
+/* Deltas */
+.delta { font-size: 12px; font-weight: 600; }
+.delta.positive { color: var(--green); }
+.delta.negative { color: var(--red); }
+.delta.neutral { color: var(--text-muted); }
+
+/* Badges */
+.badge { font-size: 11px; padding: 2px 6px; border-radius: 10px; font-weight: 600; }
+.badge.green { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge.red { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge.blue { background: rgba(59,130,246,0.15); color: var(--blue); }
+.badge.gray { background: rgba(136,136,160,0.15); color: var(--text-muted); }
+
+/* Shift tabs */
+.shift-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.shift-tab {
+  background: var(--surface2); border: 1px solid var(--border);
+  color: var(--text-muted); padding: 6px 14px; border-radius: 6px;
+  cursor: pointer; font-family: inherit; font-size: 12px;
+}
+.shift-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+.shift-panel { display: flex; flex-wrap: wrap; gap: 10px; }
+.shift-card {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; min-width: 200px; flex: 1;
+}
+.shift-name { font-weight: 600; margin-bottom: 4px; font-size: 12px; }
+
+/* Tables */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  text-align: left; font-size: 11px; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.5px;
+  padding: 8px 10px; border-bottom: 1px solid var(--border);
+}
+.data-table td { padding: 8px 10px; border-bottom: 1px solid var(--border); font-size: 12px; }
+.data-table tr:hover { background: var(--surface2); }
+.data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table .rank { font-weight: 700; width: 30px; }
+
+/* Grade badges */
+.grade {
+  display: inline-block; padding: 2px 8px; border-radius: 4px;
+  font-weight: 700; font-size: 11px; min-width: 36px; text-align: center;
+}
+.grade.na { background: var(--surface2); color: var(--text-muted); }
+.score-pill {
+  background: var(--accent); color: white; padding: 2px 8px;
+  border-radius: 10px; font-size: 11px; font-weight: 600;
+}
+
+/* Charts */
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.chart-box { background: var(--surface2); border-radius: 8px; padding: 16px; }
+.chart-box h3 { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+canvas { max-height: 260px; }
+
+.muted { color: var(--text-muted); font-style: italic; }
+
+/* Ad links */
+.ad-link {
+  color: var(--text); text-decoration: none;
+  border-bottom: 1px dotted var(--text-muted);
+  transition: color 0.15s, border-color 0.15s;
+}
+.ad-link:hover {
+  color: var(--accent); border-bottom-color: var(--accent);
+}
+
+/* Thumbnails */
+.thumb {
+  width: 40px; height: 40px; border-radius: 4px;
+  object-fit: cover; vertical-align: middle; margin-right: 8px;
+  border: 1px solid var(--border); background: var(--surface2);
+}
+.thumb-lg {
+  width: 52px; height: 52px; border-radius: 6px;
+  object-fit: cover; vertical-align: middle; margin-right: 10px;
+  border: 1px solid var(--border); background: var(--surface2);
+}
+.ad-cell { display: flex; align-items: center; gap: 8px; }
+.ad-cell .meta-tags { font-size: 10px; color: var(--text-muted); }
+
+/* Recommendations */
+.recs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+.rec-card {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px; border-left: 3px solid var(--accent);
+}
+.rec-swap { border-left-color: var(--yellow); }
+.rec-new { border-left-color: var(--green); }
+.rec-alert { border-left-color: var(--orange); }
+.rec-type { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 4px; }
+.rec-desc { font-size: 12px; line-height: 1.4; }
+
+@media (max-width: 768px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .chart-grid { grid-template-columns: 1fr; }
+  .shift-panel { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Creative Intelligence Dashboard</h1>
+    <span class="meta">Fermato CZ | Last 14 days | 2026-04-13 15:46</span>
+  </div>
+</div>
+
+<div class="section">
+  <h2>This Week at a Glance</h2>
+  
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Spend</div>
+        <div class="kpi-value">120,210 Kc</div>
+        <span class="delta neutral">--</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">ROAS</div>
+        <div class="kpi-value">1.94</div>
+        <span class="delta neutral">--</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Purchases</div>
+        <div class="kpi-value">246</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Active Ads</div>
+        <div class="kpi-value">92</div>
+      </div>
+    </div>
+</div>
+
+<div class="section">
+  <h2>Performance Shifts</h2>
+  
+    <div class="shift-tabs">
+      <button class="shift-tab active" onclick="showShift('scaling')">Scaling <span class="badge green">0</span></button>
+      <button class="shift-tab" onclick="showShift('declining')">Declining <span class="badge red">0</span></button>
+      <button class="shift-tab" onclick="showShift('new')">New <span class="badge blue">92</span></button>
+      <button class="shift-tab" onclick="showShift('paused')">Paused <span class="badge gray">0</span></button>
+    </div><div class="shift-panel" id="shift-scaling"><p class="muted">No data</p></div><div class="shift-panel" id="shift-declining"><p class="muted">No data</p></div><div class="shift-panel" id="shift-new" style="display:none"><div class="shift-card">
+                  <div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/12185770140043482022?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQIsdK7PAnSYwKnS6CieGCOsUGy8mWpowlzM-0MvGNGZjw9G12gFrUXpphEkppYaKalj8x3_wb4xrov8AV-o6ZAoL75VvC8bOn1OODFItshSRpE-rfWfDZ0L4zToK2xj3TKuouCnfU5lqQ1wQ4WJ-g5h&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=HqqP8UJhgZpVB1a7RmUtxw&_nc_oc=Adr83s_SyO8ztIzRqii8BIARAePNZDe3lKqnKnCGa7jR0FpoqaZLvGrNES7FcxFxGi4&ccb=13-1&oh=06_Q3--AdLD8HGg5MRsTf2JR6sV__6EpXVkAJVb4cM7t2dk9szb&oe=69DEC8B9&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><div>
+                    <div class="shift-name"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237953976890662" target="_blank" class="ad-link" title="Hodinky koláž In Use - Copy 2">Hodinky koláž In Use - Copy 2</a></div>
+                    <div>6d | 10,561 Kc | ROAS 2.38</div>
+                  </div></div>
+                </div><div class="shift-card">
+                  <div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/7886989230039716064?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI67nnRwyJ-QTINAzoeTyyL6H9CBijIgxep1sD7nYCjPr8qlJv8udjk0hGVMLlz_Df6FlCNjUuvKrzrJ556ovNg2w57ZE2CSsPpd_vsDG5H-PvmHtovdUJV6FD6l31EryV3_Pdyte5iFA50ncYlPsh7&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=HqqP8UJhgZpVB1a7RmUtxw&_nc_oc=Adqz0GJ2MCdNaeew3bfNSofgQPvt82bx5D6m6Xc7eIsYVpXdB7LnmSHPxuh-iLapJu8&ccb=13-1&oh=06_Q3--AVt5L2BaVo4Qf7zF4yq8zeEYchhJtdnJpmWEOyR9MNQQ&oe=69DEA14E&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><div>
+                    <div class="shift-name"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120233742514290662" target="_blank" class="ad-link" title="varianty 16">varianty 16</a></div>
+                    <div>6d | 5,360 Kc | ROAS 1.11</div>
+                  </div></div>
+                </div><div class="shift-card">
+                  <div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/660697446_1608273547113249_8205235962559273992_n.jpg?_nc_cat=106&ccb=1-7&_nc_ohc=BJHkqgu_mRQQ7kNvwGg-o-S&_nc_oc=Adot_hYwICcgAVwF92tSyLlKZuEoFpF1kZ5uqAySfhZ0fbepuUuYZVMNZtfwUitI8Yk&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQFdmC2_H-DDDvxwVEyPfO7UvA3ANdjRd6ayjTdbbzVhE9f3Zf1vL1gX_B1Yo5I4mFxoKTsPzrHj&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af2_vwruqM5R9F9kzLY5Qvb1JlPjnWiJaIALXF7wfhN2ag&oe=69E2C798" loading="lazy" onerror="this.style.display='none'"><div>
+                    <div class="shift-name"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239713339040662" target="_blank" class="ad-link" title="Partnership 1">Partnership 1</a></div>
+                    <div>6d | 5,300 Kc | ROAS 1.77</div>
+                  </div></div>
+                </div><div class="shift-card">
+                  <div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/668125116_1318272586815172_8227287915918667234_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=pNMQ6anSArEQ7kNvwH9xGGR&_nc_oc=AdrhxO7oGsZcJNtQgW2sW2L31gzqM55LGpwevBLbLUaudnUHhn2PjP-1UdgfU4oCdx4&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQG4fw91nX4toa29Fm7G21rZHxk9_csqdhWbNOfzyuYT9ZsDDdeyrNgqA9uAu1xto6D4pEbxuWNi&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=b696e2&_nc_sid=58080a&oh=00_Af3wIeWGykbBZe5nuIsgtwmycP6vF-0XsY5EXnk38n-11w&oe=69E2C7E2" loading="lazy" onerror="this.style.display='none'"><div>
+                    <div class="shift-name"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120240158937900662" target="_blank" class="ad-link" title="Remix 8">Remix 8</a></div>
+                    <div>1d | 3,181 Kc | ROAS 2.16</div>
+                  </div></div>
+                </div><div class="shift-card">
+                  <div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/11510383133668638194?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQIO_t8UTlHq-nPUKTZegNcoHzxAXa9TxRvejHmpuPrNiHt8c7lYm5mTgPvmKP69SU5VdJx2sdiCiNQQTKUP1jogLNQuX4KV5jXqe2u61S1AkKNxh1pX_Gwql-4mJiqYF4_pIyPTX4ZO40KGxseGMEfe&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_oc=Adr19oLpta6vaVIedysATq6coJLvVq-wtmMR4rmo4t46sAEbQgc4BsRtOuegT4SqmIg&ccb=13-1&oh=06_Q3--AVf_mazug8NcTNWT7Bovi7tpKCJF1TNs4u1D5Y3_50ym&oe=69DECD3E&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><div>
+                    <div class="shift-name"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239762783370662" target="_blank" class="ad-link" title="Slabikář 1">Slabikář 1</a></div>
+                    <div>6d | 2,684 Kc | ROAS 5.75</div>
+                  </div></div>
+                </div><div class="shift-card">
+                  <div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/15270227763605546096?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQIxbY-DTRp-mZY1HHjZDMSqz7CKQa1lPl7itG32bujwjHZV4MlF1VibW05A3F85VlWd-xwtBUr9c61zgKDKoRdufFZIkhTOPXnTq72tQzi1dKXQKrkx65yJgJtvpan2Kfj_3k0Qgh0z_R2L44vkQKTt&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=JJjfipr8P-3qnFWEPWmGzg&_nc_oc=AdrNwkX5Xud2pLui0bJxA9_IbfwsBSHpaTihY-qh_Nb6vO_7k4-i_abxUeyqwgwCNSU&ccb=13-1&oh=06_Q3--AdbF1NGdW3-H0rTxeUdJqyoiTTagEaoFrUzkk9qlOfL1&oe=69DEAD26&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><div>
+                    <div class="shift-name"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120221504737670662" target="_blank" class="ad-link" title="Jim chyba">Jim chyba</a></div>
+                    <div>6d | 2,031 Kc | ROAS 1.21</div>
+                  </div></div>
+                </div></div><div class="shift-panel" id="shift-paused"><p class="muted">No data</p></div>
+</div>
+
+<div class="section">
+  <h2>Creative Leaderboard</h2>
+  
+    <table class="data-table">
+      <thead><tr>
+        <th>#</th><th>Creative</th><th>Type</th><th>Wks</th>
+        <th>Spend</th><th>ROAS</th><th>Score</th><th></th>
+      </tr></thead>
+      <tbody><tr>
+          <td class="rank">1</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/12185770140043482022?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQIsdK7PAnSYwKnS6CieGCOsUGy8mWpowlzM-0MvGNGZjw9G12gFrUXpphEkppYaKalj8x3_wb4xrov8AV-o6ZAoL75VvC8bOn1OODFItshSRpE-rfWfDZ0L4zToK2xj3TKuouCnfU5lqQ1wQ4WJ-g5h&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=HqqP8UJhgZpVB1a7RmUtxw&_nc_oc=Adr83s_SyO8ztIzRqii8BIARAePNZDe3lKqnKnCGa7jR0FpoqaZLvGrNES7FcxFxGi4&ccb=13-1&oh=06_Q3--AdLD8HGg5MRsTf2JR6sV__6EpXVkAJVb4cM7t2dk9szb&oe=69DEC8B9&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237953976890662" target="_blank" class="ad-link" title="Hodinky koláž In Use - Copy 2">Hodinky koláž In Use - Copy 2</a></div></td>
+          <td>Ima</td>
+          <td>3w</td>
+          <td class="num">16,291 <span class="delta neutral">--</span></td>
+          <td class="num">2.56 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">44</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">2</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/7886989230039716064?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI67nnRwyJ-QTINAzoeTyyL6H9CBijIgxep1sD7nYCjPr8qlJv8udjk0hGVMLlz_Df6FlCNjUuvKrzrJ556ovNg2w57ZE2CSsPpd_vsDG5H-PvmHtovdUJV6FD6l31EryV3_Pdyte5iFA50ncYlPsh7&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=HqqP8UJhgZpVB1a7RmUtxw&_nc_oc=Adqz0GJ2MCdNaeew3bfNSofgQPvt82bx5D6m6Xc7eIsYVpXdB7LnmSHPxuh-iLapJu8&ccb=13-1&oh=06_Q3--AVt5L2BaVo4Qf7zF4yq8zeEYchhJtdnJpmWEOyR9MNQQ&oe=69DEA14E&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120233742514290662" target="_blank" class="ad-link" title="varianty 16">varianty 16</a></div></td>
+          <td>Ima</td>
+          <td>3w</td>
+          <td class="num">11,852 <span class="delta neutral">--</span></td>
+          <td class="num">0.84 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">24</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">3</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/660697446_1608273547113249_8205235962559273992_n.jpg?_nc_cat=106&ccb=1-7&_nc_ohc=BJHkqgu_mRQQ7kNvwGg-o-S&_nc_oc=Adot_hYwICcgAVwF92tSyLlKZuEoFpF1kZ5uqAySfhZ0fbepuUuYZVMNZtfwUitI8Yk&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQFdmC2_H-DDDvxwVEyPfO7UvA3ANdjRd6ayjTdbbzVhE9f3Zf1vL1gX_B1Yo5I4mFxoKTsPzrHj&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af2_vwruqM5R9F9kzLY5Qvb1JlPjnWiJaIALXF7wfhN2ag&oe=69E2C798" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239713339040662" target="_blank" class="ad-link" title="Partnership 1">Partnership 1</a></div></td>
+          <td>Vid</td>
+          <td>3w</td>
+          <td class="num">9,064 <span class="delta neutral">--</span></td>
+          <td class="num">2.58 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">79</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">4</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/15270227763605546096?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQIxbY-DTRp-mZY1HHjZDMSqz7CKQa1lPl7itG32bujwjHZV4MlF1VibW05A3F85VlWd-xwtBUr9c61zgKDKoRdufFZIkhTOPXnTq72tQzi1dKXQKrkx65yJgJtvpan2Kfj_3k0Qgh0z_R2L44vkQKTt&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=JJjfipr8P-3qnFWEPWmGzg&_nc_oc=AdrNwkX5Xud2pLui0bJxA9_IbfwsBSHpaTihY-qh_Nb6vO_7k4-i_abxUeyqwgwCNSU&ccb=13-1&oh=06_Q3--AdbF1NGdW3-H0rTxeUdJqyoiTTagEaoFrUzkk9qlOfL1&oe=69DEAD26&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120221504737670662" target="_blank" class="ad-link" title="Jim chyba">Jim chyba</a></div></td>
+          <td>Ima</td>
+          <td>3w</td>
+          <td class="num">4,853 <span class="delta neutral">--</span></td>
+          <td class="num">1.52 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">48</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">5</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/16342137792205478737?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQL_J5qgx0ZVEe3RquC7Ijlr1kyjj_2ePU5ov3tlTl7Jq97MSe8yTaIsa6Jm2OGZiwZUIvHJvRFqeZwWSjiN12kbFqUt45RpmcBB86pRQa-dN6UgYiNr8DJwpOSX0gkZn4btYnXb9GPdc2NjjEXgVa9v&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=JJjfipr8P-3qnFWEPWmGzg&_nc_oc=AdrQBUr8yavOQbKc_9mK8BpVQZV9mM7-vsMHm0Fyfq56mYY1_LpAfzmXgmtPsVRtyg4&ccb=13-1&oh=06_Q3--ASGVsUETS_ZUEjs9Pp9Zvrk83iH6-69hCNCwVI0eFiBZ&oe=69DEC3AF&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120234253774140662" target="_blank" class="ad-link" title="test set">test set</a></div></td>
+          <td>Ima</td>
+          <td>3w</td>
+          <td class="num">4,503 <span class="delta neutral">--</span></td>
+          <td class="num">1.92 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">50</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">6</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/11510383133668638194?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQIO_t8UTlHq-nPUKTZegNcoHzxAXa9TxRvejHmpuPrNiHt8c7lYm5mTgPvmKP69SU5VdJx2sdiCiNQQTKUP1jogLNQuX4KV5jXqe2u61S1AkKNxh1pX_Gwql-4mJiqYF4_pIyPTX4ZO40KGxseGMEfe&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_oc=Adr19oLpta6vaVIedysATq6coJLvVq-wtmMR4rmo4t46sAEbQgc4BsRtOuegT4SqmIg&ccb=13-1&oh=06_Q3--AVf_mazug8NcTNWT7Bovi7tpKCJF1TNs4u1D5Y3_50ym&oe=69DECD3E&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239762783370662" target="_blank" class="ad-link" title="Slabikář 1">Slabikář 1</a></div></td>
+          <td>Ima</td>
+          <td>2w</td>
+          <td class="num">4,150 <span class="delta neutral">--</span></td>
+          <td class="num">4.65 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">56</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">7</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/662111005_2727892230894923_3441013907793740803_n.jpg?_nc_cat=102&ccb=1-7&_nc_ohc=Pwk0e3wsFykQ7kNvwH8lGhm&_nc_oc=AdphjwB2xVfJo63T35IXQUxx5dPxXwx1MHtzx9bWQCKvuZ86mjc04OS_KFQ0FrO3_H8&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQFZ42SPnhuVktUuYGRLfqWCf2kcULZ-UNaiBOjsBzdPL5N7KaDg6LM4ocBO6vrUno_bBJ0IU70f&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=b696e2&_nc_sid=58080a&oh=00_Af3MN8mf71GG93vByVDmVIz4TpPSlHKYpG7wR7BNJDr1HA&oe=69E2C8B1" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239777987090662" target="_blank" class="ad-link" title="P_UGC_Marcela_0326-2">P_UGC_Marcela_0326-2</a></div></td>
+          <td>Ima</td>
+          <td>2w</td>
+          <td class="num">3,302 <span class="delta neutral">--</span></td>
+          <td class="num">2.71 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">44</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">8</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/12546401361835166503?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQISAwjxN9ytasJrQ94dvmo5JSChL8F7zFpN40kmViFO8KQAnaJCrWnIUsAlDJcLKxWe0drK6Cg4OqLycX_fEPoIkIfITzom4FkSs_8h1cy9QhqVT5igniXl_mtMSTOLZj8Yv7H4jgs1wWZB-fePpXUr&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=26UBzgBi0KvcZQcWuUACqg&_nc_oc=AdrDi2X4Dfarfc8yNVkxQQAay-WP9BuuH4ZPD-QJisORMrPX7ps_1a5ls0ER_nKGZNo&ccb=13-1&oh=06_Q3--AcN9kLoopRFtozugizkGrTmagNpFSuXvb4_lRk97g_n2&oe=69DEC501&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120216525999900662" target="_blank" class="ad-link" title="10% Radim testovací set">10% Radim testovací set</a></div></td>
+          <td>Ima</td>
+          <td>3w</td>
+          <td class="num">3,270 <span class="delta neutral">--</span></td>
+          <td class="num">0.75 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">43</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">9</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/650487127_1641755693829617_5512264422793396489_n.jpg?_nc_cat=102&ccb=1-7&_nc_ohc=DIDYyG4RH_gQ7kNvwEhnIIw&_nc_oc=AdoF5S94EoSQdJaVIOGBgB5sfjW3PbVI6sGeyMSKWfj9Dm6TNZ2GGKT_keLLEFa2So4&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQHdxxz28J9RsBWWpucDEPL5gZuIBc9lN-64tbvfoYnczwjkHI25akE5Tj-cL7UEJoeJtiCcoDQ6&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af0LyG6ExiHL_OeEEiRl0qxdGBLYBiRxCGQi_6DtuL5X1A&oe=69E2C5FD" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239788486260662" target="_blank" class="ad-link" title="UGC 64">UGC 64</a></div></td>
+          <td>Vid</td>
+          <td>2w</td>
+          <td class="num">3,231 <span class="delta neutral">--</span></td>
+          <td class="num">4.12 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">37</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">10</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/668125116_1318272586815172_8227287915918667234_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=pNMQ6anSArEQ7kNvwH9xGGR&_nc_oc=AdrhxO7oGsZcJNtQgW2sW2L31gzqM55LGpwevBLbLUaudnUHhn2PjP-1UdgfU4oCdx4&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQG4fw91nX4toa29Fm7G21rZHxk9_csqdhWbNOfzyuYT9ZsDDdeyrNgqA9uAu1xto6D4pEbxuWNi&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=b696e2&_nc_sid=58080a&oh=00_Af3wIeWGykbBZe5nuIsgtwmycP6vF-0XsY5EXnk38n-11w&oe=69E2C7E2" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120240158937900662" target="_blank" class="ad-link" title="Remix 8">Remix 8</a></div></td>
+          <td>Ima</td>
+          <td>2w</td>
+          <td class="num">3,181 <span class="delta neutral">--</span></td>
+          <td class="num">2.16 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">62</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">11</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/2770753863474042651?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQI7vs2qlaa0qbyLQttyKCuuRqPUDqsJfQjVjjomVOZX1Mx-kzoEdo0zT2rDbM5MOE_Kpx68MJGMbt2O3pFYLZ_QB3g6GFcCSVWohysIo81skrAAvnqqY-HocrBFmUHuNSsMFwulHOKFwFYsUIUC_NSY&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_oc=AdrchhNfEgz108TLkf-9W8GDkMB-tL4rpjS29kPoL81qMXHSUapC1U9tbC_7-jPXjVQ&ccb=13-1&oh=06_Q3--AV51LjqvFidH5wvXDZobrgpxyT8HT4LQxjfj4fHIoKUX&oe=69DEA292&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120240062270760662" target="_blank" class="ad-link" title="Piknik 1">Piknik 1</a></div></td>
+          <td>Ima</td>
+          <td>2w</td>
+          <td class="num">3,032 <span class="delta neutral">--</span></td>
+          <td class="num">1.91 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">26</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">12</td>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/661215842_929314709737539_6169705584617145870_n.jpg?_nc_cat=108&ccb=1-7&_nc_ohc=0-q7bBVKgJMQ7kNvwGporF0&_nc_oc=Ado853LCQX1vjgSd2keaMF0w2aSR1Rh0ZzSVr6Xn5PUgGwyhesuH18n7Tiu30Clbkkg&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQGlY0KnOPdiw3V-P7zq6_YW04lvVKbj0QFgEmDk-Y54qDd3Ny6Jmk0dpn-dX1n-Diz-GdpEUoKR&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3-Pl5MQTPoBvC2ARAKqHM4Qh5j2qHelVb4DqYLJUpjbA&oe=69E2BDFC" loading="lazy" onerror="this.style.display='none'"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239780149000662" target="_blank" class="ad-link" title="P_UGC_Marcela_0326-4">P_UGC_Marcela_0326-4</a></div></td>
+          <td>Vid</td>
+          <td>2w</td>
+          <td class="num">2,854 <span class="delta neutral">--</span></td>
+          <td class="num">3.46 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">46</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">13</td>
+          <td><div class="ad-cell"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239115925150662" target="_blank" class="ad-link" title="Krádež">Krádež</a></div></td>
+          <td>Vid</td>
+          <td>3w</td>
+          <td class="num">2,551 <span class="delta neutral">--</span></td>
+          <td class="num">0.73 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">47</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">14</td>
+          <td><div class="ad-cell"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239157982210662" target="_blank" class="ad-link" title="USP olivac">USP olivac</a></div></td>
+          <td>Ima</td>
+          <td>2w</td>
+          <td class="num">2,450 <span class="delta neutral">--</span></td>
+          <td class="num">1.65 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">30</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr><tr>
+          <td class="rank">15</td>
+          <td><div class="ad-cell"><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239810656700662" target="_blank" class="ad-link" title="Partnership 2">Partnership 2</a></div></td>
+          <td>Vid</td>
+          <td>3w</td>
+          <td class="num">2,444 <span class="delta neutral">--</span></td>
+          <td class="num">0.57 <span class="delta neutral">--</span></td>
+          <td><span class="score-pill">76</span></td>
+          <td><span class="badge blue">NEW</span></td>
+        </tr></tbody>
+    </table>
+</div>
+
+<div class="section">
+  <h2>Funnel Scores</h2>
+  
+    <table class="data-table">
+      <thead><tr>
+        <th>Creative</th><th>Hook</th><th>Watch</th><th>Click</th><th>Convert</th><th>Overall</th><th>ROAS</th>
+      </tr></thead>
+      <tbody><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237954446520662" target="_blank" class="ad-link" title="UGC 45 - Copy 2">UGC 45 - Copy 2</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">84A</span></td><td><span class="grade" style="background:#22c55e;color:#000">82A</span></td><td><span class="grade" style="background:#22c55e;color:#000">91A</span></td><td><span class="grade na">--</span></td><td><span class="grade" style="background:#22c55e;color:#000">86A</span></td><td class='num'>N/A</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239779318870662" target="_blank" class="ad-link" title="LC 3">LC 3</a></div></div></td><td><span class="grade" style="background:#ef4444;color:#000">6F</span></td><td><span class="grade na">--</span></td><td><span class="grade" style="background:#22c55e;color:#000">86A</span></td><td><span class="grade" style="background:#22c55e;color:#000">83A</span></td><td><span class="grade" style="background:#22c55e;color:#000">84A</span></td><td class='num'>3.79</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239779318850662" target="_blank" class="ad-link" title="LC 1">LC 1</a></div></div></td><td><span class="grade" style="background:#ef4444;color:#000">19F</span></td><td><span class="grade na">--</span></td><td><span class="grade" style="background:#22c55e;color:#000">83A</span></td><td><span class="grade" style="background:#22c55e;color:#000">80A</span></td><td><span class="grade" style="background:#22c55e;color:#000">82A</span></td><td class='num'>3.63</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237229313300662" target="_blank" class="ad-link" title="kolaz posunute - Copy">kolaz posunute - Copy</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">83A</span></td><td><span class="grade" style="background:#22c55e;color:#000">92A</span></td><td><span class="grade" style="background:#86efac;color:#000">62B</span></td><td><span class="grade" style="background:#22c55e;color:#000">81A</span></td><td><span class="grade" style="background:#22c55e;color:#000">80A</span></td><td class='num'>6.01</td></tr><tr><td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/660697446_1608273547113249_8205235962559273992_n.jpg?_nc_cat=106&ccb=1-7&_nc_ohc=BJHkqgu_mRQQ7kNvwGg-o-S&_nc_oc=Adot_hYwICcgAVwF92tSyLlKZuEoFpF1kZ5uqAySfhZ0fbepuUuYZVMNZtfwUitI8Yk&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQFdmC2_H-DDDvxwVEyPfO7UvA3ANdjRd6ayjTdbbzVhE9f3Zf1vL1gX_B1Yo5I4mFxoKTsPzrHj&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af2_vwruqM5R9F9kzLY5Qvb1JlPjnWiJaIALXF7wfhN2ag&oe=69E2C798" loading="lazy" onerror="this.style.display='none'"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239713339040662" target="_blank" class="ad-link" title="Partnership 1">Partnership 1</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">87A</span></td><td><span class="grade" style="background:#86efac;color:#000">71B</span></td><td><span class="grade" style="background:#22c55e;color:#000">93A</span></td><td><span class="grade" style="background:#86efac;color:#000">64B</span></td><td><span class="grade" style="background:#86efac;color:#000">79B</span></td><td class='num'>2.39</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239810807470662" target="_blank" class="ad-link" title="Partnership 3">Partnership 3</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">89A</span></td><td><span class="grade" style="background:#86efac;color:#000">66B</span></td><td><span class="grade" style="background:#22c55e;color:#000">99A</span></td><td><span class="grade" style="background:#86efac;color:#000">61B</span></td><td><span class="grade" style="background:#86efac;color:#000">79B</span></td><td class='num'>2.29</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239654363900662" target="_blank" class="ad-link" title="SIJ park 2 Eater 1">SIJ park 2 Eater 1</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">83A</span></td><td><span class="grade" style="background:#86efac;color:#000">60B</span></td><td><span class="grade" style="background:#22c55e;color:#000">93A</span></td><td><span class="grade" style="background:#86efac;color:#000">71B</span></td><td><span class="grade" style="background:#86efac;color:#000">77B</span></td><td class='num'>3.42</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239722352470662" target="_blank" class="ad-link" title="Easter 7 - Copy">Easter 7 - Copy</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">92A</span></td><td><span class="grade" style="background:#86efac;color:#000">78B</span></td><td><span class="grade" style="background:#86efac;color:#000">61B</span></td><td><span class="grade na">--</span></td><td><span class="grade" style="background:#86efac;color:#000">77B</span></td><td class='num'>N/A</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239810656700662" target="_blank" class="ad-link" title="Partnership 2">Partnership 2</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">82A</span></td><td><span class="grade" style="background:#86efac;color:#000">79B</span></td><td><span class="grade" style="background:#22c55e;color:#000">96A</span></td><td><span class="grade" style="background:#facc15;color:#000">46C</span></td><td><span class="grade" style="background:#86efac;color:#000">76B</span></td><td class='num'>1.86</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239651458020662" target="_blank" class="ad-link" title="Ivča 1">Ivča 1</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">92A</span></td><td><span class="grade na">--</span></td><td><span class="grade" style="background:#86efac;color:#000">75B</span></td><td><span class="grade na">--</span></td><td><span class="grade" style="background:#86efac;color:#000">75B</span></td><td class='num'>N/A</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237954446540662" target="_blank" class="ad-link" title="UGC 43 too long - Copy 2">UGC 43 too long - Copy 2</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">97A</span></td><td><span class="grade" style="background:#86efac;color:#000">65B</span></td><td><span class="grade" style="background:#22c55e;color:#000">97A</span></td><td><span class="grade" style="background:#fb923c;color:#000">35D</span></td><td><span class="grade" style="background:#86efac;color:#000">74B</span></td><td class='num'>1.55</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239116527090662" target="_blank" class="ad-link" title="Albert 1">Albert 1</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">86A</span></td><td><span class="grade" style="background:#86efac;color:#000">63B</span></td><td><span class="grade" style="background:#22c55e;color:#000">95A</span></td><td><span class="grade" style="background:#facc15;color:#000">52C</span></td><td><span class="grade" style="background:#86efac;color:#000">74B</span></td><td class='num'>1.80</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239064055370662" target="_blank" class="ad-link" title="Oliváč 1">Oliváč 1</a></div></div></td><td><span class="grade" style="background:#facc15;color:#000">55C</span></td><td><span class="grade" style="background:#86efac;color:#000">61B</span></td><td><span class="grade" style="background:#22c55e;color:#000">85A</span></td><td><span class="grade" style="background:#22c55e;color:#000">89A</span></td><td><span class="grade" style="background:#86efac;color:#000">72B</span></td><td class='num'>4.03</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239651457980662" target="_blank" class="ad-link" title="Ivča 2">Ivča 2</a></div></div></td><td><span class="grade" style="background:#86efac;color:#000">75B</span></td><td><span class="grade na">--</span></td><td><span class="grade" style="background:#facc15;color:#000">46C</span></td><td><span class="grade" style="background:#22c55e;color:#000">98A</span></td><td><span class="grade" style="background:#86efac;color:#000">72B</span></td><td class='num'>7.18</td></tr><tr><td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/561579754_3303911829746906_9007074755979530911_n.jpg?_nc_cat=108&ccb=1-7&_nc_ohc=Ans19kGdYvwQ7kNvwFVK2Kz&_nc_oc=Adp8QPGcvkGctF9bPr8yAYCkloO3Dy8On0biOZMiOguXhJQJobbM57u15M8IW5doOmc&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQEV8XOgZgaoxC0i_bZgs86RhMQ7W6PF-J4e8_GH4fsAkUhWsGqCW9k6GvYGcxG6YtVTM83GLTRM&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af1DUgxfFfR1PJJyQgG-pmjtXLMbugO2zD56K0T4oVS8EA&oe=69E2C343" loading="lazy" onerror="this.style.display='none'"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120240197163510662" target="_blank" class="ad-link" title="UGC 51 - Copy 3">UGC 51 - Copy 3</a><div class="meta-tags">UGC Recipe / Taste Experience</div></div></div></td><td><span class="grade" style="background:#86efac;color:#000">66B</span></td><td><span class="grade" style="background:#86efac;color:#000">72B</span></td><td><span class="grade" style="background:#facc15;color:#000">53C</span></td><td><span class="grade" style="background:#22c55e;color:#000">95A</span></td><td><span class="grade" style="background:#86efac;color:#000">72B</span></td><td class='num'>4.23</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120222279397730662" target="_blank" class="ad-link" title="End víkend 1">End víkend 1</a></div></div></td><td><span class="grade" style="background:#86efac;color:#000">79B</span></td><td><span class="grade" style="background:#86efac;color:#000">74B</span></td><td><span class="grade" style="background:#86efac;color:#000">69B</span></td><td><span class="grade" style="background:#facc15;color:#000">57C</span></td><td><span class="grade" style="background:#86efac;color:#000">70B</span></td><td class='num'>1.86</td></tr><tr><td><div class="ad-cell"><img class="thumb" src="https://external-prg1-1.xx.fbcdn.net/emg1/v/t13/14174413971932140460?url=https%3A%2F%2Fwww.facebook.com%2Fads%2Fimage%2F%3Fd%3DAQJ-rG0MalwpYQQmllyooZtW-phiCxEZSK8B1O_-CJLeMfMzVdW5glkFi8IKLmUeDcNGdkzfWGiuB81K_zlCjj-G_Zkv12ft6JN5ofQsPjcXyD4Vv--YPSBuW0yxufSWHUOs-glLOGk-7Sql7pdgnDzM&fb_obo=1&utld=facebook.com&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&edm=AOgd6ZUEAAAA&_nc_gid=HqqP8UJhgZpVB1a7RmUtxw&_nc_oc=AdpVtpQYYyuRvqZIcci-4LZ5fKBmYEv1DjrxNN1bejPLuYhRjB7UcdtRpVTY4nC6QK8&ccb=13-1&oh=06_Q3--ASCObKNXMSO9d2-yJAtnDnPyvMEk2gTaYWiGUwsxHx4-&oe=69DEC895&_nc_sid=58080a" loading="lazy" onerror="this.style.display='none'"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237229313270662" target="_blank" class="ad-link" title="tak dobře">tak dobře</a></div></div></td><td><span class="grade" style="background:#ef4444;color:#000">7F</span></td><td><span class="grade na">--</span></td><td><span class="grade" style="background:#86efac;color:#000">79B</span></td><td><span class="grade" style="background:#86efac;color:#000">62B</span></td><td><span class="grade" style="background:#86efac;color:#000">70B</span></td><td class='num'>3.54</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239414125400662" target="_blank" class="ad-link" title="Slabikář 1">Slabikář 1</a></div></div></td><td><span class="grade" style="background:#ef4444;color:#000">15F</span></td><td><span class="grade" style="background:#22c55e;color:#000">81A</span></td><td><span class="grade" style="background:#22c55e;color:#000">93A</span></td><td><span class="grade" style="background:#22c55e;color:#000">83A</span></td><td><span class="grade" style="background:#86efac;color:#000">68B</span></td><td class='num'>3.86</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239651458040662" target="_blank" class="ad-link" title="Easter Radim 2">Easter Radim 2</a></div></div></td><td><span class="grade" style="background:#86efac;color:#000">77B</span></td><td><span class="grade" style="background:#fb923c;color:#000">34D</span></td><td><span class="grade" style="background:#22c55e;color:#000">99A</span></td><td><span class="grade" style="background:#86efac;color:#000">61B</span></td><td><span class="grade" style="background:#86efac;color:#000">68B</span></td><td class='num'>3.16</td></tr><tr><td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239764613570662" target="_blank" class="ad-link" title="SIJ park 3 Easter LC">SIJ park 3 Easter LC</a></div></div></td><td><span class="grade" style="background:#22c55e;color:#000">86A</span></td><td><span class="grade" style="background:#facc15;color:#000">48C</span></td><td><span class="grade" style="background:#86efac;color:#000">78B</span></td><td><span class="grade" style="background:#86efac;color:#000">60B</span></td><td><span class="grade" style="background:#86efac;color:#000">68B</span></td><td class='num'>2.77</td></tr></tbody>
+    </table>
+</div>
+
+<div class="section">
+  <h2>Comparative Analysis</h2>
+  <div class="chart-grid">
+    <div class="chart-box">
+      <h3>Ad Type — Spend vs ROAS</h3>
+      <canvas id="chartAdType"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>Visual Format — ROAS</h3>
+      <canvas id="chartVisualFormat"></canvas>
+    </div>
+    <div class="chart-box" style="grid-column: span 2">
+      <h3>Daily Spend & Revenue (30d)</h3>
+      <canvas id="chartDailyTrend"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Top Hooks (Video)</h2>
+  <p class="muted" style="margin-bottom:12px">Best-performing video hooks — first 3 seconds that stop the scroll</p>
+  <table class="data-table">
+    <thead><tr>
+      <th>Creative</th><th>Hook Score</th><th>Watch Score</th>
+      <th>Hook Rate</th><th>Hold Rate</th><th>ROAS</th><th>Spend</th>
+    </tr></thead>
+    <tbody><tr>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/663831110_941321458262012_102229279767973044_n.jpg?_nc_cat=105&ccb=1-7&_nc_ohc=pXDjX-7F8ZYQ7kNvwEjC3gU&_nc_oc=AdrotTlfc3MrGg9WRmWJZTxpKY00QCuCzAeXedQ6GHT52VKejFYhzOzNuRbU_vqZy1M&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQEqf3NMVGA_9jsyXf79pGJX5gwo3xCosqeXF8CExJX-VFdVg-02GSOEjKApYlI9F4evaGNDrd9X&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af3oRDdak8Zq59ZxJUQrH1dY8s-_Nuwo9SuwAV18jzODyQ&oe=69E2B314" loading="lazy" onerror="this.style.display=&apos;none&apos;"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239873480500662" target="_blank" class="ad-link" title="Letadlo">Letadlo</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">99A</span></td>
+          <td><span class="grade" style="background:#ef4444;color:#000">14F</span></td>
+          <td class="num">55.0%</td>
+          <td class="num">11.2%</td>
+          <td class="num">1.56</td>
+          <td class="num">9,909 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239713720820662" target="_blank" class="ad-link" title="Easter Radim 5 LC">Easter Radim 5 LC</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">98A</span></td>
+          <td><span class="grade" style="background:#ef4444;color:#000">13F</span></td>
+          <td class="num">39.1%</td>
+          <td class="num">8.8%</td>
+          <td class="num">0.99</td>
+          <td class="num">839 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.13418-10/479716402_999233935389907_977461925542257540_n.jpg?_nc_cat=101&ccb=1-7&_nc_ohc=kGBGPBppAPwQ7kNvwE2MxNa&_nc_oc=AdrKSVQR3rKzo5XJreEsC8eCZb2POaGhU4WwT2FDn0iNXk-H9h3ih0waxGB1rDkcuOY&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=HqqP8UJhgZpVB1a7RmUtxw&_nc_tpa=Q5bMBQFB3xkTeYfM8fjZz0qESbskwLTQKSGCtIsTbY3naVF9ndPE4JpVi7g5ExI7YzKnYKQKOVNm-cPL&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=c3b633&_nc_sid=58080a&oh=00_Af1VrGMNPFIqRHj-d5PzfXTmi5tDcR45D3B2TdVz7_YhHQ&oe=69E2B4EB" loading="lazy" onerror="this.style.display=&apos;none&apos;"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237319102540662" target="_blank" class="ad-link" title="UGC Comp 2 - Copy">UGC Comp 2 - Copy</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">97A</span></td>
+          <td><span class="grade" style="background:#ef4444;color:#000">13F</span></td>
+          <td class="num">11.4%</td>
+          <td class="num">13.8%</td>
+          <td class="num">1.77</td>
+          <td class="num">6,197 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237954446540662" target="_blank" class="ad-link" title="UGC 43 too long - Copy 2">UGC 43 too long - Copy 2</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">97A</span></td>
+          <td><span class="grade" style="background:#86efac;color:#000">65B</span></td>
+          <td class="num">41.3%</td>
+          <td class="num">30.0%</td>
+          <td class="num">1.55</td>
+          <td class="num">11,715 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239057129060662" target="_blank" class="ad-link" title="Albert 1.1">Albert 1.1</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">97A</span></td>
+          <td><span class="grade" style="background:#facc15;color:#000">50C</span></td>
+          <td class="num">50.6%</td>
+          <td class="num">20.7%</td>
+          <td class="num">1.18</td>
+          <td class="num">10,906 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239652697220662" target="_blank" class="ad-link" title="Easter Radim 5">Easter Radim 5</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">95A</span></td>
+          <td><span class="grade" style="background:#ef4444;color:#000">7F</span></td>
+          <td class="num">34.3%</td>
+          <td class="num">5.5%</td>
+          <td class="num">1.82</td>
+          <td class="num">231 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120221078974430662" target="_blank" class="ad-link" title="Vlada ja jsem">Vlada ja jsem</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">94A</span></td>
+          <td><span class="grade" style="background:#fb923c;color:#000">24D</span></td>
+          <td class="num">51.6%</td>
+          <td class="num">26.0%</td>
+          <td class="num">2.09</td>
+          <td class="num">1,007 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237229987920662" target="_blank" class="ad-link" title="UGC 17 10% - Copy">UGC 17 10% - Copy</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">91A</span></td>
+          <td><span class="grade" style="background:#facc15;color:#000">45C</span></td>
+          <td class="num">38.2%</td>
+          <td class="num">23.0%</td>
+          <td class="num">1.71</td>
+          <td class="num">12,764 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/666296154_1496077051878053_8565538764690786183_n.jpg?_nc_cat=110&ccb=1-7&_nc_ohc=GOgzlMvuq7AQ7kNvwET6Nwf&_nc_oc=AdoRJqvM3lQZ7eywQt-M95EvRa6e5l4x1SMFb0CYxMW4iEd5qqPfWtamL0MBTstNRnA&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQG7yW1JyBrHbsQLJx9pfWjhWw6R5xJLVGSIKv-8XS1sZDFrAvCSPjiMNrEs88qsd7FAehECeNfM&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=b696e2&_nc_sid=58080a&oh=00_Af3xjmCaXD5Qx-HO3y72h0up0BH3fFih74nYzrCzueWs-Q&oe=69E2C86C" loading="lazy" onerror="this.style.display=&apos;none&apos;"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120240159057320662" target="_blank" class="ad-link" title="Remix 9">Remix 9</a><div class="meta-tags"> / Product Shot Static</div></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">91A</span></td>
+          <td><span class="grade" style="background:#ef4444;color:#000">10F</span></td>
+          <td class="num">45.1%</td>
+          <td class="num">8.0%</td>
+          <td class="num">1.04</td>
+          <td class="num">2,477 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/619108689_1224242759666117_6691947692468395130_n.jpg?_nc_cat=107&ccb=1-7&_nc_ohc=u8lPjAY1sIAQ7kNvwFh9W6a&_nc_oc=Adr6aL7wYxx8Vv5nYBhtfvElSqq4oT6K5B5GGerIdVpRyBfd7-6RMcq03xhXC64EiNs&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=HqqP8UJhgZpVB1a7RmUtxw&_nc_tpa=Q5bMBQHzXDa8qXhqD9uqlQKcO2A8FnB_M20Q8Hw3VLWNv2rwuNT-_HChgxENDBWE4x7PADpV7RRP868E&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=5fad0e&_nc_sid=58080a&oh=00_Af1oSFs3MhQzXq38oNUuwF9L7Kx5c-rsGtg5kFBBfuiuLg&oe=69E2C49B" loading="lazy" onerror="this.style.display=&apos;none&apos;"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120237236399300662" target="_blank" class="ad-link" title="UGC 61 - Copy 2">UGC 61 - Copy 2</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">90A</span></td>
+          <td><span class="grade" style="background:#fb923c;color:#000">32D</span></td>
+          <td class="num">7.7%</td>
+          <td class="num">18.9%</td>
+          <td class="num">2.13</td>
+          <td class="num">13,211 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239727087520662" target="_blank" class="ad-link" title="SIJ park 3 Easter">SIJ park 3 Easter</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">89A</span></td>
+          <td><span class="grade" style="background:#facc15;color:#000">41C</span></td>
+          <td class="num">30.5%</td>
+          <td class="num">19.8%</td>
+          <td class="num">0.62</td>
+          <td class="num">5,324 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239810807470662" target="_blank" class="ad-link" title="Partnership 3">Partnership 3</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">89A</span></td>
+          <td><span class="grade" style="background:#86efac;color:#000">66B</span></td>
+          <td class="num">38.8%</td>
+          <td class="num">31.8%</td>
+          <td class="num">2.29</td>
+          <td class="num">7,024 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><img class="thumb" src="https://scontent-prg1-1.xx.fbcdn.net/v/t15.5256-10/660697446_1608273547113249_8205235962559273992_n.jpg?_nc_cat=106&ccb=1-7&_nc_ohc=BJHkqgu_mRQQ7kNvwGg-o-S&_nc_oc=Adot_hYwICcgAVwF92tSyLlKZuEoFpF1kZ5uqAySfhZ0fbepuUuYZVMNZtfwUitI8Yk&_nc_zt=23&_nc_ht=scontent-prg1-1.xx&edm=AOgd6ZUEAAAA&_nc_gid=uOO0QV0BF9x_ZCjoMdKQRw&_nc_tpa=Q5bMBQFdmC2_H-DDDvxwVEyPfO7UvA3ANdjRd6ayjTdbbzVhE9f3Zf1vL1gX_B1Yo5I4mFxoKTsPzrHj&stp=c0.5000x0.5000f_dst-emg0_p64x64_q75_tt6&ur=a7ce7f&_nc_sid=58080a&oh=00_Af2_vwruqM5R9F9kzLY5Qvb1JlPjnWiJaIALXF7wfhN2ag&oe=69E2C798" loading="lazy" onerror="this.style.display=&apos;none&apos;"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239713339040662" target="_blank" class="ad-link" title="Partnership 1">Partnership 1</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">87A</span></td>
+          <td><span class="grade" style="background:#86efac;color:#000">71B</span></td>
+          <td class="num">36.8%</td>
+          <td class="num">36.4%</td>
+          <td class="num">2.39</td>
+          <td class="num">55,403 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239116527090662" target="_blank" class="ad-link" title="Albert 1">Albert 1</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">86A</span></td>
+          <td><span class="grade" style="background:#86efac;color:#000">63B</span></td>
+          <td class="num">36.3%</td>
+          <td class="num">24.6%</td>
+          <td class="num">1.80</td>
+          <td class="num">1,424 Kc</td>
+        </tr><tr>
+          <td><div class="ad-cell"><div><a href="https://adsmanager.facebook.com/adsmanager/manage/ads?act=346692147206629&selected_ad_ids=120239764613570662" target="_blank" class="ad-link" title="SIJ park 3 Easter LC">SIJ park 3 Easter LC</a></div></div></td>
+          <td><span class="grade" style="background:#22c55e;color:#000">86A</span></td>
+          <td><span class="grade" style="background:#facc15;color:#000">48C</span></td>
+          <td class="num">27.0%</td>
+          <td class="num">21.3%</td>
+          <td class="num">2.77</td>
+          <td class="num">2,362 Kc</td>
+        </tr></tbody>
+  </table>
+</div>
+
+<div class="section">
+  <h2>Recommendations</h2><p class="muted">No recommendations yet. Run: python -m creative_intelligence recommend</p>
+</div>
+
+<div class="section">
+  <h2>Landing Page Analysis</h2>
+  <table class="data-table">
+    <thead><tr>
+      <th>Landing Page</th><th>Ads</th><th>Spend</th><th>ROAS</th><th>CPA</th><th>Purchases</th>
+    </tr></thead>
+    <tbody><tr>
+          <td><a href="https://www.fermato.cz/testovaci-set-zalivek" target="_blank" class="ad-link">www.fermato.cz/testovaci-set-zalivek</a></td>
+          <td>19</td>
+          <td class="num">38,662 Kc</td>
+          <td class="num">1.86</td>
+          <td class="num">560 Kc</td>
+          <td class="num">69</td>
+        </tr><tr>
+          <td><a href="https://www.fermato.cz/testovaci-set-omacek" target="_blank" class="ad-link">www.fermato.cz/testovaci-set-omacek</a></td>
+          <td>31</td>
+          <td class="num">37,330 Kc</td>
+          <td class="num">2.08</td>
+          <td class="num">461 Kc</td>
+          <td class="num">81</td>
+        </tr><tr>
+          <td><a href="https://www.fermato.cz/radimuv-balik" target="_blank" class="ad-link">www.fermato.cz/radimuv-balik</a></td>
+          <td>1</td>
+          <td class="num">582 Kc</td>
+          <td class="num">2.08</td>
+          <td class="num">582 Kc</td>
+          <td class="num">1</td>
+        </tr><tr>
+          <td><a href="https://www.fermato.cz/testovaci-set-bio-olivovy-olej-na-salat" target="_blank" class="ad-link">www.fermato.cz/testovaci-set-bio-olivovy-olej</a></td>
+          <td>1</td>
+          <td class="num">526 Kc</td>
+          <td class="num">2.22</td>
+          <td class="num">526 Kc</td>
+          <td class="num">1</td>
+        </tr></tbody>
+  </table>
+</div>
+
+<script>
+// Shift tabs
+function showShift(kind) {
+  document.querySelectorAll('.shift-panel').forEach(p => p.style.display = 'none');
+  document.querySelectorAll('.shift-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('shift-' + kind).style.display = 'flex';
+  event.target.classList.add('active');
+}
+
+// Chart defaults
+Chart.defaults.color = '#8888a0';
+Chart.defaults.borderColor = '#2a2a3a';
+Chart.defaults.font.family = "'JetBrains Mono', monospace";
+Chart.defaults.font.size = 11;
+
+// Ad Type chart
+new Chart(document.getElementById('chartAdType'), {
+  type: 'bar',
+  data: {
+    labels: ["Image", "Video", "Video"],
+    datasets: [
+      { label: 'Spend (Kc)', data: [68855.0, 28731.0, 22624.0], backgroundColor: 'rgba(99,102,241,0.6)', yAxisID: 'y' },
+      { label: 'ROAS', data: [1.81, 1.4, 3.01], type: 'line', borderColor: '#22c55e', pointBackgroundColor: '#22c55e', yAxisID: 'y1' }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { position: 'left', grid: { color: '#1a1a26' } },
+      y1: { position: 'right', grid: { display: false }, min: 0 }
+    }
+  }
+});
+
+// Visual Format chart
+new Chart(document.getElementById('chartVisualFormat'), {
+  type: 'bar',
+  data: {
+    labels: ["Product Shot Static", "Lifestyle InUse", "Before After", "UGC Testimonial", "Offer Banner", "UGC Recipe", "Product Demo", "Founder Story"],
+    datasets: [
+      { label: 'ROAS', data: [1.58, 2.16, 1.02, 0.94, 0.37, 3.55, 0.66, 0], backgroundColor: 'rgba(34,197,94,0.6)' },
+      { label: 'Ad count', data: [9, 1, 1, 3, 1, 1, 2, 1], backgroundColor: 'rgba(99,102,241,0.3)' }
+    ]
+  },
+  options: {
+    responsive: true,
+    indexAxis: 'y',
+    scales: { x: { grid: { color: '#1a1a26' } } }
+  }
+});
+
+// Daily trend
+new Chart(document.getElementById('chartDailyTrend'), {
+  type: 'line',
+  data: {
+    labels: ["04-07", "04-08", "04-12"],
+    datasets: [
+      { label: 'Spend', data: [48114, 16826, 55270], borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.1)', fill: true, tension: 0.3 },
+      { label: 'Revenue', data: [84196, 38796, 109695], borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.1)', fill: true, tension: 0.3 }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: { y: { grid: { color: '#1a1a26' } } },
+    plugins: { legend: { position: 'top' } }
+  }
+});
+</script>
+
+</body>
+</html>
