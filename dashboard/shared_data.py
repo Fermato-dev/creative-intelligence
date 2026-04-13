@@ -146,6 +146,15 @@ def load_creative_tags():
                 df["hook_strategy"] = df["hook_type"].str.replace("_", " ")
             if "production_quality" in df.columns and "visual_style" not in df.columns:
                 df["visual_style"] = df["production_quality"]
+            # More v3.5 compat aliases
+            if "has_person" in df.columns and "person_present" not in df.columns:
+                df["person_present"] = df["has_person"].map({1: "yes", True: "yes", 0: "no", False: "no"}).fillna("unknown")
+            if "visual_format_confidence" in df.columns and "archetype_confidence" not in df.columns:
+                df["archetype_confidence"] = df["visual_format_confidence"]
+            if "production_quality" in df.columns:
+                # Map Semi_Pro -> semi_professional, UGC -> amateur, Professional -> professional
+                pq_map = {"UGC": "amateur", "Semi_Pro": "semi_professional", "Professional": "professional"}
+                df["production_quality"] = df["production_quality"].map(pq_map).fillna(df["production_quality"])
             # Join performance
             try:
                 perf = pd.read_sql_query(
