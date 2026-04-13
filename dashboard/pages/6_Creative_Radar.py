@@ -96,8 +96,7 @@ with st.sidebar:
 DB_PATHS = [
     DATA_DIR / "competitor_intel.db",
     REPO_ROOT.parent / "projects" / "cmo" / "creative-intelligence" / "data" / "competitor_intel.db",
-    Path("C:/Users/rstra/Chief_of_Staff/Chief-of-Staff/projects/cmo/creative-intelligence/data/competitor_intel.db"),
-    Path("C:/Users/ferma/Chief_of_Staff/Chief-of-Staff/projects/cmo/creative-intelligence/data/competitor_intel.db"),
+    Path.home() / "Chief-of-Staff" / "projects" / "cmo" / "creative-intelligence" / "data" / "competitor_intel.db",
 ]
 
 db_path = None

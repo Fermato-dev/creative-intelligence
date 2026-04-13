@@ -33,7 +33,7 @@ BENCHMARKS = {
 # ── Vision ──
 REANALYSIS_DAYS = 7
 DEFAULT_MAX_CREATIVES = 20
-WHISPER_MODEL_SHORT = "C:/whisper/model.bin"
+WHISPER_MODEL_SHORT = os.environ.get("WHISPER_MODEL_PATH", "")
 FB_PAGE_ID = "1334931808840161"
 
 # ── Claude ──

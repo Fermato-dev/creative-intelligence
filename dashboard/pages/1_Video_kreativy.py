@@ -159,7 +159,7 @@ st.dataframe(pd.DataFrame(rows), hide_index=True, use_container_width=True,
 
 # ── AI analyzy ──
 
-analyzed = {k: v for k, v in ai_data.items() if k in df["ad_id"].values and v.get("creative_type") == "video"}
+analyzed = {k: v for k, v in ai_data.items() if k in df["ad_id"].values and "hook" in v}
 if analyzed:
     st.divider()
     st.markdown("### AI analyzy videi")

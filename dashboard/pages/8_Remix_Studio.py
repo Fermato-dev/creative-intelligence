@@ -124,7 +124,7 @@ def load_components():
     # Components by type
     for ctype in ("hook", "body", "cta"):
         data[ctype] = [dict(r) for r in conn.execute("""
-            SELECT ad_id, ad_name, component_type, hook_rate, hold_rate, completion_rate,
+            SELECT ad_id, ad_name, campaign_name, component_type, hook_rate, hold_rate, completion_rate,
                    roas, cpa, cvr, spend, analysis, analyzed_at
             FROM components WHERE component_type = ?
             ORDER BY CASE ? WHEN 'hook' THEN hook_rate
@@ -290,10 +290,10 @@ with tab_h:
             rows.append({
                 "Reklama": h["ad_name"],
                 "Kampan": h.get("campaign_name", "?"),
-                "Hook Rate": f"{h['hook_rate']:.1f}%",
-                "ROAS": f"{h['roas']:.2f}",
-                "CPA": f"{h['cpa']:.0f} CZK",
-                "Spend": f"{h['spend']:,.0f} CZK",
+                "Hook Rate": f"{h['hook_rate']:.1f}%" if h.get('hook_rate') is not None else "—",
+                "ROAS": f"{h['roas']:.2f}" if h.get('roas') is not None else "—",
+                "CPA": f"{h['cpa']:.0f} CZK" if h.get('cpa') is not None else "—",
+                "Spend": f"{h['spend']:,.0f} CZK" if h.get('spend') is not None else "—",
                 "Hook typ": analysis.get("hook_type", "?"),
             })
         st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
