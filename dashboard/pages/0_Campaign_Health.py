@@ -27,50 +27,95 @@ st.markdown(SHARED_CSS, unsafe_allow_html=True)
 
 # ── Extra CSS — explicit colors on everything so dark mode works ──
 st.markdown("""<style>
-.severity-critical { background:#fef2f2; border:2px solid #e53e3e; border-radius:12px; padding:16px 20px; margin-bottom:8px; color:#1a202c !important; }
-.severity-off      { background:#fff7ed; border:2px solid #ed8936; border-radius:12px; padding:16px 20px; margin-bottom:8px; color:#1a202c !important; }
-.severity-watch    { background:#fffff0; border:2px solid #d69e2e; border-radius:12px; padding:16px 20px; margin-bottom:8px; color:#1a202c !important; }
-.severity-ok       { background:#f0fff4; border:2px solid #38a169; border-radius:12px; padding:16px 20px; margin-bottom:8px; color:#1a202c !important; }
-.sev-title  { font-size:1.05em; font-weight:700; color:#1a202c !important; }
-.sev-detail { font-size:0.86em; margin-top:4px; color:#374151 !important; }
+/* ── Severity banners ── */
+.severity-critical {
+    background:#fef2f2; border:2px solid #dc2626; border-radius:12px;
+    padding:16px 20px; margin-bottom:8px;
+}
+.severity-critical, .severity-critical * { color:#7f1d1d !important; }
+.severity-critical .sev-detail { color:#991b1b !important; }
 
-.median-diagnosis { background:#eef2ff; border-left:4px solid #6366f1; border-radius:8px;
-    padding:12px 16px; font-size:0.87em; color:#3730a3 !important; line-height:1.55; }
+.severity-off {
+    background:#fff7ed; border:2px solid #ea580c; border-radius:12px;
+    padding:16px 20px; margin-bottom:8px;
+}
+.severity-off, .severity-off * { color:#7c2d12 !important; }
+.severity-off .sev-detail { color:#9a3412 !important; }
 
-.adset-fail { display:inline-block; background:#fef2f2; color:#e53e3e !important;
-    font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
-.adset-ok   { display:inline-block; background:#f0fff4; color:#38a169 !important;
-    font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
-.fatigue-tag { display:inline-block; background:#fff7ed; color:#c05621 !important;
-    font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
+.severity-watch {
+    background:#fefce8; border:2px solid #ca8a04; border-radius:12px;
+    padding:16px 20px; margin-bottom:8px;
+}
+.severity-watch, .severity-watch * { color:#713f12 !important; }
+.severity-watch .sev-detail { color:#854d0e !important; }
 
-.callout-card { border-radius:10px; padding:12px 16px; margin:5px 0;
-    border-left:4px solid; font-size:0.84em; line-height:1.5; color:#1a202c !important; }
-.callout-ll   { background:#fef2f2; border-left-color:#e53e3e; }
-.callout-fat  { background:#fff7ed; border-left-color:#ed8936; }
-.callout-eff  { background:#f0fff4; border-left-color:#38a169; }
-.callout-seasonal { background:#f5f0ff; border-left-color:#7c3aed; }
-.callout-card strong { color:#1a202c !important; }
-.callout-card * { color:#1a202c !important; }
+.severity-ok {
+    background:#f0fdf4; border:2px solid #16a34a; border-radius:12px;
+    padding:16px 20px; margin-bottom:8px;
+}
+.severity-ok, .severity-ok * { color:#14532d !important; }
+.severity-ok .sev-detail { color:#166534 !important; }
 
-.prog-wrap { background:#e8ecf1; border-radius:6px; height:9px; overflow:hidden; margin:3px 0 8px; }
+.sev-title  { font-size:1.05em; font-weight:700; }
+.sev-detail { font-size:0.86em; margin-top:4px; opacity:0.85; }
+
+/* ── Diagnosis & info boxes ── */
+.median-diagnosis {
+    background:#eef2ff; border-left:4px solid #6366f1; border-radius:8px;
+    padding:12px 16px; font-size:0.87em; line-height:1.55;
+}
+.median-diagnosis, .median-diagnosis * { color:#3730a3 !important; }
+.median-diagnosis strong { color:#312e81 !important; }
+
+/* ── Callout cards ── */
+.callout-card {
+    border-radius:10px; padding:12px 16px; margin:5px 0;
+    border-left:4px solid; font-size:0.84em; line-height:1.5;
+}
+.callout-card strong { font-weight:700; }
+
+.callout-ll { background:#fef2f2; border-left-color:#dc2626; }
+.callout-ll, .callout-ll * { color:#7f1d1d !important; }
+.callout-ll strong { color:#7f1d1d !important; }
+
+.callout-fat { background:#fff7ed; border-left-color:#ea580c; }
+.callout-fat, .callout-fat * { color:#7c2d12 !important; }
+.callout-fat strong { color:#7c2d12 !important; }
+
+.callout-eff { background:#f0fdf4; border-left-color:#16a34a; }
+.callout-eff, .callout-eff * { color:#14532d !important; }
+.callout-eff strong { color:#14532d !important; }
+
+.callout-seasonal { background:#faf5ff; border-left-color:#7c3aed; }
+.callout-seasonal, .callout-seasonal * { color:#4c1d95 !important; }
+.callout-seasonal strong { color:#4c1d95 !important; }
+
+/* ── Progress bars ── */
+.prog-wrap { background:#e2e8f0; border-radius:6px; height:9px; overflow:hidden; margin:3px 0 8px; }
 .prog-fill { height:9px; border-radius:6px; }
 
-.goal-derived { background:#f0f4ff; border-radius:8px; padding:8px 12px;
-    font-size:0.82em; color:#4338ca !important; margin-top:4px; }
-.goal-derived * { color:#4338ca !important; }
+/* ── Goal derived ── */
+.goal-derived {
+    background:#eef2ff; border-radius:8px; padding:8px 12px;
+    font-size:0.82em; margin-top:4px;
+}
+.goal-derived, .goal-derived * { color:#3730a3 !important; }
 
-.watch-info { background:#f0f4ff; border-radius:6px; padding:4px 10px;
-    font-size:0.78em; color:#4338ca !important; display:inline-block; margin-bottom:6px; }
+/* ── Threshold info pill ── */
+.watch-info {
+    background:#1e293b; border-radius:6px; padding:5px 12px;
+    font-size:0.78em; color:#94a3b8 !important;
+    display:inline-block; margin-bottom:8px;
+}
+.watch-info strong { color:#e2e8f0 !important; }
 
-/* Fix shared act-box cards in dark mode */
-.act-kill, .act-scale, .act-iterate { color:#1a202c !important; }
-.act-kill *, .act-scale *, .act-iterate * { color:#1a202c !important; }
-.act-kill small, .act-scale small, .act-iterate small { color:#6b7280 !important; }
-
-/* Fix reliability banner in dark mode */
-.reliability-banner { color:#4338ca !important; }
-.reliability-banner * { color:#4338ca !important; }
+/* ── Badge chips ── */
+.adset-fail { display:inline-block; background:#dc2626; color:#fff !important;
+    font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
+.adset-ok   { display:inline-block; background:#16a34a; color:#fff !important;
+    font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
+.fatigue-tag { display:inline-block; background:#ea580c; color:#fff !important;
+    font-size:0.7em; font-weight:700; padding:1px 7px; border-radius:4px; }
 </style>""", unsafe_allow_html=True)
 
 # ── Standard sidebar ──
@@ -557,8 +602,8 @@ st.markdown("### Co dělat teď")
 if len(df_main) > 0:
     # Show thresholds used
     st.markdown(
-        f'<span class="watch-info">Logika: Kill = ROAS &lt; 1.0 nebo bottom 10 % (P10 = {p10_roas:.2f}) · '
-        f'Watch zóna = {watch_lower:.1f}–2.6 · Scale = ROAS ≥ {target_roas * 1.2:.1f}</span>',
+        f'<span class="watch-info">Kill: ROAS &lt; 1.0 nebo P10 ({p10_roas:.2f}) &nbsp;·&nbsp; '
+        f'Watch: {watch_lower:.1f}–2.6 &nbsp;·&nbsp; Scale: ROAS ≥ {target_roas * 1.2:.1f}</span>',
         unsafe_allow_html=True)
 
     render_health_action_cards(df_main, min_conf, p10_roas, watch_lower)

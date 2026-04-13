@@ -25,16 +25,23 @@ from shared_data import SHARED_CSS, kc, pct
 
 st.markdown(SHARED_CSS, unsafe_allow_html=True)
 st.markdown("""<style>
-.trend-card { background:#f8f9fb; border:1px solid #e8ecf1; border-radius:10px;
-    padding:14px 16px; text-align:center; }
-.trend-label { font-size:0.72em; color:#6b7280; text-transform:uppercase;
-    letter-spacing:0.04em; font-weight:600; }
-.trend-value { font-size:1.5em; font-weight:700; color:#1a202c; margin:4px 0; }
-.trend-delta-up   { color:#38a169; font-size:0.82em; font-weight:600; }
-.trend-delta-down { color:#e53e3e; font-size:0.82em; font-weight:600; }
-.trend-delta-flat { color:#9ca3af; font-size:0.82em; }
-.section-note { background:#eef2ff; border-left:4px solid #6366f1; border-radius:8px;
-    padding:10px 14px; font-size:0.83em; color:#3730a3; margin:6px 0 14px; }
+.trend-card {
+    background:#1e293b; border:1px solid #334155; border-radius:10px;
+    padding:14px 16px; text-align:center;
+}
+.trend-label {
+    font-size:0.72em; color:#94a3b8 !important; text-transform:uppercase;
+    letter-spacing:0.04em; font-weight:600;
+}
+.trend-value { font-size:1.5em; font-weight:700; color:#f1f5f9 !important; margin:4px 0; }
+.trend-delta-up   { color:#4ade80 !important; font-size:0.82em; font-weight:600; }
+.trend-delta-down { color:#f87171 !important; font-size:0.82em; font-weight:600; }
+.trend-delta-flat { color:#64748b !important; font-size:0.82em; }
+.section-note {
+    background:#eef2ff; border-left:4px solid #6366f1; border-radius:8px;
+    padding:10px 14px; font-size:0.83em; margin:6px 0 14px;
+}
+.section-note, .section-note * { color:#3730a3 !important; }
 </style>""", unsafe_allow_html=True)
 
 

@@ -245,7 +245,7 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
 
 [data-testid="stMetric"] {
     background: #f8f9fb; border-radius: 10px; padding: 12px 14px;
-    border: 1px solid #e8ecf1; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     overflow: visible !important;
 }
 [data-testid="stMetric"] label { color: #6b7280 !important; font-size: 0.72em !important;
@@ -255,34 +255,75 @@ html, body, [class*="css"] { font-family: 'Inter', -apple-system, sans-serif; }
 [data-testid="stMetric"] [data-testid="stMetricDelta"] { white-space: nowrap !important; overflow: visible !important; font-size: 0.78em !important; }
 
 .conf-high { color: #38a169; font-weight: bold; }
-.conf-med { color: #d69e2e; font-weight: bold; }
-.conf-low { color: #999; }
+.conf-med  { color: #d69e2e; font-weight: bold; }
+.conf-low  { color: #999; }
 
-.act-box { border-radius: 8px; padding: 10px 12px; margin: 5px 0; font-size: 0.84em; line-height: 1.45;
-    transition: transform 0.12s ease, box-shadow 0.12s ease; }
-.act-box:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
-.act-kill { background: #fff5f5; border-left: 3px solid #e53e3e; }
-.act-scale { background: #f0fff4; border-left: 3px solid #38a169; }
-.act-iterate { background: #fffff0; border-left: 3px solid #d69e2e; }
+/* ── Action cards — self-contained colors, no inheritance ── */
+.act-box {
+    border-radius: 8px; padding: 10px 14px; margin: 5px 0;
+    font-size: 0.84em; line-height: 1.5;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.act-box:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.10); }
 
-.reliability-banner { background: #eef2ff; border-left: 4px solid #6366f1; border-radius: 8px;
-    padding: 10px 14px; margin: 8px 0; font-size: 0.82em; color: #4338ca; }
+.act-kill {
+    background: #fef2f2; border-left: 3px solid #dc2626;
+    color: #1a202c !important;
+}
+.act-kill strong { color: #111827 !important; }
+.act-kill small  { color: #6b7280 !important; }
+.act-kill *      { color: inherit; }
 
-.health-card { background: #f8f9fb; border: 1px solid #e8ecf1; border-radius: 10px; padding: 16px 12px;
-    text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
-.health-label { font-size: 0.78em; color: #6b7280; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; }
-.health-value { font-size: 1.8em; font-weight: 700; color: #1a202c; margin: 6px 0 4px; }
-.health-sub { font-size: 0.82em; color: #9ca3af; }
+.act-scale {
+    background: #f0fdf4; border-left: 3px solid #16a34a;
+    color: #1a202c !important;
+}
+.act-scale strong { color: #111827 !important; }
+.act-scale small  { color: #166534 !important; }
+.act-scale *      { color: inherit; }
 
-.dropoff-bar { height: 32px; border-radius: 6px; display: inline-flex; align-items: center;
-    padding: 0 12px; font-size: 0.8em; font-weight: 600; color: #fff; margin: 3px 0; min-width: 120px; }
-.dropoff-hook { background: linear-gradient(90deg, #e53e3e, #fc8181); }
-.dropoff-mid { background: linear-gradient(90deg, #d69e2e, #f6e05e); color: #744210; }
-.dropoff-cta { background: linear-gradient(90deg, #3182ce, #63b3ed); }
-.dropoff-ok { background: linear-gradient(90deg, #38a169, #68d391); }
+.act-iterate {
+    background: #fefce8; border-left: 3px solid #ca8a04;
+    color: #1a202c !important;
+}
+.act-iterate strong { color: #111827 !important; }
+.act-iterate small  { color: #6b7280 !important; }
+.act-iterate *      { color: inherit; }
 
-.clickbait-alert { background: #fff5f5; border: 1px solid #feb2b2; border-radius: 8px;
-    padding: 10px 14px; margin: 8px 0; font-size: 0.85em; color: #c53030; }
+/* ── Reliability / info banners ── */
+.reliability-banner {
+    background: #eef2ff; border-left: 4px solid #6366f1; border-radius: 8px;
+    padding: 10px 14px; margin: 8px 0; font-size: 0.82em;
+    color: #3730a3 !important;
+}
+.reliability-banner * { color: #3730a3 !important; }
+.reliability-banner strong { color: #312e81 !important; }
+
+/* ── Health cards ── */
+.health-card {
+    background: #f8f9fb; border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 16px 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.health-label { font-size: 0.78em; color: #6b7280 !important; text-transform: uppercase; letter-spacing: 0.03em; font-weight: 600; }
+.health-value { font-size: 1.8em; font-weight: 700; color: #1a202c !important; margin: 6px 0 4px; }
+.health-sub   { font-size: 0.82em; color: #9ca3af !important; }
+
+/* ── Video dropoff bars — no white on yellow ── */
+.dropoff-bar {
+    height: 32px; border-radius: 6px; display: inline-flex; align-items: center;
+    padding: 0 12px; font-size: 0.8em; font-weight: 600; margin: 3px 0; min-width: 120px;
+}
+.dropoff-hook { background: #dc2626; color: #fff !important; }
+.dropoff-mid  { background: #d97706; color: #fff !important; }
+.dropoff-cta  { background: #2563eb; color: #fff !important; }
+.dropoff-ok   { background: #16a34a; color: #fff !important; }
+
+.clickbait-alert {
+    background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px;
+    padding: 10px 14px; margin: 8px 0; font-size: 0.85em;
+    color: #b91c1c !important;
+}
+.clickbait-alert * { color: #b91c1c !important; }
 </style>"""
 
 def render_action_cards(df, min_conf, show_label=""):

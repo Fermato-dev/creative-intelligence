@@ -55,15 +55,15 @@ st.markdown("""<style>
 .glossary-term strong { color: #0369a1; }
 .glossary-term span { color: #475569; }
 
-.pattern-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px;
+.pattern-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px;
     padding: 16px 18px; margin: 8px 0; transition: box-shadow 0.12s ease; }
-.pattern-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.pattern-card:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-color: #cbd5e1; }
 .pattern-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.pattern-name { font-weight: 700; font-size: 1.05em; color: #1a202c; }
-.pattern-count { font-size: 0.75em; color: #6b7280; background: #f3f4f6;
+.pattern-name  { font-weight: 700; font-size: 1.05em; color: #1a202c !important; }
+.pattern-count { font-size: 0.75em; color: #6b7280 !important; background: #e2e8f0;
     padding: 2px 8px; border-radius: 10px; }
-.pattern-desc { font-size: 0.84em; color: #4b5563; line-height: 1.5; margin-bottom: 8px; }
-.pattern-why { font-size: 0.82em; color: #6b7280; font-style: italic; margin-bottom: 8px; }
+.pattern-desc { font-size: 0.84em; color: #374151 !important; line-height: 1.5; margin-bottom: 8px; }
+.pattern-why  { font-size: 0.82em; color: #6b7280 !important; font-style: italic; margin-bottom: 8px; }
 
 .example-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
     padding: 10px 12px; margin: 4px 0; }

@@ -57,35 +57,40 @@ st.markdown("""<style>
     display: inline-block; font-size: 0.72em; font-weight: 600;
     padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.03em;
 }
-.tag-visual { background: #eef2ff; color: #4338ca; }
-.tag-emotion { background: #fef3c7; color: #92400e; }
-.tag-segment { background: #ecfdf5; color: #065f46; }
-.tag-format { background: #fce7f3; color: #9d174d; }
+/* Tags — solid backgrounds so color never bleeds */
+.tag-visual  { background: #4338ca; color: #fff !important; }
+.tag-emotion { background: #b45309; color: #fff !important; }
+.tag-segment { background: #065f46; color: #fff !important; }
+.tag-format  { background: #9d174d; color: #fff !important; }
+
 .brief-oneliner { font-size: 0.95em; color: #4a5568; margin: 8px 0; font-style: italic; }
 .brief-section-title { font-size: 0.78em; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
 .brief-copy {
-    background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
-    padding: 12px; font-size: 0.88em; line-height: 1.5;
+    background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;
+    padding: 12px; font-size: 0.88em; line-height: 1.5; color: #1e293b !important;
 }
 .color-swatch {
     display: inline-block; width: 24px; height: 24px; border-radius: 6px;
     margin-right: 4px; vertical-align: middle; border: 1px solid #e2e8f0;
 }
 .voice-phrase {
-    display: inline-block; background: #eef2ff; color: #3730a3;
+    display: inline-block; background: #4338ca; color: #fff !important;
     padding: 3px 10px; border-radius: 16px; font-size: 0.82em; margin: 3px 2px; font-weight: 500;
 }
-.voice-trigger { display: inline-block; padding: 3px 10px; border-radius: 16px; font-size: 0.82em; margin: 3px 2px; font-weight: 500; }
-.trigger-fear { background: #fff5f5; color: #c53030; }
-.trigger-aspiration { background: #f0fff4; color: #276749; }
-.trigger-frustration { background: #fffff0; color: #975a16; }
-.trigger-delight { background: #ebf8ff; color: #2b6cb0; }
-.trigger-social { background: #faf5ff; color: #6b21a8; }
-.segment-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin: 6px 0; }
-.segment-name { font-weight: 700; color: #1a202c; font-size: 1em; }
-.segment-pct { color: #6b7280; font-size: 0.85em; }
-.segment-detail { font-size: 0.85em; color: #4a5568; margin-top: 4px; line-height: 1.5; }
-.testing-plan { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 16px; margin-top: 16px; }
+/* Trigger pills — solid colors, always readable */
+.voice-trigger { display: inline-block; padding: 3px 10px; border-radius: 16px; font-size: 0.82em; margin: 3px 2px; font-weight: 500; color: #fff !important; }
+.trigger-fear        { background: #dc2626; }
+.trigger-aspiration  { background: #16a34a; }
+.trigger-frustration { background: #d97706; }
+.trigger-delight     { background: #0284c7; }
+.trigger-social      { background: #7c3aed; }
+
+.segment-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; margin: 6px 0; }
+.segment-name   { font-weight: 700; color: #1a202c !important; font-size: 1em; }
+.segment-pct    { color: #6b7280 !important; font-size: 0.85em; }
+.segment-detail { font-size: 0.85em; color: #4a5568 !important; margin-top: 4px; line-height: 1.5; }
+.testing-plan   { background: #f0fdf4; border: 1px solid #86efac; border-radius: 10px; padding: 16px; margin-top: 16px; }
+.testing-plan, .testing-plan * { color: #14532d !important; }
 </style>""", unsafe_allow_html=True)
 
 # ── Header ──
