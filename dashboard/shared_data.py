@@ -154,7 +154,7 @@ def load_creative_tags():
                     "AVG(hold_rate) as hold_rate, "
                     "CASE WHEN SUM(spend)>0 THEN SUM(revenue)/SUM(spend) ELSE NULL END as roas, "
                     "CASE WHEN SUM(purchases)>0 THEN SUM(spend)/SUM(purchases) ELSE NULL END as cpa "
-                    "FROM ad_daily_snapshots WHERE snapshot_date >= date(now,-14 days) "
+                    "FROM ad_daily_snapshots WHERE snapshot_date >= date('now','-14 days') "
                     "GROUP BY ad_id", conn)
                 if len(perf) > 0:
                     df = df.merge(perf, on="ad_id", how="left", suffixes=("","_p"))
@@ -164,9 +164,14 @@ def load_creative_tags():
                             df.drop(columns=[c+"_p"], inplace=True)
             except Exception:
                 pass
-            conn.close()
             if len(df) > 0:
+                # Ensure spend column exists with default
+                for col in ["spend","revenue","purchases","hook_rate","hold_rate","roas","cpa"]:
+                    if col not in df.columns:
+                        df[col] = 0 if col in ("spend","revenue","purchases") else None
+                conn.close()
                 return df
+            conn.close()
         except Exception:
             pass
 
