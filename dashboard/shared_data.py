@@ -134,15 +134,36 @@ def load_creative_tags():
     Returns DataFrame with archetype, hook_strategy, visual_style, etc."""
     import sqlite3 as _sql
 
-    # Try SQLite first
     db = DATA_DIR / "creative_analysis.db"
     if db.exists():
         try:
             conn = _sql.connect(f"file:{db}?mode=ro", uri=True)
-            df = pd.read_sql_query("""
-                SELECT * FROM creative_tags
-                WHERE tagged_at = (SELECT MAX(tagged_at) FROM creative_tags)
-            """, conn)
+            df = pd.read_sql_query("SELECT * FROM creative_tags", conn)
+            # v3.5 compat: add aliases
+            if "visual_format" in df.columns and "archetype" not in df.columns:
+                df["archetype"] = df["visual_format"].str.replace("_", " ")
+            if "hook_type" in df.columns and "hook_strategy" not in df.columns:
+                df["hook_strategy"] = df["hook_type"].str.replace("_", " ")
+            if "production_quality" in df.columns and "visual_style" not in df.columns:
+                df["visual_style"] = df["production_quality"]
+            # Join performance
+            try:
+                perf = pd.read_sql_query(
+                    "SELECT ad_id, SUM(spend) as spend, SUM(revenue) as revenue, "
+                    "SUM(purchases) as purchases, AVG(hook_rate) as hook_rate, "
+                    "AVG(hold_rate) as hold_rate, "
+                    "CASE WHEN SUM(spend)>0 THEN SUM(revenue)/SUM(spend) ELSE NULL END as roas, "
+                    "CASE WHEN SUM(purchases)>0 THEN SUM(spend)/SUM(purchases) ELSE NULL END as cpa "
+                    "FROM ad_daily_snapshots WHERE snapshot_date >= date(now,-14 days) "
+                    "GROUP BY ad_id", conn)
+                if len(perf) > 0:
+                    df = df.merge(perf, on="ad_id", how="left", suffixes=("","_p"))
+                    for c in ["spend","revenue","purchases","hook_rate","hold_rate","roas","cpa"]:
+                        if c+"_p" in df.columns:
+                            df[c] = df[c+"_p"].combine_first(df.get(c))
+                            df.drop(columns=[c+"_p"], inplace=True)
+            except Exception:
+                pass
             conn.close()
             if len(df) > 0:
                 return df
