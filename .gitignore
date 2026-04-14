@@ -16,9 +16,13 @@ data/*.duckdb
 data/creative_assets/
 data/models/
 
-# Env
+# Env & credentials (local only — never commit)
 .env
+**/.env
+*.env
 *.token.json
+*credentials*
+*secret*
 
 # OS
 .DS_Store
