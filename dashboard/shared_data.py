@@ -129,7 +129,7 @@ def load_ai():
 # ── Creative Diversity Tags ──
 
 @st.cache_data(ttl=1800, show_spinner="Nacitam creative tags...")
-def load_creative_tags():
+def load_creative_tags(days=14):
     """Load creative diversity tags from SQLite (fallback: JSON).
     Returns DataFrame with archetype, hook_strategy, visual_style, etc."""
     import sqlite3 as _sql
@@ -176,7 +176,7 @@ def load_creative_tags():
                     "AVG(hold_rate) as hold_rate, "
                     "CASE WHEN SUM(spend)>0 THEN SUM(revenue)/SUM(spend) ELSE NULL END as roas, "
                     "CASE WHEN SUM(purchases)>0 THEN SUM(spend)/SUM(purchases) ELSE NULL END as cpa "
-                    "FROM ad_daily_snapshots WHERE snapshot_date >= date('now','-14 days') "
+                    f"FROM ad_daily_snapshots WHERE snapshot_date >= date('now','-{int(days)} days') "
                     "GROUP BY ad_id", conn)
                 if len(perf) > 0:
                     df = df.merge(perf, on="ad_id", how="left", suffixes=("","_p"))

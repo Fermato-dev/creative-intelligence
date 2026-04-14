@@ -139,41 +139,32 @@ def _create_component_schema():
             status TEXT DEFAULT 'pending'
         );
     """)
-    # Creative diversity tags
+    # Creative diversity tags — v3.5 schema (visual_format, messaging_angle)
     conn.executescript("""
         CREATE TABLE IF NOT EXISTS creative_tags (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            ad_id TEXT NOT NULL,
+            ad_id TEXT NOT NULL UNIQUE,
             ad_name TEXT,
             campaign_name TEXT,
-            archetype TEXT,
-            archetype_confidence REAL,
-            archetype_reasoning TEXT,
-            hook_strategy TEXT,
-            energy_level TEXT,
-            visual_style TEXT,
-            person_present TEXT,
-            person_type TEXT,
-            food_visible TEXT,
-            text_overlay_content TEXT,
+            visual_format TEXT,
+            visual_format_confidence REAL,
+            messaging_angle TEXT,
+            messaging_confidence REAL,
+            ad_type TEXT,
+            hook_type TEXT,
             production_quality TEXT,
+            has_text_overlay BOOLEAN,
+            has_person BOOLEAN,
+            has_product BOOLEAN,
             dominant_color TEXT,
-            frames_count INTEGER,
-            has_transcript BOOLEAN DEFAULT 0,
-            ad_copy TEXT,
-            impressions INTEGER,
-            spend REAL,
-            purchases INTEGER,
-            hook_rate REAL,
-            roas REAL,
-            cpa REAL,
+            brief_description TEXT,
             thumbnail_url TEXT,
-            image_url TEXT,
-            video_id TEXT,
-            tagged_at TEXT NOT NULL,
-            UNIQUE(ad_id, tagged_at)
+            ad_copy TEXT,
+            destination_url TEXT,
+            tagged_at TEXT,
+            tagged_by TEXT DEFAULT 'claude_vision'
         );
-        CREATE INDEX IF NOT EXISTS idx_tags_archetype ON creative_tags(archetype);
+        CREATE INDEX IF NOT EXISTS idx_tags_format ON creative_tags(visual_format);
         CREATE INDEX IF NOT EXISTS idx_tags_ad ON creative_tags(ad_id);
         CREATE INDEX IF NOT EXISTS idx_tags_tagged ON creative_tags(tagged_at);
     """)

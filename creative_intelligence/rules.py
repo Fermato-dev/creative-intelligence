@@ -18,7 +18,7 @@ def evaluate_creative(m, target_cpa=None, target_roas=None,
     spend = m["spend"]
     impressions = m["impressions"]
 
-    if spend < min_spend and impressions < min_impressions:
+    if spend < min_spend or impressions < min_impressions:
         return [("INFO", "Nedostatek dat pro rozhodnuti", f"Spend {spend} CZK, {impressions} impr")]
 
     # ── KILL ──
@@ -139,6 +139,11 @@ def evaluate_creative(m, target_cpa=None, target_roas=None,
     elif m["frequency"] > 3.0 and m["frequency"] <= 5.0 and m["ctr"] >= 0.8:
         recommendations.append(("WATCH", "Vysoka frekvence, CTR jeste drzi — casovana bomba",
             f"Freq {m['frequency']}, CTR {m['ctr']}% — refresh do 7 dni"))
+
+    # KILL takes precedence over SCALE — resolve conflicts
+    has_kill = any(r[0] == "KILL" for r in recommendations)
+    if has_kill:
+        recommendations = [r for r in recommendations if r[0] != "SCALE"]
 
     if not recommendations:
         if m["roas"] and m["roas"] >= target_roas * 0.8:

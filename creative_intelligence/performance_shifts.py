@@ -178,7 +178,7 @@ def categorize_performance_shifts(conn, reference_date=None):
             """, (ad_id,)).fetchone()
 
             status = recent_paused_check["effective_status"] if recent_paused_check else "UNKNOWN"
-            if status != "ACTIVE" or days_since_seen >= 2:
+            if status != "ACTIVE":
                 # Get last known metrics
                 last_metrics = conn.execute("""
                     SELECT spend, roas, cpa FROM ad_daily_snapshots

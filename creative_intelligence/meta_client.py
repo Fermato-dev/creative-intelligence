@@ -25,13 +25,13 @@ def meta_fetch(endpoint, params=None, timeout=30):
     """Single API call with retry logic."""
     if params is None:
         params = {}
-    params["access_token"] = _get_token()
     url = f"{META_API_BASE}/{endpoint}?" + urllib.parse.urlencode(params)
 
     last_error = None
     for attempt in range(MAX_RETRIES):
         try:
             req = urllib.request.Request(url)
+            req.add_header("Authorization", f"Bearer {_get_token()}")
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 return json.loads(resp.read())
         except urllib.error.HTTPError as e:
@@ -57,8 +57,8 @@ def meta_fetch_all(endpoint, params=None, max_pages=10, timeout=30):
     """Paginated API call with retry logic."""
     if params is None:
         params = {}
-    params["access_token"] = _get_token()
     url = f"{META_API_BASE}/{endpoint}?" + urllib.parse.urlencode(params)
+    token = _get_token()
 
     results = []
     page = 0
@@ -69,6 +69,7 @@ def meta_fetch_all(endpoint, params=None, max_pages=10, timeout=30):
         for attempt in range(MAX_RETRIES):
             try:
                 req = urllib.request.Request(url)
+                req.add_header("Authorization", f"Bearer {token}")
                 with urllib.request.urlopen(req, timeout=timeout) as resp:
                     data = json.loads(resp.read())
                 break
@@ -95,5 +96,9 @@ def meta_fetch_all(endpoint, params=None, max_pages=10, timeout=30):
         results.extend(data.get("data", []))
         url = data.get("paging", {}).get("next")
         page += 1
+
+    if page >= max_pages and data and data.get("paging", {}).get("next"):
+        print(f"  WARNING: Pagination truncated at {page} pages ({len(results)} records). "
+              f"Increase max_pages to get all data.", file=sys.stderr)
 
     return results

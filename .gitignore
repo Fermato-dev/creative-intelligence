@@ -12,6 +12,8 @@ data/*.db
 !data/creative_analysis.db
 !data/customer_voice.db
 !data/competitor_intel.db
+data/*.db-wal
+data/*.db-shm
 data/*.duckdb
 data/creative_assets/
 data/models/
@@ -31,3 +33,4 @@ Thumbs.db
 # IDE
 .vscode/
 .idea/
+creative_analysis.db

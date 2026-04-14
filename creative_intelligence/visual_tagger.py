@@ -321,12 +321,12 @@ def batch_tag_creatives(conn, ads_with_creatives, force=False):
                 None,  # destination_url — will be populated separately
                 now,
             ))
+            conn.commit()
             tagged += 1
             print(f"  Tagged {ad_id}: {tags.get('visual_format')} / {tags.get('messaging_angle')}")
         except Exception as e:
             print(f"  WARN: save tag {ad_id}: {e}", file=sys.stderr)
 
-    conn.commit()
     return tagged
 
 

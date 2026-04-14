@@ -216,8 +216,8 @@ def save_daily_snapshots(conn, insights, ad_states, date_str):
         roas = revenue / spend if spend > 0 else None
         cpa = spend / purchases if purchases > 0 else None
 
-        # Video metrics
-        video_3s = _extract_actions(row.get("video_p25_watched_actions"), "video_view")
+        # Video metrics — video_view (3s views) from actions array, same as metrics.py
+        video_3s = _extract_actions(row.get("actions"), "video_view")
         video_thruplay = _extract_actions(row.get("video_thruplay_watched_actions"), "video_view")
         hook_rate = (video_3s / impressions * 100) if impressions > 0 and video_3s else None
         hold_rate = (video_thruplay / video_3s * 100) if video_3s > 0 and video_thruplay else None

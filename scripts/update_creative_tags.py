@@ -46,8 +46,32 @@ def load_tags(json_path):
     return data
 
 
+def _map_archetype_to_visual_format(archetype):
+    """Map v2 archetype names to v3.5 visual_format names."""
+    _map = {
+        "product_demo": "Product_Demo",
+        "founder_story": "Founder_Story",
+        "ugc_social_proof": "UGC_Testimonial",
+        "lifestyle": "Lifestyle_InUse",
+        "problem_solution": "Text_Overlay",
+        "educational": "Text_Overlay",
+    }
+    return _map.get(archetype, archetype)
+
+
+def _map_hook_to_hook_type(hook_strategy):
+    """Map v2 hook_strategy to v3.5 hook_type."""
+    _map = {
+        "curiosity_gap": "Curiosity_Gap", "visual_reveal": "Visual_Reveal",
+        "question": "Question", "ugc_reaction": "UGC_Reaction",
+        "statement": "Statement", "product_hero": "Product_Hero",
+        "contradiction": "Contradiction", "problem_opening": "Problem_Opening",
+    }
+    return _map.get(hook_strategy, hook_strategy)
+
+
 def insert_tags(data, source_file):
-    """Insert tags into creative_analysis.db."""
+    """Insert tags into creative_analysis.db (supports both v2 JSON and v3.5 schema)."""
     conn = sqlite3.connect(str(DB_PATH))
     tagged_at = datetime.now().strftime("%Y-%m-%d")
 
@@ -55,29 +79,33 @@ def insert_tags(data, source_file):
     for ad in data:
         if not ad.get("ad_id"):
             continue
+        # Support both v2 (archetype) and v3.5 (visual_format) JSON input
+        visual_format = ad.get("visual_format") or _map_archetype_to_visual_format(ad.get("archetype", ""))
+        hook_type = ad.get("hook_type") or _map_hook_to_hook_type(ad.get("hook_strategy", ""))
+        has_person = ad.get("has_person")
+        if has_person is None:
+            pp = ad.get("person_present", "")
+            has_person = 1 if pp == "yes" else 0 if pp == "no" else None
+
         try:
             conn.execute("""
                 INSERT OR REPLACE INTO creative_tags
-                (ad_id, ad_name, campaign_name, archetype, archetype_confidence,
-                 archetype_reasoning, hook_strategy, energy_level, visual_style,
-                 person_present, person_type, food_visible, text_overlay_content,
-                 production_quality, dominant_color, frames_count, has_transcript,
-                 ad_copy, impressions, spend, purchases, hook_rate, roas, cpa,
-                 thumbnail_url, image_url, video_id, tagged_at)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (ad_id, ad_name, campaign_name, visual_format, visual_format_confidence,
+                 messaging_angle, messaging_confidence, ad_type, hook_type,
+                 production_quality, has_text_overlay, has_person, has_product,
+                 dominant_color, brief_description, thumbnail_url, ad_copy,
+                 tagged_at, tagged_by)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 ad.get("ad_id"), ad.get("ad_name"), ad.get("campaign_name"),
-                ad.get("archetype"), ad.get("archetype_confidence"),
-                ad.get("archetype_reasoning"), ad.get("hook_strategy"),
-                ad.get("energy_level"), ad.get("visual_style"),
-                ad.get("person_present"), ad.get("person_type"),
-                ad.get("food_visible"), ad.get("text_overlay_content"),
-                ad.get("production_quality"), ad.get("dominant_color"),
-                ad.get("frames_count"), 1 if ad.get("has_transcript") else 0,
-                ad.get("ad_copy"), ad.get("impressions"), ad.get("spend"),
-                ad.get("purchases"), ad.get("hook_rate"), ad.get("roas"),
-                ad.get("cpa"), ad.get("thumbnail_url"), ad.get("image_url"),
-                ad.get("video_id"), tagged_at,
+                visual_format, ad.get("archetype_confidence") or ad.get("visual_format_confidence"),
+                ad.get("messaging_angle"), ad.get("messaging_confidence"),
+                ad.get("ad_type"), hook_type,
+                ad.get("production_quality"),
+                ad.get("has_text_overlay"), has_person, ad.get("has_product"),
+                ad.get("dominant_color"), ad.get("archetype_reasoning") or ad.get("brief_description"),
+                ad.get("thumbnail_url"), ad.get("ad_copy"),
+                tagged_at, f"json_import:{Path(source_file).name}",
             ))
             inserted += 1
         except Exception as e:

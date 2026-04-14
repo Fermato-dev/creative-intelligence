@@ -3,7 +3,10 @@
 import json
 import os
 import re
+import sys
+import time
 import urllib.request
+import urllib.error
 
 from .config import CLAUDE_MODEL
 
@@ -28,26 +31,48 @@ def _extract_text(result):
     return text
 
 
-def _make_request(body, timeout=120):
+def _make_request(body, timeout=120, max_retries=3):
     api_key = os.environ.get("ANTHROPIC_API_KEY", "")
     if not api_key:
         raise ValueError("ANTHROPIC_API_KEY neni nastaven")
 
     encoded = json.dumps(body).encode()
-    req = urllib.request.Request(
-        ANTHROPIC_API_URL,
-        data=encoded,
-        headers={
-            "x-api-key": api_key,
-            "anthropic-version": ANTHROPIC_API_VERSION,
-            "content-type": "application/json",
-        }
-    )
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        result = json.loads(resp.read())
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            req = urllib.request.Request(
+                ANTHROPIC_API_URL,
+                data=encoded,
+                headers={
+                    "x-api-key": api_key,
+                    "anthropic-version": ANTHROPIC_API_VERSION,
+                    "content-type": "application/json",
+                }
+            )
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                result = json.loads(resp.read())
 
-    cost = _calculate_cost(result.get("usage", {}))
-    return result, cost
+            cost = _calculate_cost(result.get("usage", {}))
+            return result, cost
+        except urllib.error.HTTPError as e:
+            last_error = e
+            if e.code in (429, 529) or e.code >= 500:
+                wait = 2 ** (attempt + 1)
+                print(f"  CLAUDE API: HTTP {e.code}, retry za {wait}s ({attempt + 1}/{max_retries})",
+                      file=sys.stderr)
+                time.sleep(wait)
+                continue
+            raise
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            last_error = e
+            if attempt < max_retries - 1:
+                wait = 2 ** (attempt + 1)
+                print(f"  CLAUDE API: {type(e).__name__}, retry za {wait}s ({attempt + 1}/{max_retries})",
+                      file=sys.stderr)
+                time.sleep(wait)
+                continue
+            raise
+    raise last_error
 
 
 def call_claude(prompt, max_tokens=4000, model=None):

@@ -120,7 +120,9 @@ def calculate_metrics(row):
     hook_rate = (video_views / impressions * 100) if impressions > 0 and video_views > 0 else None
     hold_rate = (video_thruplay / video_views * 100) if video_views > 0 and video_thruplay > 0 else None
     completion_rate = (video_p100 / video_views * 100) if video_views > 0 and video_p100 > 0 else None
-    is_video = video_views > 0
+    # Derive is_video from creative metadata (object_type), fallback to video_views
+    object_type = row.get("_object_type", "")
+    is_video = "VIDEO" in object_type.upper() if object_type else video_views > 0
 
     # Video drop-off diagnosis
     video_dropoff_diagnosis = None

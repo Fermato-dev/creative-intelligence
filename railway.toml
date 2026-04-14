@@ -6,3 +6,7 @@ startCommand = "python scripts/init_db.py && streamlit run dashboard/app.py --se
 healthcheckPath = "/_stcore/health"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 3
+
+# NOTE: Data persistence relies on git-committed DBs in data/.
+# Runtime writes on Railway are ephemeral — lost on redeploy.
+# All data updates happen on Hetzner, committed via ci_dashboard_refresh.py.
