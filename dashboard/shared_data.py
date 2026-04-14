@@ -139,21 +139,34 @@ def load_creative_tags():
         try:
             conn = _sql.connect(f"file:{db}?mode=ro", uri=True)
             df = pd.read_sql_query("SELECT * FROM creative_tags", conn)
-            # v3.5 compat: add aliases
+            # v3.5 compat: map visual_format → archetype names the dashboard expects
             if "visual_format" in df.columns and "archetype" not in df.columns:
-                df["archetype"] = df["visual_format"].str.replace("_", " ")
+                _arch_map = {
+                    "Product_Demo": "product_demo",
+                    "Product_Shot_Static": "product_demo",
+                    "Founder_Story": "founder_story",
+                    "UGC_Testimonial": "ugc_social_proof",
+                    "UGC_Recipe": "ugc_social_proof",
+                    "Lifestyle_InUse": "lifestyle",
+                    "Text_Overlay": "product_demo",
+                    "Offer_Banner": "product_demo",
+                    "Carousel_Lookbook": "product_demo",
+                }
+                df["archetype"] = df["visual_format"].map(_arch_map).fillna(
+                    df["visual_format"].str.lower().str.replace(" ", "_")
+                )
             if "hook_type" in df.columns and "hook_strategy" not in df.columns:
-                df["hook_strategy"] = df["hook_type"].str.replace("_", " ")
+                df["hook_strategy"] = df["hook_type"].str.lower()
             if "production_quality" in df.columns and "visual_style" not in df.columns:
-                df["visual_style"] = df["production_quality"]
+                _style_map = {"UGC": "lo_fi", "Semi_Pro": "lo_fi", "Professional": "polished"}
+                df["visual_style"] = df["production_quality"].map(_style_map).fillna("lo_fi")
             # More v3.5 compat aliases
             if "has_person" in df.columns and "person_present" not in df.columns:
                 df["person_present"] = df["has_person"].map({1: "yes", True: "yes", 0: "no", False: "no"}).fillna("unknown")
             if "visual_format_confidence" in df.columns and "archetype_confidence" not in df.columns:
                 df["archetype_confidence"] = df["visual_format_confidence"]
             if "production_quality" in df.columns:
-                # Map Semi_Pro -> semi_professional, UGC -> amateur, Professional -> professional
-                pq_map = {"UGC": "amateur", "Semi_Pro": "semi_professional", "Professional": "professional"}
+                pq_map = {"UGC": "amateur", "Semi_Pro": "semi_pro", "Professional": "professional"}
                 df["production_quality"] = df["production_quality"].map(pq_map).fillna(df["production_quality"])
             # Join performance
             try:
